@@ -2,13 +2,13 @@
 
 {{-- Page title --}}
 @section('title')
-$MODEL_NAME_HUMAN$ @parent
+Sub Category @parent
 @stop
 
 @section('content')
    <section class="content-header">
     <div aria-label="breadcrumb" class="card-breadcrumb">
-        <h1>{{ __('Edit') }} $MODEL_NAME_HUMAN$</h1>
+        <h1>{{ __('Edit') }} Sub Category</h1>
     </div>
     <div class="separator-breadcrumb border-top"></div>
     </section>
@@ -17,9 +17,9 @@ $MODEL_NAME_HUMAN$ @parent
        <div class="card">
            <div class="card-body">
                 <div class="row">
-                    {!! Form::model($$MODEL_NAME_CAMEL$, ['route' => ['$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.update', $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$], 'method' => 'patch'$FILES$,'class' => 'form-horizontal col-md-12']) !!}
+                    {!! Form::model($subCategory, ['route' => ['subCategories.update', $subCategory->id], 'method' => 'patch','class' => 'form-horizontal col-md-12']) !!}
                         <div class="row">
-                            @include('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.fields')
+                            @include('sub_categories.fields')
                         </div>
                     {!! Form::close() !!}
                 </div>

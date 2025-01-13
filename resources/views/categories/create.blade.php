@@ -2,13 +2,13 @@
 
 {{-- Page title --}}
 @section('title')
-$MODEL_NAME_HUMAN$ @parent
+Category @parent
 @stop
 
 @section('content')
     <section class="content-header">
     <div aria-label="breadcrumb" class="card-breadcrumb">
-        <h1>{{ __('Create New') }} $MODEL_NAME_HUMAN$</h1>
+        <h1>{{ __('Create New') }} Category</h1>
     </div>
     <div class="separator-breadcrumb border-top"></div>
     </section>
@@ -17,11 +17,10 @@ $MODEL_NAME_HUMAN$ @parent
         <div class="card">
             <div class="card-body">
                 <div class="row">
-                    {!! Form::open(['route' => '$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.store'$FILES$,'class' => 'form-horizontal col-md-12']) !!}
+                    {!! Form::open(['route' => 'categories.store','class' => 'form-horizontal col-md-12']) !!}
                     <div class="row">
-                        @include('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.fields')
+                        @include('categories.fields')
                     </div>
-
                     {!! Form::close() !!}
                 </div>
             </div>
