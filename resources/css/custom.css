@@ -62,7 +62,7 @@ body > .header .navbar {
 /*side bar nav */
 .left-aside .sidebar {
   display: block;
-  width: 300px;
+  width: 258px;
   margin-left: -175px;
   transition: margin-left 0.3s linear;
 }
@@ -128,7 +128,7 @@ body > .header .navbar {
 #menu .navigation {
   padding: 0 0 15px 0;
 }
-  
+
 
 #menu .navigation a {
   text-align: left;

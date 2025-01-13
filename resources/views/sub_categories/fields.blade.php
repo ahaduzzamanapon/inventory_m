@@ -6,12 +6,15 @@
     </div>
 </div>
 
+<?php
+    $categories = DB::table('categorys')->get();
+?>
 
 <!-- Category Field -->
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('Category', 'Category:',['class'=>'control-label']) !!}
-        {!! Form::select('Category', ['select' => 'select'], null, ['class' => 'form-control']) !!}
+        {!! Form::select('Category', $categories->pluck('Name','id'), null, ['class' => 'form-control select2']) !!}
     </div>
 </div>
 

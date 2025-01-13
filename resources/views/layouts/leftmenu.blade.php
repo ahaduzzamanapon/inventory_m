@@ -7,11 +7,11 @@
             <h1 class="text-center" style="display: inline;"><img style="height: 60px;"  src="{{Storage::url((!empty($setting))?$setting->logo:'')}}" alt=""></h1>
         </a>
     </div>
-    <ul class="navigation list-unstyled" id="demo">
+    <ul class="navigation list-unstyled" id="demo" style="height: 885px;display: flex;flex-direction: column;gap: 5px;">
         <li><span class="close-icon d-xl-none d-lg-block"><img src="{{asset('img/images/input-disabled.png')}}"
                     alt="image missing"></span></li>
-        <li {!! (Request::is('') ? 'class="active"' : '' ) !!}>
-            <a href="{{ URL::to('') }}">
+        <li {!! (Request::is('/*') ? 'class="active"' : '' ) !!}>
+            <a href="{{ URL::to('') }}" style="background: rgb(255, 255, 255);border-radius: 10px;overflow: hidden;">
                 <span class="mm-text ">Dashboard</span>
                 <span class="menu-icon"><i class="im im-icon-Home"></i></span>
             </a>

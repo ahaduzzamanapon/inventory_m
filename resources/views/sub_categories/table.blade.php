@@ -2,8 +2,8 @@
     <table class="table" id="subCategories-table">
         <thead>
             <tr>
-                <th>Id</th>
-        <th>Subcategoryname</th>
+                <th>SL</th>
+        <th>Sub-category Name</th>
         <th>Category</th>
         <th>Created At</th>
         <th>Updated At</th>
@@ -13,9 +13,9 @@
         <tbody>
         @foreach($subCategories as $key => $subCategory)
             <tr>
-                <td>{{ $subCategory->id }}</td>
+                <td>{{ $key + 1 }}</td>
             <td>{{ $subCategory->SubCategoryName }}</td>
-            <td>{{ $subCategory->Category }}</td>
+            <td>{{ $subCategory->CategoryName }}</td>
             <td>{{ $subCategory->created_at }}</td>
             <td>{{ $subCategory->updated_at }}</td>
                 <td>

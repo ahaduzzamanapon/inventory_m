@@ -28,12 +28,12 @@ Sub Categories @parent
                 <a class="btn btn-primary pull-right" href="{{ route('subCategories.create') }}">Add New</a>
             </span>
         </section>
-        <div class="card-body table-responsive">
+        <div class="card-body table-responsive" style="width: 70vw;">
             @include('sub_categories.table')
         </div>
     </div>
     <div class="text-center">
-        
+
         @include('adminlte-templates::common.paginate', ['records' => $subCategories])
 
     </div>

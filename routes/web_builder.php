@@ -5,3 +5,21 @@
 Route::resource('categories', 'CategoryController');
 
 Route::resource('subCategories', 'SubCategoryController');
+
+Route::resource('brands', 'BrandController');
+
+Route::resource('units', 'UnitController');
+Route::resource('siteSettings', 'SiteSettingController');
+
+
+Route::resource('customers', 'CustomerController');
+
+Route::resource('suppliers', 'SupplierController');
+
+Route::resource('paymentMethods', 'PaymentMethodController');
+
+Route::resource('accountLedgers', 'AccountLedgerController');
+
+Route::resource('locations', 'LocationController');
+
+Route::resource('pettyCashes', 'PettyCashController');
