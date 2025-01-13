@@ -82,8 +82,9 @@ body > .header .navbar {
 /****** 3.LEFT SIDEBAR ******/
 .left-aside {
   width: 240px;
-  background: #f1f3fa;
-  border-right: 5px solid #EEE; }
+  /* background: #f1f3fa;
+  border-right: 5px solid #EEE;  */
+}
 
 .content-header h1 {
   color: #6c757d;

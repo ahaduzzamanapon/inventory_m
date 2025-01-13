@@ -161,7 +161,7 @@ ol.breadcrumb .breadcrumb-item + .breadcrumb-item::before {
 }
 @media (min-width: 320px) and (max-width: 767px) {
   .sidebar-res {
-    margin-left: -240px !important;
+    margin-left: -256px !important;
   }
   .navbar a:first-child {
     margin-left: 15px !important;
