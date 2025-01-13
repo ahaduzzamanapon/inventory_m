@@ -32,10 +32,6 @@ Suppliers @parent
             @include('suppliers.table')
         </div>
     </div>
-    <div class="text-center">
-        
-        @include('adminlte-templates::common.paginate', ['records' => $suppliers])
-
-    </div>
+    
 </div>
 @endsection

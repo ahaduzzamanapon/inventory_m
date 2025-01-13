@@ -22,7 +22,7 @@ class LocationController extends AppBaseController
     public function index(Request $request)
     {
         /** @var Location $locations */
-        $locations = Location::orderBy('id', 'desc')->paginate(10);
+        $locations = Location::orderBy('id', 'desc')->get();
 
         return view('locations.index')
             ->with('locations', $locations);

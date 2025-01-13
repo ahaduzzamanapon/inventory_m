@@ -22,7 +22,7 @@ class BrandController extends AppBaseController
     public function index(Request $request)
     {
         /** @var Brand $brands */
-        $brands = Brand::orderBy('id', 'desc')->paginate(10);
+        $brands = Brand::orderBy('id', 'desc')->get();
 
         return view('brands.index')
             ->with('brands', $brands);

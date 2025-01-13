@@ -25,7 +25,7 @@ class SubCategoryController extends AppBaseController
         $subCategories = SubCategory::select('subcategorys.*', 'categorys.Name as CategoryName')
             ->join('categorys', 'categorys.id', '=', 'subcategorys.Category')
             ->orderBy('subcategorys.id', 'desc')
-            ->paginate(10);
+            ->get();
 
         return view('sub_categories.index')
             ->with('subCategories', $subCategories);

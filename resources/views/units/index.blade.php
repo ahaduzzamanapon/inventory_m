@@ -32,10 +32,6 @@ Units @parent
             @include('units.table')
         </div>
     </div>
-    <div class="text-center">
-
-        @include('adminlte-templates::common.paginate', ['records' => $units])
-
-    </div>
+   
 </div>
 @endsection

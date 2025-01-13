@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table" id="paymentMethods-table">
+    <table class="table data_t" id="paymentMethods-table">
         <thead>
             <tr>
                 <th>SL</th>
@@ -8,7 +8,7 @@
         <th>Method Number</th>
         <th>Created At</th>
         <th>Updated At</th>
-                <th colspan="3">Action</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>

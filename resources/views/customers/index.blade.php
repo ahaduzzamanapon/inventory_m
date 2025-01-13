@@ -32,10 +32,6 @@ Customers @parent
             @include('customers.table')
         </div>
     </div>
-    <div class="text-center">
-
-        @include('adminlte-templates::common.paginate', ['records' => $customers])
-
-    </div>
+   
 </div>
 @endsection

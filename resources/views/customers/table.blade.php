@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table" id="customers-table">
+    <table class="table data_t" id="customers-table">
         <thead>
             <tr>
                 <th>SL</th>
@@ -7,7 +7,7 @@
         <th>Email</th>
         <th>Phone</th>
         <th>Address</th>
-                <th colspan="3">Action</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>

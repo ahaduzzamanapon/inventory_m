@@ -32,10 +32,6 @@ Sub Categories @parent
             @include('sub_categories.table')
         </div>
     </div>
-    <div class="text-center">
-
-        @include('adminlte-templates::common.paginate', ['records' => $subCategories])
-
-    </div>
+   
 </div>
 @endsection

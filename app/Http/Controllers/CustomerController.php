@@ -22,7 +22,7 @@ class CustomerController extends AppBaseController
     public function index(Request $request)
     {
         /** @var Customer $customers */
-        $customers = Customer::orderBy('id', 'desc')->paginate(10);
+        $customers = Customer::orderBy('id', 'desc')->get();
 
         return view('customers.index')
             ->with('customers', $customers);

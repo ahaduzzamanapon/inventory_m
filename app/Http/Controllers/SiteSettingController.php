@@ -23,7 +23,7 @@ class SiteSettingController extends AppBaseController
     public function index(Request $request)
     {
         /** @var SiteSetting $siteSettings */
-        $siteSettings = SiteSetting::paginate(10);
+        $siteSettings = SiteSetting::all();
         return view('site_settings.index')
             ->with('siteSettings', $siteSettings);
     }
@@ -175,7 +175,7 @@ class SiteSettingController extends AppBaseController
             return redirect(route('siteSettings.index'));
         }
 
-        
+
 
 
 

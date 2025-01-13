@@ -25,7 +25,7 @@ class PettyCashController extends AppBaseController
         $pettyCashes = PettyCash::select('pettycash.*', 'accountledgers.name as account_ledger_name')
             ->join('accountledgers', 'pettycash.account_ledgers', '=', 'accountledgers.id')
             ->orderBy('pettycash.id', 'DESC')
-            ->paginate(10);
+            ->get();
 
         return view('petty_cashes.index')
             ->with('pettyCashes', $pettyCashes);

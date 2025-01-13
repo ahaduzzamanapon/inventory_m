@@ -22,7 +22,7 @@ class PaymentMethodController extends AppBaseController
     public function index(Request $request)
     {
         /** @var PaymentMethod $paymentMethods */
-        $paymentMethods = PaymentMethod::orderBy('id', 'DESC')->paginate(10);
+        $paymentMethods = PaymentMethod::orderBy('id', 'desc')->get();
 
         return view('payment_methods.index')
             ->with('paymentMethods', $paymentMethods);

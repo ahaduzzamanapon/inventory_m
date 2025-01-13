@@ -32,6 +32,35 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+<!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+<!-- DataTables Buttons Extension CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.0/css/buttons.dataTables.min.css">
+
+
+
+<!-- DataTables JS -->
+<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<!-- DataTables Buttons Extension JS -->
+<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.2.0/js/dataTables.buttons.min.js"></script>
+
+<!-- JS for pdfmake (PDF export functionality) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.69/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.69/vfs_fonts.min.js"></script>
+
+<!-- JS for individual button types like Excel, Print, etc. -->
+<script type="text/javascript" charset="utf-8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.2.0/js/buttons.flash.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.2.0/js/buttons.html5.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="https://cdn.datatables.net/buttons/2.2.0/js/buttons.print.min.js"></script>
+
+
+
+
+
+
 <!-- jQuery UI CSS -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
@@ -211,6 +240,21 @@
 
         }
     </script>
+    <script>
+        $(document).ready(function() {
+            var table = new DataTable('.data_t', {
+                dom: 'Bfrtip', // This will place the buttons in the top of the table
+                buttons: [
+                    {
+                        extend: 'collection',
+                        text: 'Export',
+                        buttons: ['copy', 'excel', 'print']
+                    }
+                ],
+            });
+        });
+    </script>
+
 
 
 </body>

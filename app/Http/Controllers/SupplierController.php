@@ -22,7 +22,7 @@ class SupplierController extends AppBaseController
     public function index(Request $request)
     {
         /** @var Supplier $suppliers */
-        $suppliers = Supplier::orderBy('id', 'desc')->paginate(10);
+        $suppliers = Supplier::orderBy('id', 'desc')->get();
 
         return view('suppliers.index')
             ->with('suppliers', $suppliers);

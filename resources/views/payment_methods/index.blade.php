@@ -32,10 +32,6 @@ Payment Methods @parent
             @include('payment_methods.table')
         </div>
     </div>
-    <div class="text-center">
-        
-        @include('adminlte-templates::common.paginate', ['records' => $paymentMethods])
-
-    </div>
+   
 </div>
 @endsection

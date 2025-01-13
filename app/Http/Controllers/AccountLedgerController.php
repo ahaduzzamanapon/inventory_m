@@ -22,7 +22,7 @@ class AccountLedgerController extends AppBaseController
     public function index(Request $request)
     {
         /** @var AccountLedger $accountLedgers */
-        $accountLedgers = AccountLedger::orderBy('id', 'DESC')->paginate(10);
+        $accountLedgers = AccountLedger::orderBy('id', 'DESC')->get();
 
         return view('account_ledgers.index')
             ->with('accountLedgers', $accountLedgers);

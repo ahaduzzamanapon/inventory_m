@@ -22,7 +22,7 @@ class UnitController extends AppBaseController
     public function index(Request $request)
     {
         /** @var Unit $units */
-        $units = Unit::orderBy('id', 'desc')->paginate(10);
+        $units = Unit::orderBy('id', 'desc')->get();
 
         return view('units.index')
             ->with('units', $units);

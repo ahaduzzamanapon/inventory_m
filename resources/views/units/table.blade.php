@@ -1,12 +1,12 @@
 <div class="table-responsive">
-    <table class="table" id="units-table">
+    <table class="table data_t" id="units-table">
         <thead>
             <tr>
                 <th>Id</th>
         <th>Unit Name</th>
         <th>Created At</th>
         <th>Updated At</th>
-                <th colspan="3">Action</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>

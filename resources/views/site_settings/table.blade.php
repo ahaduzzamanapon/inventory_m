@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table" id="siteSettings-table">
+    <table class="table data_t" id="siteSettings-table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -8,7 +8,7 @@
         <th>Slogan</th>
         <th>Created At</th>
         <th>Updated At</th>
-                <th colspan="3">Action</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>

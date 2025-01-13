@@ -32,10 +32,6 @@ Account Ledgers @parent
             @include('account_ledgers.table')
         </div>
     </div>
-    <div class="text-center">
-        
-        @include('adminlte-templates::common.paginate', ['records' => $accountLedgers])
-
-    </div>
+   
 </div>
 @endsection

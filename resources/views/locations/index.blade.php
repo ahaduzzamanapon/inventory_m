@@ -32,10 +32,6 @@ Locations @parent
             @include('locations.table')
         </div>
     </div>
-    <div class="text-center">
-        
-        @include('adminlte-templates::common.paginate', ['records' => $locations])
-
-    </div>
+    
 </div>
 @endsection

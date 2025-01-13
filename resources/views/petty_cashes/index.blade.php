@@ -32,10 +32,6 @@ Petty Cash @parent
             @include('petty_cashes.table')
         </div>
     </div>
-    <div class="text-center">
-
-        @include('adminlte-templates::common.paginate', ['records' => $pettyCashes])
-
-    </div>
+   
 </div>
 @endsection

@@ -102,3 +102,10 @@
 
 
 
+<li class="{!! (Request::is('items*') ? 'active' : '' ) !!}">
+    <a href="{{ route('items.index') }}">
+        <span class="mm-text ">Items</span>
+        <span class="menu-icon"><i class="im im-icon-Structure"></i></span>
+    </a>
+</li>
+
