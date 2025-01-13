@@ -56,6 +56,20 @@ class $MODEL_NAME$Controller extends AppBaseController
     {
         $input = $request->all();
 
+        if ($request->hasFile('image_file')) {
+            $path = storage_path('app/public/images/' . strtolower($MODEL_NAME));
+
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0775, true, true);
+            }
+
+            $file = $request->file('image_file');
+            $input['image_file'] = $file->store('images/' . strtolower($MODEL_NAME), 'public');
+        }
+
+
+
+
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->create($input);
 
         Flash::success('$MODEL_NAME_HUMAN$ saved successfully.');
@@ -115,13 +129,35 @@ class $MODEL_NAME$Controller extends AppBaseController
     {
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->find($id);
 
+
+
+
         if (empty($$MODEL_NAME_CAMEL$)) {
             Flash::error('$MODEL_NAME_HUMAN$ not found');
 
             return redirect(route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index'));
         }
 
-        $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->update($request->all(), $id);
+        $input = $request->all();
+
+         if ($request->hasFile('image_file')) {
+            $path = storage_path('app/public/images/' . strtolower($MODEL_NAME));
+
+            if (!File::exists($path)) {
+                File::makeDirectory($path, 0775, true, true);
+            }
+
+            $file = $request->file('image_file');
+            $input['image_file'] = $file->store('images/' . strtolower($MODEL_NAME), 'public');
+        }else{
+            unset($input['image_file']);
+        }
+
+
+
+
+
+        $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->update($input, $id);
 
         Flash::success('$MODEL_NAME_HUMAN$ updated successfully.');
 
