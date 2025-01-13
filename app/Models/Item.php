@@ -24,7 +24,7 @@ class Item extends Model
 {
 
     public $table = 'items';
-    
+
 
 
 
@@ -38,7 +38,8 @@ class Item extends Model
         'item_unit',
         'item_purchase_price',
         'item_sale_price',
-        'item_company_id'
+        'item_company_id',
+        'item_brand_id'
     ];
 
     /**
@@ -74,5 +75,5 @@ class Item extends Model
         'item_unit' => 'required'
     ];
 
-    
+
 }

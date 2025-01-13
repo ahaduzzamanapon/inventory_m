@@ -22,7 +22,14 @@ class ItemController extends AppBaseController
     public function index(Request $request)
     {
         /** @var Item $items */
-        $items = Item::paginate(10);
+        $items = Item::select('items.*', 'brands.BrandName', 'categorys.Name as CategoryName', 'subcategorys.SubCategoryName', 'units.Unit_Name', 'companies.companie_name as CompanyName')
+            ->join('brands', 'brands.id', '=', 'items.item_brand_id')
+            ->join('categorys', 'categorys.id', '=', 'items.item_category')
+            ->join('subcategorys', 'subcategorys.id', '=', 'items.item_sub_category')
+            ->join('units', 'units.id', '=', 'items.item_unit')
+            ->join('companies', 'companies.id', '=', 'items.item_company_id')
+            ->orderBy('items.id', 'desc')
+            ->get();
 
         return view('items.index')
             ->with('items', $items);
