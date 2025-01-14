@@ -11189,7 +11189,7 @@ a:hover {
 }
 
 .form-control {
-  border-radius: 0;
+  border-radius: 8px;
   box-shadow: none;
 }
 
@@ -11332,7 +11332,7 @@ ol.breadcrumb .breadcrumb-item + .breadcrumb-item::before {
 }
 @media (min-width: 320px) and (max-width: 767px) {
   .sidebar-res {
-    margin-left: -240px !important;
+    margin-left: -254px !important;
   }
   .navbar a:first-child {
     margin-left: 15px !important;

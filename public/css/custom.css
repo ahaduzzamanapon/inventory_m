@@ -31,11 +31,11 @@ body {
 
 /******  2.HEADER STYLES   ******/
 body > .header .navbar {
-  margin-bottom: 0;
-  background-color: #fff;
-  box-shadow: 0 0 35px 0 rgba(154,161,171,.15);
-  border-width: 0;
-  z-index: 999999999;
+    margin-bottom: 0;
+    background-color: #f2f3f7;
+    box-shadow: 0 0 35px 0 rgba(154,161,171,.15);
+    border-width: 0;
+    z-index: 999999999;
 }
 .navbar-expand-lg .navbar-nav .nav-link {
   padding: 13px 15px 14px 15px;
@@ -62,16 +62,16 @@ body > .header .navbar {
 /*side bar nav */
 .left-aside .sidebar {
   display: block;
-  width: 258px;
+  width: 289px;
   /* margin-left: -175px; */
-  margin-left: 0;
+  margin-left: 11px;
   transition: margin-left 0.3s linear;
 }
-.left-aside .sidebar:hover
+/* .left-aside .sidebar:hover
 {
   margin-left: 0;
   transition: margin-left 0.3s linear;
-}
+} */
 
 .content {
   display: block;

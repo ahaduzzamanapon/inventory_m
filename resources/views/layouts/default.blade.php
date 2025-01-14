@@ -108,50 +108,51 @@
 <body>
     <!-- header logo: style can be found in header-->
     <header class="header">
-        <nav class="navbar navbar-expand-lg navbar-light navbar-static-top" role="navigation">
-            <a href="javascript:void(0)" class="ml-100 toggle-right d-xl-none d-lg-block">
-                <!-- Add the class icon to your logo image or logo icon to add the margining -->
-                <img src="{{ asset('img/images/toggle.png') }}" alt="logo" />
-            </a>
-            <!-- Header Navbar: style can be found in header-->
-            <!-- Sidebar toggle button-->
-            <!-- Sidebar toggle button-->
-            <h3 style="display: flex;width: -webkit-fill-available;place-content: center;font-size: x-large;width: -moz-available;">
-                {{ !empty($setting) ? $setting->name : 'Inventory' }} -
-                {{ !empty($setting) ? $setting->slogan : 'Inventory' }} </h3>
+        <nav class="navbar navbar-expand-lg navbar-light navbar-static-top col-md-12" style="display: flex;align-content: center;justify-content: center;"  role="navigation">
+            <div class="col-md-12" style="display: flex;box-shadow: 0px 0px 4px 2px #bfbfbf;border-radius: 8px;padding: 11px;background: #ffffff;align-items: center;">
+                <a href="javascript:void(0)" class="ml-100 toggle-right d-xl-none d-lg-block">
+                    <img src="{{ asset('img/images/toggle.png') }}" alt="logo" />
+                </a>
+                <a href="{{ url('/') }}" class="ml-100 toggle-right d-xl-block d-lg-none" id="logo_sol">
+                    <img style="height: 69px;" src="{{Storage::url((!empty($setting))?$setting->logo:'')}}" alt="logo" />
+                </a>
 
-            <div class="navbar-right ml-auto">
-                <ul class="navbar-nav nav">
-                    <li class="dropdown notifications-menu nav-item dropdown">
-                        <a href="javascript:void(0)" class="dropdown-toggle nav-link dropdown-toggle"
-                            data-toggle="dropdown" id="navbarDropdown" style="border: 1px solid #a9a9a9;padding: 0 17px;border-radius: 7px;">
-                            <i class="im im-icon-Boy fs-16"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-notifications table-striped" aria-labelledby="navbarDropdown">
+                <h3 style="display: flex;width: -webkit-fill-available;place-content: center;font-size: x-large;width: -moz-available;">
+                    {{ !empty($setting) ? $setting->name : 'Inventory' }} -
+                    {{ !empty($setting) ? $setting->slogan : 'Inventory' }} </h3>
+                <div class="navbar-right ml-auto">
+                    <ul class="navbar-nav nav">
+                        <li class="dropdown notifications-menu nav-item dropdown">
+                            <a href="javascript:void(0)" class="dropdown-toggle nav-link dropdown-toggle"
+                                data-toggle="dropdown" id="navbarDropdown" style="border: 1px solid #a9a9a9;padding: 0 17px;border-radius: 7px;">
+                                <i class="im im-icon-Boy fs-16"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-notifications table-striped" aria-labelledby="navbarDropdown">
 
-                            <li class="dropdown-footer">
-                                @if (!empty(Auth::user()) && Auth::user()->member_id != null)
-                                    <a class="dropdown-item"
-                                        href="{{ route('members.details', ['id' => Auth::user()->member_id]) }}">
-                                        Profile
+                                <li class="dropdown-footer">
+                                    @if (!empty(Auth::user()) && Auth::user()->member_id != null)
+                                        <a class="dropdown-item"
+                                            href="{{ route('members.details', ['id' => Auth::user()->member_id]) }}">
+                                            Profile
+                                        </a>
+                                    @endif
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
                                     </a>
-                                @endif
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">
-                                    @csrf
-                                </form>
-                            </li>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        style="display: none;">
+                                        @csrf
+                                    </form>
+                                </li>
 
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
 
-                </ul>
+                    </ul>
+                </div>
             </div>
         </nav>
     </header>
@@ -254,6 +255,22 @@
             });
         });
     </script>
+ <script>
+    $(document).ready(function() {
+        var ww = $(window).width();
+        $(window).resize(function() {
+            checkWidth();
+        });
+    });
+    function checkWidth() {
+        var ww = $(window).width();
+        if (ww < 992) {
+            $('#logo_sol').addClass('d-none');
+        }else{
+            $('#logo_sol').removeClass('d-none');
+        }
+    }
+</script>
 
 
 

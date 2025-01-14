@@ -1,12 +1,12 @@
 <div id="menu" role="navigation">
-    
+
     <style>
 .barrr {
     background: rgb(255, 255, 255);
     display: flex;
     border-radius: 10px;
     box-shadow: rgb(221, 221, 221) 0px 0px 4px 2px;
-    height: 82vh !important;
+    height: 78vh !important;
     flex-direction: column;
     padding: 24px 6px !important;
     gap: 10px;
@@ -14,6 +14,7 @@
     overflow-y: scroll !important;
     top: 55px;
     margin: 5px;
+    scroll-behavior: smooth;
 }
     .barr2 {
         background: rgb(255, 255, 255);

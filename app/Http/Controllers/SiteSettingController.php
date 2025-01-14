@@ -49,9 +49,8 @@ class SiteSettingController extends AppBaseController
     {
         $input = $request->all();
 
-
         if ($request->hasFile('logo')) {
-            $path = storage_path('app/public/images/site');
+            $path = public_path('images/site');
             if (!File::exists($path)) {
                 File::makeDirectory($path, 0775, true, true);
             }
@@ -133,7 +132,7 @@ class SiteSettingController extends AppBaseController
         $input = $request->all();
 
         if ($request->hasFile('logo')) {
-            $path = storage_path('app/public/images/site');
+            $path = public_path('images/site');
             if (!File::exists($path)) {
                 File::makeDirectory($path, 0775, true, true);
             }
