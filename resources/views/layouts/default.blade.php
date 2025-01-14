@@ -114,7 +114,7 @@
                     <img src="{{ asset('img/images/toggle.png') }}" alt="logo" />
                 </a>
                 <a href="{{ url('/') }}" class="ml-100 toggle-right d-xl-block d-lg-none" id="logo_sol">
-                    <img style="height: 69px;" src="{{Storage::url((!empty($setting))?$setting->logo:'')}}" alt="logo" />
+                    <img style="height: 69px;" src="{{asset($setting->logo)}}" alt="logo" />
                 </a>
 
                 <h3 style="display: flex;width: -webkit-fill-available;place-content: center;font-size: x-large;width: -moz-available;">

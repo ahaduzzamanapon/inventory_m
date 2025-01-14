@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-include 'web_builder.php';
+
 include 'demo.php';
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +48,13 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Model checking
     Route::post('tableCheck', 'AppBaseController@tableCheck');
+
+    include 'web_builder.php';
+    include 'sales.php';
+
+
+
+
 });
 
 Route::get('/home', 'HomeController@index')->name('home');

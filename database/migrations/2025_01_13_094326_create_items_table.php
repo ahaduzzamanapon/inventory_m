@@ -17,6 +17,7 @@ class CreateItemsTable extends Migration
             $table->increments('id');
             $table->string('item_id')->nullable();
             $table->string('item_name')->nullable();
+            $table->string('item_image')->nullable();
             $table->integer('item_category')->nullable();
             $table->integer('item_sub_category')->nullable();
             $table->string('item_model')->nullable();

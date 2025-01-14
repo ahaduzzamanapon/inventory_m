@@ -112,6 +112,15 @@ $brands = DB::table('brands')->get();
         {!! Form::select('item_brand_id', $brands->pluck('BrandName', 'id')->prepend('Select Brand', ''), null, ['class' => 'form-control']) !!}
     </div>
 </div>
+<div class="col-md-3">
+    <div class="form-group">
+        @if(isset($item))
+        <img src="{{asset($item->item_image)}}" class="img-fluid" alt="">
+        @endif
+        {!! Form::label('item_image', 'Item Brand:', ['class' => 'control-label']) !!}
+        {!! Form::file('item_image') !!}
+    </div>
+</div>
 
 
 <!-- Submit Field -->

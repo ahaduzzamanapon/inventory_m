@@ -50,16 +50,11 @@ class SiteSettingController extends AppBaseController
         $input = $request->all();
 
         if ($request->hasFile('logo')) {
-            $path = public_path('images/site');
-            if (!File::exists($path)) {
-                File::makeDirectory($path, 0775, true, true);
-            }
             $file = $request->file('logo');
-            $input['logo'] = $file->store('images/site', 'public');
+            $folder = 'images/site';
+            $customName = 'item-'.time();
+            $input['logo'] = uploadFile($file, $folder, $customName);
         }
-
-
-
 
         /** @var SiteSetting $siteSetting */
         $siteSetting = SiteSetting::create($input);
@@ -132,12 +127,10 @@ class SiteSettingController extends AppBaseController
         $input = $request->all();
 
         if ($request->hasFile('logo')) {
-            $path = public_path('images/site');
-            if (!File::exists($path)) {
-                File::makeDirectory($path, 0775, true, true);
-            }
             $file = $request->file('logo');
-            $input['logo'] = $file->store('images/site', 'public');
+            $folder = 'images/site';
+            $customName = 'item-'.time();
+            $input['logo'] = uploadFile($file, $folder, $customName);
         }else{
             unset($input['logo']);
         }

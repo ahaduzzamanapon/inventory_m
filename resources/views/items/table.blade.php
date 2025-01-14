@@ -5,6 +5,7 @@
         <th>Sl</th>
         <th>Id</th>
         <th>Name</th>
+        <th>Image</th>
         <th>Category</th>
         <th>Sub Category</th>
         <th>Model</th>
@@ -23,6 +24,7 @@
             <td>{{ $loop->iteration }}</td>
             <td>{{ $item->item_id }}</td>
             <td>{{ $item->item_name }}</td>
+            <td><img src="{{asset($item->item_image)}}" alt="" width="100"></td>
             <td>{{ $item->CategoryName }}</td>
             <td>{{ $item->SubCategoryName }}</td>
             <td>{{ $item->item_model }}</td>

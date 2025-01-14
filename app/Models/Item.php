@@ -31,6 +31,7 @@ class Item extends Model
     public $fillable = [
         'item_id',
         'item_name',
+        'item_image',
         'item_category',
         'item_sub_category',
         'item_model',

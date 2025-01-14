@@ -2,13 +2,13 @@
 
 {{-- Page title --}}
 @section('title')
-Item @parent
+New Sales @parent
 @stop
 
 @section('content')
     <section class="content-header">
     <div aria-label="breadcrumb" class="card-breadcrumb">
-        <h1>{{ __('Create New') }} Item</h1>
+        <h1>{{ __('Create New') }} Sales</h1>
     </div>
     <div class="separator-breadcrumb border-top"></div>
     </section>
@@ -16,14 +16,14 @@ Item @parent
         @include('adminlte-templates::common.errors')
         <div class="card">
             <div class="card-body">
-                <div class="row">
-                    {!! Form::open(['route' => 'items.store', 'files' => true, 'class' => 'form-horizontal col-md-12']) !!}
-                    <div class="row">
-                        @include('items.fields')
-                    </div>
-                    {!! Form::close() !!}
-                </div>
+                {!! Form::open(['route' => 'sales.store', 'files' => true,'class' => 'form-horizontal']) !!}
+
+                    @include('sales.fields_new')
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
+
+
+  
 @endsection

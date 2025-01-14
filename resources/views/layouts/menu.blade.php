@@ -6,6 +6,37 @@
 
 
 
+{{-- Sales Management --}}
+<li class='menu-dropdown'>
+    <a href="#"  class="barr2">
+        <span class="mm-text ">Sales Management</span>
+        <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
+        <span class="im im-icon-Arrow-Right imicon"></span>
+    </a>
+    <ul class="sub-menu list-unstyled barr3">
+        <li class="barr4">
+            <a href="{{route('sales.new_sales')}}">
+                <span class="mm-text ">New Sales</span>
+            </a>
+        </li>
+    </ul>
+</li>
+{{-- Purchase Management --}}
+<li class='menu-dropdown'>
+    <a href="#"  class="barr2">
+        <span class="mm-text ">Purchase Management</span>
+        <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
+        <span class="im im-icon-Arrow-Right imicon"></span>
+    </a>
+    <ul class="sub-menu list-unstyled barr3">
+        <li class="barr4">
+            <a href="#">
+                <span class="mm-text ">New Purchase</span>
+            </a>
+        </li>
+    </ul>
+</li>
+{{-- //Inventory Management --}}
 <li {!! (Request::is('categories*')|| Request::is('items*') || Request::is('subCategories*') || Request::is('brands*') || Request::is('units*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Inventory Management</span>
@@ -44,7 +75,7 @@
         </li>
     </ul>
 </li>
-
+{{-- Account --}}
 <li {!! (Request::is('pettyCashes*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Account</span>
@@ -59,37 +90,7 @@
         </li>
     </ul>
 </li>
-
-
-<li class='menu-dropdown'>
-    <a href="#"  class="barr2">
-        <span class="mm-text ">Sales Management</span>
-        <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
-        <span class="im im-icon-Arrow-Right imicon"></span>
-    </a>
-    <ul class="sub-menu list-unstyled barr3">
-        <li class="barr4">
-            <a href="#">
-                <span class="mm-text ">New Sales</span>
-            </a>
-        </li>
-    </ul>
-</li>
-<li class='menu-dropdown'>
-    <a href="#"  class="barr2">
-        <span class="mm-text ">Purchase Management</span>
-        <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
-        <span class="im im-icon-Arrow-Right imicon"></span>
-    </a>
-    <ul class="sub-menu list-unstyled barr3">
-        <li class="barr4">
-            <a href="#">
-                <span class="mm-text ">New Purchase</span>
-            </a>
-        </li>
-    </ul>
-</li>
-
+{{-- Settings --}}
 <li {!! (Request::is('siteSettings*')|| Request::is('companies*') || Request::is('locations*') || Request::is('accountLedgers*') || Request::is('customers*') || Request::is('suppliers*') || Request::is('paymentMethods*')  ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Settings</span>

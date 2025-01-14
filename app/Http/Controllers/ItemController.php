@@ -56,6 +56,13 @@ class ItemController extends AppBaseController
     {
         $input = $request->all();
 
+        if ($request->hasFile('item_image')) {
+            $file = $request->file('item_image');
+            $folder = 'images/item';
+            $customName = 'item-'.time();
+            $input['item_image'] = uploadFile($file, $folder, $customName);
+        }
+
         /** @var Item $item */
         $item = Item::create($input);
 
@@ -125,7 +132,23 @@ class ItemController extends AppBaseController
             return redirect(route('items.index'));
         }
 
-        $item->fill($request->all());
+        $input = $request->all();
+
+
+        if ($request->hasFile('item_image')) {
+            $file = $request->file('item_image');
+            $folder = 'images/item';
+            $customName = 'item-'.time();
+            $input['item_image'] = uploadFile($file, $folder, $customName);
+        }else{
+            unset($input['item_image']);
+        }
+
+
+
+
+
+        $item->fill($input);
         $item->save();
 
         Flash::success('Item updated successfully.');

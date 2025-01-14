@@ -16,7 +16,7 @@
             <tr>
                 <td>{{ $siteSetting->id }}</td>
             <td>{{ $siteSetting->name }}</td>
-            <td><img src="{{Storage::url($siteSetting->logo)}}" alt="" width="100"></td>
+            <td><img src="{{asset($siteSetting->logo)}}" alt="" width="100"></td>
             <td>{{ $siteSetting->slogan }}</td>
             <td>{{ $siteSetting->created_at }}</td>
             <td>{{ $siteSetting->updated_at }}</td>
