@@ -521,7 +521,14 @@
         }
     </script>
 
+<script>
+    $(function() {
+        $('input[type="date"]').each(function() {
+            console.log($(this).val());
+        });
+    });
 
+</script>
 
 
 

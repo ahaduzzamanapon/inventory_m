@@ -10,7 +10,7 @@
                     {!! Form::label('sale_date', 'Date:') !!}
                     {!! Form::date('sale_date', null, ['class' => 'form-control', 'required']) !!}
                 </div>
-                
+
                 <div class="form-group col-md-3">
                     {!! Form::label('reference_no', 'Reference:') !!}
                     {!! Form::text('reference_no', 'Ref-' . time(), [
@@ -26,7 +26,6 @@
                         'readonly',
                     ]) !!}
                 </div>
-
             </div>
         </div>
     </div>

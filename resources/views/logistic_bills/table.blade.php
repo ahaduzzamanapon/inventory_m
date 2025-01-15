@@ -4,7 +4,6 @@
             <tr>
                 <th>Id</th>
         <th>Date</th>
-        <th>Sale</th>
         <th>Location</th>
         <th>Customer</th>
         <th>Amount</th>
@@ -21,9 +20,8 @@
             <tr>
                 <td>{{ $logisticBill->id }}</td>
             <td>{{ $logisticBill->date }}</td>
-            <td>{{ $logisticBill->Sale }}</td>
-            <td>{{ $logisticBill->location }}</td>
-            <td>{{ $logisticBill->customer }}</td>
+            <td>{{ $logisticBill->location_name }}</td>
+            <td>{{ $logisticBill->customer_name }}</td>
             <td>{{ $logisticBill->amount }}</td>
             <td>{{ $logisticBill->attachment }}</td>
             <td>{{ $logisticBill->note }}</td>

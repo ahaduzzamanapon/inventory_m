@@ -62,11 +62,24 @@ body > .header .navbar {
 /*side bar nav */
 .left-aside .sidebar {
   display: block;
-  width: 289px;
+  width: 250px;
   /* margin-left: -175px; */
   margin-left: 11px;
   transition: margin-left 0.3s linear;
 }
+@media (min-width: 768px) {
+  .left-aside .sidebar {
+    width: 290px;
+  }
+}
+
+
+
+
+
+
+
+
 /* .left-aside .sidebar:hover
 {
   margin-left: 0;
@@ -76,7 +89,7 @@ body > .header .navbar {
 .content {
   display: block;
   width: 100%;
-  padding: 0 25px;
+  padding: 0 5px;
 }
 
 /****** 3.LEFT SIDEBAR ******/

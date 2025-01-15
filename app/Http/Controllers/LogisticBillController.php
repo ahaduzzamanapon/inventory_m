@@ -22,7 +22,10 @@ class LogisticBillController extends AppBaseController
     public function index(Request $request)
     {
         /** @var LogisticBill $logisticBills */
-        $logisticBills = LogisticBill::paginate(10);
+        $logisticBills = LogisticBill::join('locations', 'logistic_bills.location', '=', 'locations.id')
+            ->join('customers', 'logistic_bills.customer', '=', 'customers.id')
+            ->select('logistic_bills.*', 'locations.location_name', 'customers.customer_name')
+            ->paginate(10);
 
         return view('logistic_bills.index')
             ->with('logisticBills', $logisticBills);
@@ -48,6 +51,17 @@ class LogisticBillController extends AppBaseController
     public function store(CreateLogisticBillRequest $request)
     {
         $input = $request->all();
+
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            $folder = 'images/attachment';
+            $customName = 'attachment-'.time();
+            $input['attachment'] = uploadFile($file, $folder, $customName);
+        }else{
+            $input['attachment'] = '';
+        }
+
+
 
         /** @var LogisticBill $logisticBill */
         $logisticBill = LogisticBill::create($input);
@@ -89,6 +103,7 @@ class LogisticBillController extends AppBaseController
     {
         /** @var LogisticBill $logisticBill */
         $logisticBill = LogisticBill::find($id);
+        //dd($logisticBill);
 
         if (empty($logisticBill)) {
             Flash::error('Logistic Bill not found');
@@ -118,7 +133,18 @@ class LogisticBillController extends AppBaseController
             return redirect(route('logisticBills.index'));
         }
 
-        $logisticBill->fill($request->all());
+        $input = $request->all();
+
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment');
+            $folder = 'images/attachment';
+            $customName = 'attachment-'.time();
+            $input['attachment'] = uploadFile($file, $folder, $customName);
+        }else{
+            $input['attachment'] = '';
+        }
+
+        $logisticBill->fill($input);
         $logisticBill->save();
 
         Flash::success('Logistic Bill updated successfully.');
