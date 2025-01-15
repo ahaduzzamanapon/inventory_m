@@ -7,10 +7,10 @@ New Sales @parent
 
 @section('content')
     <section class="content-header">
-    <div aria-label="breadcrumb" class="card-breadcrumb">
+    {{--<div aria-label="breadcrumb" class="card-breadcrumb">
         <h1>{{ __('Create New') }} Sales</h1>
     </div>
-    <div class="separator-breadcrumb border-top"></div>
+    <div class="separator-breadcrumb border-top"></div>--}}
     </section>
     <div class="content">
         @include('adminlte-templates::common.errors')
@@ -23,7 +23,6 @@ New Sales @parent
                         {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
                         <a href="{{ route('subCategories.index') }}" class="btn btn-danger">Cancel</a>
                     </div>
-
                 {!! Form::close() !!}
             </div>
         </div>

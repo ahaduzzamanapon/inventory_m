@@ -7,10 +7,10 @@ $MODEL_NAME_HUMAN$ @parent
 
 @section('content')
     <section class="content-header">
-    <div aria-label="breadcrumb" class="card-breadcrumb">
+    {{--<div aria-label="breadcrumb" class="card-breadcrumb">
         <h1>{{ __('Create New') }} @lang('models/$MODEL_NAME_PLURAL_CAMEL$.singular')</h1>
     </div>
-    <div class="separator-breadcrumb border-top"></div>
+    <div class="separator-breadcrumb border-top"></div>--}}
     </section>
 
     <div class="content">

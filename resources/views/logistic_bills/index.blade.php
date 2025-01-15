@@ -8,10 +8,10 @@ Logistic Bills @parent
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <div aria-label="breadcrumb" class="card-breadcrumb">
+    {{--<div aria-label="breadcrumb" class="card-breadcrumb">
         <h1>Logistic Bills</h1>
     </div>
-    <div class="separator-breadcrumb border-top"></div>
+    <div class="separator-breadcrumb border-top"></div>--}}
 </section>
 
 <!-- Main content -->
@@ -33,7 +33,7 @@ Logistic Bills @parent
         </div>
     </div>
     <div class="text-center">
-        
+
         @include('adminlte-templates::common.paginate', ['records' => $logisticBills])
 
     </div>

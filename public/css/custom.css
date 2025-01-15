@@ -25,7 +25,7 @@ html {
 body {
    -webkit-font-smoothing: antialiased;
   transition: all .25s ease-out;
-  background-color: #fafbfe;
+  background-color: #e7fff5;
   overflow-x: hidden;
 }
 
@@ -98,7 +98,7 @@ body > .header .navbar {
 #menu li.active > a {
   padding: 11px 20px 11px 17px;
   color: #00bd5bc7;
-  border-left: 3px solid #00bd5bc7;
+  border-left: 9px solid #00bd5bc7;
   transition: none; }
 
 #menu li > a:hover {
@@ -155,8 +155,7 @@ body > .header .navbar {
   width: 100%;
 }
 .right-aside > .content-header {
-  margin: 24px -10px 24px -10px;
-  height: 65px;
+  height: 40px;
 }
 .left-aside {
   position: relative;

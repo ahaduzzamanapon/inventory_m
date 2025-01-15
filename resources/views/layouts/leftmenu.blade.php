@@ -2,19 +2,18 @@
     <style>
         /* Main menu container */
         .barrr {
-            background: #f1f1f1;
+            background: linear-gradient(135deg, #38cb87, #2da669);
             display: flex;
             flex-direction: column;
             padding: 20px 15px !important;
             gap: 15px;
             border-radius: 15px;
             box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
-            height: 80vh;
+            height: 90vh!important;
             overflow-y: auto;
             top: 55px;
             margin: 20px;
             scrollbar-width: thin;
-            scroll-behavior: smooth;
             transition: all 0.3s ease;
             width: 280px;
             /* padding: 13px; */
@@ -71,7 +70,7 @@
 
         /* Sub-menu items */
         .barr3 {
-            background: #ffffff;
+            background: linear-gradient(135deg, #32bf7e, #2da669)!important;
             display: flex;
             flex-direction: column;
             gap: 8px;

@@ -8,10 +8,10 @@ Items @parent
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <div aria-label="breadcrumb" class="card-breadcrumb">
+    {{--<div aria-label="breadcrumb" class="card-breadcrumb">
         <h1>Item</h1>
     </div>
-    <div class="separator-breadcrumb border-top"></div>
+    <div class="separator-breadcrumb border-top"></div>--}}
 </section>
 
 <div class="content">

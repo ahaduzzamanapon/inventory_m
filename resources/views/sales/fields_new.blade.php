@@ -1,27 +1,24 @@
 <div class="col-md-12">
     <div class="row">
-        <div class="col-md-6">
-            <div class="col-md-12">
-                <div class="form-group col-md-12">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="form-group col-md-3">
                     {!! Form::label('customer_id', 'Customer:') !!}
                     {!! Form::select('customer_id', $customers, null, ['class' => 'form-control chosen-select', 'required']) !!}
                 </div>
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-3">
                     {!! Form::label('sale_date', 'Date:') !!}
                     {!! Form::date('sale_date', null, ['class' => 'form-control', 'required']) !!}
                 </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="col-md-12">
-                <div class="form-group col-md-12">
+                
+                <div class="form-group col-md-3">
                     {!! Form::label('reference_no', 'Reference:') !!}
                     {!! Form::text('reference_no', 'Ref-' . time(), [
                         'class' => 'form-control',
                         'placeholder' => 'Reference Number',
                     ]) !!}
                 </div>
-                <div class="form-group col-md-12">
+                <div class="form-group col-md-3">
                     {!! Form::label('sales_id', 'Sales ID:') !!}
                     {!! Form::text('sales_id', 'sale-' . time(), [
                         'class' => 'form-control',
@@ -29,6 +26,7 @@
                         'readonly',
                     ]) !!}
                 </div>
+
             </div>
         </div>
     </div>

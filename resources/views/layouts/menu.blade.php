@@ -17,11 +17,14 @@
         <li class="barr4 {!! (Request::is('new_sales') ? 'active' : '' ) !!}">
             <a href="{{route('sales.new_sales')}}">
                 <span class="mm-text ">New Sales</span>
+                <span class="menu-icon"><i class="im im-icon-Add"></i></span>
+
             </a>
         </li>
         <li class="barr4 {!! (Request::is('sales_list') ? 'active' : '' ) !!}">
             <a href="{{route('sales.sales_list')}}">
                 <span class="mm-text ">Sales List</span>
+                <span class="menu-icon"><i class="im im-icon-Add-Bag"></i></span>
             </a>
         </li>
     </ul>
@@ -37,11 +40,13 @@
         <li class="barr4 {!! (Request::is('new_purchas') ? 'active' : '' ) !!}">
             <a href="{{route('purchas.new_purchas')}}">
                 <span class="mm-text ">New Purchase</span>
+                <span class="menu-icon"><i class="im im-icon-Add-Basket"></i></span>
             </a>
         </li>
         <li class="barr4 {!! (Request::is('purchas_list') ? 'active' : '' ) !!}">
             <a href="{{route('purchas.purchas_list')}}">
                 <span class="mm-text ">Purchase List</span>
+                <span class="menu-icon"><i class="im im-icon-Add-File"></i></span>
             </a>
         </li>
     </ul>
@@ -57,6 +62,7 @@
         <li class="barr4 {!! (Request::is('items*') ? 'active' : '' ) !!}">
             <a href="{{ route('items.index') }}">
                 <span class="mm-text ">Items</span>
+                <span class="menu-icon"><i class="im im-icon-Bag-Items"></i></span>
             </a>
         </li>
 
@@ -65,22 +71,30 @@
         <li class="barr4 {!! (Request::is('categories*') ? 'active li_active' : '' ) !!}" >
             <a href="{{ route('categories.index') }}">
                 <span class="mm-text "> </span> Categories</span>
+                <span class="menu-icon"><i class="im im-icon-Aa"></i></span>
+
             </a>
         </li>
 
         <li class="barr4 {!! (Request::is('subCategories*') ? 'active li_active' : '' ) !!}">
             <a href="{{ route('subCategories.index') }}">
                 <span class="mm-text ">Sub Categories</span>
+                <span class="menu-icon"><i class="im im-icon-Address-Book2"></i></span>
+
             </a>
         </li>
         <li class="barr4 {!! (Request::is('brands*') ? 'active li_active' : '' ) !!}">
             <a href="{{ route('brands.index') }}">
                 <span class="mm-text ">Brands</span>
+                <span class="menu-icon"><i class="im im-icon-Brain"></i></span>
+
             </a>
         </li>
         <li class="barr4 {!! (Request::is('units*') ? 'active li_active' : '' ) !!}">
             <a href="{{ route('units.index') }}">
                 <span class="mm-text ">Units</span>
+                <span class="menu-icon"><i class="im im-icon-Address-Book"></i></span>
+
             </a>
         </li>
     </ul>
@@ -96,6 +110,13 @@
         <li class="barr4 {!! (Request::is('pettyCashes*') ? 'active' : '' ) !!}">
             <a href="{{ route('pettyCashes.index') }}">
                 <span class="mm-text ">Petty Cash</span>
+                <span class="menu-icon"><i class="im im-icon-Calculator"></i></span>
+            </a>
+        </li>
+        <li class="barr4 {!! (Request::is('logisticBills*') ? 'active' : '' ) !!}">
+            <a href="{{ route('logisticBills.index') }}">
+                <span class="mm-text ">Logistic Bills</span>
+                <span class="menu-icon"><i class="im im-icon-Cable-Car"></i></span>
             </a>
         </li>
     </ul>
@@ -111,36 +132,43 @@
         <li class="barr4 {!! (Request::is('siteSettings*') ? 'active li_active' : '' ) !!}">
             <a href="{{ route('siteSettings.index') }}">
                 <span class="mm-text ">Site Settings</span>
+                <span class="menu-icon"><i class="im im-icon-Settings-Window"></i></span>
             </a>
         </li>
         <li class="barr4 {!! (Request::is('customers*') ? 'active' : '' ) !!}">
             <a href="{{ route('customers.index') }}">
                 <span class="mm-text ">Customers</span>
+                <span class="menu-icon"><i class="im im-icon-Man-Sign"></i></span>
             </a>
         </li>
         <li class="barr4 {!! (Request::is('suppliers*') ? 'active' : '' ) !!}">
             <a href="{{ route('suppliers.index') }}">
                 <span class="mm-text ">Suppliers</span>
+                <span class="menu-icon"><i class="im im-icon-Man-Sign"></i></span>
             </a>
         </li>
         <li class="barr4 {!! (Request::is('paymentMethods*') ? 'active' : '' ) !!}">
             <a href="{{ route('paymentMethods.index') }}">
                 <span class="mm-text ">Payment Methods</span>
+                <span class="menu-icon"><i class="im im-icon-Paypal"></i></span>
             </a>
         </li>
         <li class="barr4 {!! (Request::is('accountLedgers*') ? 'active' : '' ) !!}">
             <a href="{{ route('accountLedgers.index') }}">
                 <span class="mm-text ">Account Ledgers</span>
+                <span class="menu-icon"><i class="im im-icon-Teacher"></i></span>
             </a>
         </li>
         <li class="barr4 {!! (Request::is('locations*') ? 'active' : '' ) !!}">
             <a href="{{ route('locations.index') }}">
                 <span class="mm-text ">Locations</span>
+                <span class="menu-icon"><i class="im im-icon-Map"></i></span>
             </a>
         </li>
         <li class="barr4 {!! (Request::is('companies*') ? 'active' : '' ) !!}">
             <a href="{{ route('companies.index') }}">
                 <span class="mm-text ">Companies</span>
+                <span class="menu-icon"><i class="im im-icon-Factory"></i></span>
             </a>
         </li>
     </ul>
@@ -158,11 +186,6 @@
 
 
 
-<li class="{!! (Request::is('logisticBills*') ? 'active' : '' ) !!}">
-    <a href="{{ route('logisticBills.index') }}">
-        <span class="mm-text ">Logistic Bills</span>
-        <span class="menu-icon"><i class="im im-icon-Structure"></i></span>
-    </a>
-</li>
+
 
 

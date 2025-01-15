@@ -8,10 +8,10 @@ Sub Categories @parent
 @section('content')
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <div aria-label="breadcrumb" class="card-breadcrumb">
+    {{--<div aria-label="breadcrumb" class="card-breadcrumb">
         <h1>Sub Categories</h1>
     </div>
-    <div class="separator-breadcrumb border-top"></div>
+    <div class="separator-breadcrumb border-top"></div>--}}
 </section>
 
 <!-- Main content -->
@@ -32,6 +32,6 @@ Sub Categories @parent
             @include('sub_categories.table')
         </div>
     </div>
-   
+
 </div>
 @endsection

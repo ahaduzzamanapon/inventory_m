@@ -118,7 +118,7 @@
         /* HTML: <div class="loaderss"></div> */
         .loaderss {
             --c1: #673b14;
-            --c2: #f8b13b;
+            --c2: #38cb87;
             width: 40px;
             height: 80px;
             border-top: 4px solid var(--c1);
@@ -318,10 +318,9 @@
 
 
     <header class="header">
-        <nav class="navbar navbar-expand-lg navbar-light col-md-12" role="navigation"
-            style="display: flex; justify-content: center; padding: 10px; background: #f9f9f9; border-bottom: 1px solid #ddd;">
+        <nav class="navbar navbar-expand-lg navbar-light col-md-12" style="background: #e7fff5;" role="navigation">
             <div class="col-md-12 header-container"
-                style="display: flex; align-items: center; padding: 15px 20px; background: #ffffff; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); border-radius: 10px;">
+            style="display: flex;align-items: center;padding: 15px 20px;background: linear-gradient(135deg, #38cb87, #2da669);box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);border-radius: 10px;">
                 <!-- Sidebar Toggle for Mobile -->
                 <a href="javascript:void(0)" onclick="toggleSidebar()" class="toggle-menu d-xl-none d-lg-block">
                     <img src="{{ asset('img/images/toggle.png') }}" alt="Toggle Menu" style="height: 30px;">
@@ -342,7 +341,7 @@
                     <ul class="navbar-nav nav">
                         <li class="dropdown notifications-menu nav-item">
                             <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown"
-                                style="border: 1px solid #ddd; padding: 10px 15px; border-radius: 8px; transition: all 0.3s ease;">
+                            style="border: 1px solid #ddd;padding: 10px 15px;border-radius: 8px;transition: all 0.3s ease;background: linear-gradient(135deg, #a1dfc2, #85edb8);">
                                 <i class="im im-icon-Boy fs-16"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-notifications"

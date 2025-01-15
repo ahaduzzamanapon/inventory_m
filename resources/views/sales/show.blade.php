@@ -9,10 +9,10 @@ Sales Details @parent
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <div aria-label="breadcrumb" class="card-breadcrumb mb-4">
+    {{--<div aria-label="breadcrumb" class="card-breadcrumb mb-4">
         <h1 class="text-primary">Sales Details</h1>
     </div>
-    <div class="separator-breadcrumb border-top"></div>
+    <div class="separator-breadcrumb border-top"></div>--}}
 </section>
 
 <div class="content">
