@@ -6,7 +6,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "creativeorange/gravatar": "v1.0.22",
         "guzzlehttp/guzzle": "^7.2",
+        "harvesthq/chosen": "^1.8",
         "infyomlabs/adminlte-templates": "v4.0.2",
         "infyomlabs/generator-builder": "v1.0.0",
         "infyomlabs/laravel-generator": "v4.2.2",
@@ -16,7 +18,6 @@
         "laravel/ui": "^v3.0.0",
         "laravelcollective/html": "^v6.3.0",
         "sentry/sentry-laravel": "^2.3",
-        "creativeorange/gravatar": "v1.0.22",
         "yajra/laravel-datatables-buttons": "^9.0.10",
         "yajra/laravel-datatables-oracle": "~v10.1.2"
     },

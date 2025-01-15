@@ -7,31 +7,41 @@
 
 
 {{-- Sales Management --}}
-<li class='menu-dropdown'>
+<li {!! (Request::is('new_sales') || Request::is('sales_list') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Sales Management</span>
         <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
         <span class="im im-icon-Arrow-Right imicon"></span>
     </a>
     <ul class="sub-menu list-unstyled barr3">
-        <li class="barr4">
+        <li class="barr4 {!! (Request::is('new_sales') ? 'active' : '' ) !!}">
             <a href="{{route('sales.new_sales')}}">
                 <span class="mm-text ">New Sales</span>
             </a>
         </li>
+        <li class="barr4 {!! (Request::is('sales_list') ? 'active' : '' ) !!}">
+            <a href="{{route('sales.sales_list')}}">
+                <span class="mm-text ">Sales List</span>
+            </a>
+        </li>
     </ul>
 </li>
-{{-- Purchase Management --}}
-<li class='menu-dropdown'>
+{{-- purchas Management --}}
+<li {!! (Request::is('new_purchas') || Request::is('purchas_list') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Purchase Management</span>
         <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
         <span class="im im-icon-Arrow-Right imicon"></span>
     </a>
     <ul class="sub-menu list-unstyled barr3">
-        <li class="barr4">
-            <a href="#">
+        <li class="barr4 {!! (Request::is('new_purchas') ? 'active' : '' ) !!}">
+            <a href="{{route('purchas.new_purchas')}}">
                 <span class="mm-text ">New Purchase</span>
+            </a>
+        </li>
+        <li class="barr4 {!! (Request::is('purchas_list') ? 'active' : '' ) !!}">
+            <a href="{{route('purchas.purchas_list')}}">
+                <span class="mm-text ">Purchase List</span>
             </a>
         </li>
     </ul>
@@ -146,5 +156,13 @@
 
 
 
+
+
+<li class="{!! (Request::is('logisticBills*') ? 'active' : '' ) !!}">
+    <a href="{{ route('logisticBills.index') }}">
+        <span class="mm-text ">Logistic Bills</span>
+        <span class="menu-icon"><i class="im im-icon-Structure"></i></span>
+    </a>
+</li>
 
 

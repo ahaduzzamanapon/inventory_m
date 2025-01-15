@@ -7,7 +7,7 @@ use Eloquent as Model;
 /**
  * Class Location
  * @package App\Models
- * @version January 13, 2025, 7:15 am UTC
+ * @version January 15, 2025, 9:04 am UTC
  *
  * @property string $location_name
  * @property string $location_address
@@ -42,7 +42,8 @@ class Location extends Model
      * @var array
      */
     public static $rules = [
-        'location_name' => 'requard'
+        'location_name' => 'required',
+        'location_address' => 'required'
     ];
 
     

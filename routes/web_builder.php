@@ -29,3 +29,6 @@ Route::resource('items', 'ItemController');
 Route::resource('companies', 'CompanieController');
 
 
+
+
+Route::resource('logisticBills', 'LogisticBillController');

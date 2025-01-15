@@ -1,8 +1,8 @@
 <div class="table-responsive">
-    <table class="table data_t" id="locations-table">
+    <table class="table" id="locations-table">
         <thead>
             <tr>
-                <th>SL</th>
+                <th>Id</th>
         <th>Location Name</th>
         <th>Location Address</th>
         <th>Created At</th>
@@ -13,7 +13,7 @@
         <tbody>
         @foreach($locations as $key => $location)
             <tr>
-                <td>{{ $key + 1 }}</td>
+                <td>{{ $location->id }}</td>
             <td>{{ $location->location_name }}</td>
             <td>{{ $location->location_address }}</td>
             <td>{{ $location->created_at }}</td>

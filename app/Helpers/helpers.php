@@ -31,3 +31,20 @@ if (!function_exists('uploadFile')) {
         return $folder . '/' . $filename;
     }
 }
+if (!function_exists('get_customer_with_id')) {
+
+    function get_customer_with_id($id)
+    {
+        return \App\Models\Customer::find($id);
+
+    }
+}
+if (!function_exists('get_supplier_with_id')) {
+
+    function get_supplier_with_id($id)
+    {
+        return \App\Models\Supplier::find($id);
+
+    }
+}
+

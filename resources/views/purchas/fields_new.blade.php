@@ -3,12 +3,12 @@
         <div class="col-md-6">
             <div class="col-md-12">
                 <div class="form-group col-md-12">
-                    {!! Form::label('customer_id', 'Customer:') !!}
-                    {!! Form::select('customer_id', $customers, null, ['class' => 'form-control chosen-select', 'required']) !!}
+                    {!! Form::label('supplier_id', 'Supplier:') !!}
+                    {!! Form::select('supplier_id', $suppliers, null, ['class' => 'form-control chosen-select', 'required']) !!}
                 </div>
                 <div class="form-group col-md-12">
-                    {!! Form::label('sale_date', 'Date:') !!}
-                    {!! Form::date('sale_date', null, ['class' => 'form-control', 'required']) !!}
+                    {!! Form::label('purchas_date', 'Date:') !!}
+                    {!! Form::date('purchas_date', null, ['class' => 'form-control', 'required']) !!}
                 </div>
             </div>
         </div>
@@ -22,10 +22,10 @@
                     ]) !!}
                 </div>
                 <div class="form-group col-md-12">
-                    {!! Form::label('sales_id', 'Sales ID:') !!}
-                    {!! Form::text('sales_id', 'sale-' . time(), [
+                    {!! Form::label('purchas_id', 'Purchas ID:') !!}
+                    {!! Form::text('purchas_id', 'purchas-' . time(), [
                         'class' => 'form-control',
-                        'placeholder' => 'Sales ID',
+                        'placeholder' => 'Purchas ID',
                         'readonly',
                     ]) !!}
                 </div>
@@ -94,7 +94,7 @@
                                 <th colspan="3">
                                     <div class="form-group">
                                         <label for="" class="control-label">Note</label>
-                                        <textarea name="sale_note" class="form-control"></textarea>
+                                        <textarea name="purchas_note" class="form-control"></textarea>
                                     </div>
                                 </th>
                             </tr>
