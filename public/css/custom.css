@@ -67,9 +67,15 @@ body > .header .navbar {
   margin-left: 11px;
   transition: margin-left 0.3s linear;
 }
+.card-body{
+  width: 100%;
+}
 @media (min-width: 768px) {
   .left-aside .sidebar {
     width: 290px;
+  }
+  .card-body{
+    width: 75vw;
   }
 }
 

@@ -28,7 +28,7 @@ Purchas List @parent
                 <a class="btn btn-primary pull-right" href="{{ route('purchas.new_purchas') }}">New Purchas</a>
             </span>
         </section>
-        <div class="card-body table-responsive" style="width: 70vw;">
+        <div class="card-body table-responsive" >
             @include('purchas.table')
         </div>
     </div>

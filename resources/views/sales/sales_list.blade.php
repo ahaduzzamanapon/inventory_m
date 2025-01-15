@@ -28,7 +28,7 @@ Sales List @parent
                 <a class="btn btn-primary pull-right" href="{{ route('sales.new_sales') }}">New Sale</a>
             </span>
         </section>
-        <div class="card-body table-responsive" style="width: 70vw;">
+        <div class="card-body table-responsive" >
             @include('sales.table')
         </div>
     </div>

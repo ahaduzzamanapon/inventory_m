@@ -502,9 +502,6 @@
         $(document).ready(function() {
             $('#loader_div').hide();
         });
-
-
-
         $(document).on('ajaxStart', function() {
             $('#loader_div').show();
         }).on('ajaxStop', function() {
@@ -513,6 +510,12 @@
         $(window).on('beforeunload', function() {
             $('#loader_div').show();
         });
+        $(window).on('pageshow', function(event) {
+            if (event.originalEvent.persisted) {
+                $('#loader_div').hide();
+            }
+        });
+
     </script>
     <script>
         function toggleSidebar() {

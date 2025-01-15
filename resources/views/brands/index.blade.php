@@ -28,7 +28,7 @@ Brands @parent
                 <a class="btn btn-primary pull-right" href="{{ route('brands.create') }}">Add New</a>
             </span>
         </section>
-        <div class="card-body table-responsive" style="width: 70vw;">
+        <div class="card-body table-responsive" >
             @include('brands.table')
         </div>
     </div>

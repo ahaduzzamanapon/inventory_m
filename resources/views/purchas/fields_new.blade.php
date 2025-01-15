@@ -8,7 +8,7 @@
                 </div>
                 <div class="form-group col-md-12">
                     {!! Form::label('purchas_date', 'Date:') !!}
-                    {!! Form::date('purchas_date', , ['class' => 'form-control', 'required']) !!}
+                    {!! Form::date('purchas_date', null , ['class' => 'form-control', 'required']) !!}
                 </div>
             </div>
         </div>
@@ -45,120 +45,126 @@
             </div>
         </div>
         <div class="col-md-12">
-            <div class="col-md-12">
-                <table class="table table-light table-hover table-bordered table-striped col-md-12">
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Total</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="items_table_body">
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-12" style="display: flex;">
-                <div class="col-md-6">
-                    <div class="form-group col-md-12">
-                        <table class="table table-light table-hover table-bordered table-striped col-md-12">
+            <div class="row" >
+                <div class="col-md-12 table-responsive">
+                    <table class="table table-light table-hover table-bordered table-striped col-md-12">
+                        <thead>
                             <tr>
-                                <th>Tax:</th>
-                                <th>
-                                    <select name="tax_type" id="tax_type" onchange="calculate_dis_tax()">
-                                        <option value="Fixed">Fixed</option>
-                                        <option value="Percentage">Percentage</option>
-                                    </select>
-                                </th>
-                                <th>
-                                    <input type="text" onkeyup="calculate_dis_tax()" name="tax_per" id="tax_per"
-                                        class="form-control text-right"value="0">
-                                </th>
+                                <th>Item</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                                <th>Action</th>
                             </tr>
-                            <tr>
-                                <th>Discount:</th>
-                                <th>
-                                    <select name="discount_type" id="discount_type" onchange="calculate_dis_tax()">
-                                        <option value="Fixed">Fixed</option>
-                                        <option value="Percentage">Percentage</option>
-                                    </select>
-                                </th>
-                                <th>
-                                    <input type="text" name="discount_per" id="discount_per"
-                                        onkeyup="calculate_dis_tax()" class="form-control text-right" value="0">
-                                </th>
-                            </tr>
-                            <tr>
-                                <th colspan="3">
-                                    <div class="form-group">
-                                        <label for="" class="control-label">Note</label>
-                                        <textarea name="purchas_note" class="form-control"></textarea>
-                                    </div>
-                                </th>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-md-6" style="margin-right: -22px;">
-                    <div class="form-group col-md-12">
-                        <table>
-                            <tr>
-                                <th>Sub Total:</th>
-                                <td><input type="text" name="sub_total_input" id="sub_total_input"
-                                        class="form-control text-right" readonly value="0"></td>
-                            </tr>
-                            <tr>
-                                <th>Tax:</th>
-                                <td><input type="text" name="tax_input" id="tax_input"
-                                        class="form-control text-right" readonly value="0"></td>
-                            </tr>
-                            <tr>
-                                <th>Discount:</th>
-                                <td><input type="text" name="discount_input" id="discount_input"
-                                        class="form-control text-right" readonly value="0"></td>
-                            </tr>
-                            <tr>
-                                <th>Grand Total:</th>
-                                <td><input type="text" name="grand_total_input" id="grand_total_input"
-                                        class="form-control text-right" readonly value="0"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <h1>Payment Details</h1>
-                <table class="table table-light table-hover table-bordered table-striped col-md-12">
-                    <thead>
-                        <tr>
-                            <th>Payment ID</th>
-                            <th>Payment Method</th>
-                            <th>Amount</th>
-                            <th>Payment Date</th>
-                            <th>Action <a class="btn btn-primary" onclick="addPaymentRow()"><i
-                                        class="fa fa-plus"></i></a></th>
-                        </tr>
-                    </thead>
-                    <tbody id="payment_table_body"></tbody>
-                </table>
-                <div>
-                    <table class="table table-bordered col-md-6">
-                        <tbody>
-                            <tr>
-                                <th>Total Payment:</th>
-                                <td><input type="text" name="total_payment" id="total_payment" class="form-control text-right" readonly value="0"></td>
-                            </tr>
-                            <tr>
-                                <th>Due:</th>
-                                <td><input type="text" name="due" id="due" class="form-control text-right" readonly value="0"></td>
-                            </tr>
+                        </thead>
+                        <tbody id="items_table_body">
                         </tbody>
-
                     </table>
                 </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-light table-hover table-bordered table-striped">
+                                <tr>
+                                    <th>Tax:</th>
+                                    <th>
+                                        <select name="tax_type" id="tax_type" onchange="calculate_dis_tax()">
+                                            <option value="Fixed">Fixed</option>
+                                            <option value="Percentage">Percentage</option>
+                                        </select>
+                                    </th>
+                                    <th>
+                                        <input type="text" onkeyup="calculate_dis_tax()" name="tax_per" id="tax_per"
+                                            class="form-control text-right"value="0">
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Discount:</th>
+                                    <th>
+                                        <select name="discount_type" id="discount_type" onchange="calculate_dis_tax()">
+                                            <option value="Fixed">Fixed</option>
+                                            <option value="Percentage">Percentage</option>
+                                        </select>
+                                    </th>
+                                    <th>
+                                        <input type="text" name="discount_per" id="discount_per"
+                                            onkeyup="calculate_dis_tax()" class="form-control text-right" value="0">
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="3">
+                                        <div class="form-group">
+                                            <label for="" class="control-label">Note</label>
+                                            <textarea name="purchas_note" class="form-control"></textarea>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6" style="margin-right: -22px;">
+                            <div class="form-group col-md-12">
+                                <table>
+                                    <tr>
+                                        <th>Sub Total:</th>
+                                        <td><input type="text" name="sub_total_input" id="sub_total_input"
+                                                class="form-control text-right" readonly value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tax:</th>
+                                        <td><input type="text" name="tax_input" id="tax_input"
+                                                class="form-control text-right" readonly value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Discount:</th>
+                                        <td><input type="text" name="discount_input" id="discount_input"
+                                                class="form-control text-right" readonly value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Grand Total:</th>
+                                        <td><input type="text" name="grand_total_input" id="grand_total_input"
+                                                class="form-control text-right" readonly value="0"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <h1 class="col-md-12">Payment Details</h1>
+                        <div class="col-md-12 table-responsive">
+                            <table class="table table-light table-hover table-bordered table-striped col-md-12">
+                                <thead>
+                                    <tr>
+                                        <th>Payment ID</th>
+                                        <th>Payment Method</th>
+                                        <th>Amount</th>
+                                        <th>Payment Date</th>
+                                        <th>Action <a class="btn btn-primary" onclick="addPaymentRow()"><i
+                                                    class="fa fa-plus"></i></a></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="payment_table_body"></tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-12">
+                            <table class="table table-bordered col-md-6">
+                                <tbody>
+                                    <tr>
+                                        <th>Total Payment:</th>
+                                        <td><input type="text" name="total_payment" id="total_payment" class="form-control text-right" readonly value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Due:</th>
+                                        <td><input type="text" name="due" id="due" class="form-control text-right" readonly value="0"></td>
+                                    </tr>
+                                </tbody>
 
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
