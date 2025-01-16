@@ -99,6 +99,8 @@
         </li>
     </ul>
 </li>
+{{-- Settings --}}
+
 {{-- Account --}}
 <li {!! (Request::is('pettyCashes*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
@@ -121,7 +123,24 @@
         </li>
     </ul>
 </li>
-{{-- Settings --}}
+
+{{-- uSER mANAMENT --}}
+<li {!! (Request::is('users*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
+    <a href="#"  class="barr2">
+        <span class="mm-text ">Users Management</span>
+        <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
+        <span class="im im-icon-Arrow-Right imicon"></span>
+    </a>
+    <ul class="sub-menu list-unstyled barr3">
+        <li class="barr4 {!! (Request::is('users*') ? 'active' : '' ) !!}">
+            <a href="{{ route('users.index') }}">
+                <span class="mm-text ">Users</span>
+                <span class="menu-icon"><i class="im im-icon-Man"></i></span>
+            </a>
+        </li>
+    </ul>
+</li>
+
 <li {!! (Request::is('siteSettings*')|| Request::is('companies*') || Request::is('locations*') || Request::is('accountLedgers*') || Request::is('customers*') || Request::is('suppliers*') || Request::is('paymentMethods*')  ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Settings</span>
@@ -173,6 +192,7 @@
         </li>
     </ul>
 </li>
+
 
 
 
