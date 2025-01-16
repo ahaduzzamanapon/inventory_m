@@ -33,3 +33,6 @@ Route::resource('companies', 'CompanieController');
 
 Route::resource('logisticBills', 'LogisticBillController');
 Route::resource('users', 'UserController');
+
+
+Route::resource('attendences', 'AttendenceController');

@@ -140,6 +140,23 @@
         </li>
     </ul>
 </li>
+{{-- HRM --}}
+<li {!! (Request::is('attendences*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
+    <a href="#"  class="barr2">
+        <span class="mm-text ">HRM</span>
+        <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
+        <span class="im im-icon-Arrow-Right imicon"></span>
+    </a>
+    <ul class="sub-menu list-unstyled barr3">
+        <li class="barr4 {!! (Request::is('attendences*') ? 'active' : '' ) !!}">
+            <a href="{{ route('attendences.index') }}">
+                <span class="mm-text ">Attendences</span>
+                <span class="menu-icon"><i class="im im-icon-Calendar"></i></span>
+            </a>
+        </li>
+    </ul>
+</li>
+
 
 <li {!! (Request::is('siteSettings*')|| Request::is('companies*') || Request::is('locations*') || Request::is('accountLedgers*') || Request::is('customers*') || Request::is('suppliers*') || Request::is('paymentMethods*')  ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
@@ -192,6 +209,8 @@
         </li>
     </ul>
 </li>
+
+
 
 
 

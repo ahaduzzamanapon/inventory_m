@@ -2,7 +2,7 @@
 <html lang="en-US">
 
 <head>
-    <title>Josh Login</title>
+    <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ asset('img/favicon.ico')}}" />
     <!--page level css -->
@@ -25,7 +25,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <h2 class="text-center">
-                                            <span>JOSH</span>
+                                            <span>SLOPE</span>
                                         </h2>
                                     </div>
                                 </div>
@@ -68,7 +68,7 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="form-group checkbox">
+                                            <div class="form-group checkbox d-none">
                                                 <div class="custom-control custom-checkbox">
                                                     <input type="checkbox" class="custom-control-input" name="remember"
                                                         id="remember" {{ old('remember') ? 'checked' : '' }}>
@@ -84,7 +84,7 @@
                                             </div>
 
                                         </form>
-                                        <div>New Member?
+                                        <div class="d-none">New Member?
                                             <a href="{{ route('register')}}">
                                                 <strong>Sign Up</strong>
                                             </a>

@@ -217,7 +217,7 @@
         <script>
 
             function quantityChange(input) {
-                var quantity = input.value;
+                var quantity =  parseFloat(input.closest('tr').querySelector('td:nth-child(2) input').value);
                 var price = parseFloat(input.closest('tr').querySelector('td:nth-child(3) input').value);
                 var total = quantity * price;
                 input.closest('tr').querySelector('td:nth-child(4) input').value = total.toFixed(2);
@@ -338,9 +338,9 @@
                     '<input type="hidden" class="item_id_hidden"  name="item_id[]" value="' + item.id + '">'+
                     '<input type="hidden" class="item_name_hidden"  name="item_name[]" value="' + item_id_u + ' - ' + item_name_u + '">';
                 cell2.innerHTML =
-                    '<input type="number" name="quantity[]" required min="1" onchange="quantityChange(this)" value="1" class="form-control">';
-                cell3.innerHTML = '<input type="text" name="price[]" value="' + item_price +
-                    '" class="form-control text-right" readonly>';
+                    '<input type="number" name="quantity[]" required min="1" onkeyup="quantityChange(this)" value="1" class="form-control">';
+                cell3.innerHTML = '<input type="text" name="price[]" min="0" onkeyup="quantityChange(this)" value="' + item_price +
+                    '" class="form-control text-right" >';
                 cell4.innerHTML = '<input type="text" name="total_price[]" value="' + item_price +
                     '" class="form-control text-right total_input_price" readonly>';
                 cell5.innerHTML =
