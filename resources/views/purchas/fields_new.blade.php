@@ -277,15 +277,6 @@
                 calculatePaymentTotal()
             }
         </script>
-
-
-
-
-
-
-
-
-
         <script>
             function deleteRow(button) {
                 var row = button.parentNode.parentNode;
