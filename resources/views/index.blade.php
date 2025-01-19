@@ -89,33 +89,41 @@
     <section class="content">
         <div class="container-lg col-md-12">
             <div class="row">
-
                 <?php
                 $counts = [
-                    'Items' => DB::table('items')->count(),
-                    'Sales' => DB::table('sales_models')->count(),
-                    'Categories' => DB::table('categorys')->count(),
-                    'Brands' => DB::table('brands')->count(),
-                    'Suppliers' => DB::table('suppliers')->count(),
-                    'Users' => DB::table('users')->count(),
+                    'Daily Sales' => DB::table('sales_models')->whereDate('created_at', DB::raw('CURDATE()'))->count(),
+                    'Total Sales' => DB::table('sales_models')->count(),
+                    'Total Product Items' => DB::table('items')->count(),
+                    'Category' => DB::table('categorys')->count(),
+                    'Brand' => DB::table('brands')->count(),
+                    'Total Customers' => DB::table('customers')->count(),
+                    'Total Suppliers' => DB::table('suppliers')->count(),
+                    'System Users' => DB::table('users')->count(),
+                    'Total Due' => DB::table('sales_models')->sum('due_amount'),
                 ];
 
                 $icons = [
-                    'Items' => 'fas fa-box',
-                    'Sales' => 'fas fa-hand-holding-usd',
-                    'Categories' => 'fas fa-tags',
-                    'Brands' => 'fas fa-trademark',
-                    'Suppliers' => 'fas fa-truck',
-                    'Users' => 'fas fa-user',
+                    'Daily Sales' => 'fas fa-calendar-day',
+                    'Total Sales' => 'fas fa-hand-holding-usd',
+                    'Total Product Items' => 'fas fa-box',
+                    'Category' => 'fas fa-tags',
+                    'Brand' => 'fas fa-trademark',
+                    'Total Customers' => 'fas fa-users',
+                    'Total Suppliers' => 'fas fa-truck',
+                    'System Users' => 'fas fa-user-cog',
+                    'Total Due' => 'fas fa-money-bill',
                 ];
 
                 $subtitles = [
-                    'Items' => 'Total items in inventory',
-                    'Sales' => 'Total sales',
-                    'Categories' => 'Total categories available',
-                    'Brands' => 'Total brands available',
-                    'Suppliers' => 'Total suppliers',
-                    'Users' => 'Total users registered',
+                    'Daily Sales' => 'Sales made today',
+                    'Total Sales' => 'Cumulative sales',
+                    'Total Product Items' => 'All items in inventory',
+                    'Category' => 'Categories available',
+                    'Brand' => 'Brands available',
+                    'Total Customers' => 'Registered customers',
+                    'Total Suppliers' => 'Suppliers in system',
+                    'System Users' => 'Users with system access',
+                    'Total Due' => 'Pending payment amounts',
                 ];
                 ?>
 
@@ -137,10 +145,8 @@
                     </div>
                 </div>
                 @endforeach
-
-
-
             </div>
+
         </div>
     </section>
 

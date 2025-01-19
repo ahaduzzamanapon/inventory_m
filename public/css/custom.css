@@ -35,7 +35,7 @@ body > .header .navbar {
     background-color: #f2f3f7;
     box-shadow: 0 0 35px 0 rgba(154,161,171,.15);
     border-width: 0;
-    z-index: 999999999;
+    z-index: 9;
 }
 .navbar-expand-lg .navbar-nav .nav-link {
   padding: 13px 15px 14px 15px;

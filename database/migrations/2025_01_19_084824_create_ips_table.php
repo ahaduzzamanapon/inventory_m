@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateAttendencesTable extends Migration
+return new class extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -13,12 +13,9 @@ class CreateAttendencesTable extends Migration
      */
     public function up()
     {
-        Schema::create('attendences', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('date');
-            $table->string('emp_id');
-            $table->string('status');
-            $table->string('late_status');
+        Schema::create('ips', function (Blueprint $table) {
+            $table->id();
+            $table->string('ip_address');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateAttendencesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('attendences');
+        Schema::dropIfExists('ips');
     }
-}
+};
