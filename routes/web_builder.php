@@ -36,3 +36,5 @@ Route::resource('users', 'UserController');
 
 
 Route::resource('attendences', 'AttendenceController');
+
+Route::resource('advancedCashes', 'AdvancedCashController');

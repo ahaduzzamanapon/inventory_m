@@ -138,8 +138,8 @@
                                     <tr>
                                         <th>Payment ID</th>
                                         <th>Payment Method</th>
-                                        <th>Amount</th>
                                         <th>Payment Date</th>
+                                        <th>Amount</th>
                                         <th>Action <a class="btn btn-primary" onclick="addPaymentRow()"><i
                                                     class="fa fa-plus"></i></a></th>
                                     </tr>
@@ -328,8 +328,6 @@
                 item_id_u = item_name_data[0];
                 item_name_u = item_name_data[1];
                 item_price = parseFloat(item_name_data[2]);
-
-
                 cell1.innerHTML = item_id_u + ' - ' + item_name_u +
                     '<input type="hidden" class="item_id_hidden"  name="item_id[]" value="' + item.id + '">'+
                     '<input type="hidden" class="item_name_hidden"  name="item_name[]" value="' + item_id_u + ' - ' + item_name_u + '">';
@@ -341,7 +339,6 @@
                     '" class="form-control text-right total_input_price" readonly>';
                 cell5.innerHTML =
                     '<button type="button" class="btn btn-danger btn-xs" onclick="deleteRow(this)"><i class="im im-icon-Remove"></i></button>';
-
                 row.appendChild(cell1);
                 row.appendChild(cell2);
                 row.appendChild(cell3);

@@ -102,7 +102,7 @@
 {{-- Settings --}}
 
 {{-- Account --}}
-<li {!! (Request::is('pettyCashes*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
+<li {!! (Request::is('pettyCashes*') || Request::is('advancedCashes*')|| Request::is('salary*') || Request::is('logisticBills*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Account</span>
         <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
@@ -115,10 +115,23 @@
                 <span class="menu-icon"><i class="im im-icon-Calculator"></i></span>
             </a>
         </li>
+        <li class="barr4 {!! (Request::is('advancedCashes*') ? 'active' : '' ) !!}">
+            <a href="{{ route('advancedCashes.index') }}">
+                <span class="mm-text ">Advanced Cashes</span>
+                <span class="menu-icon"><i class="im im-icon-Money"></i></span>
+            </a>
+        </li>
+
         <li class="barr4 {!! (Request::is('logisticBills*') ? 'active' : '' ) !!}">
             <a href="{{ route('logisticBills.index') }}">
                 <span class="mm-text ">Logistic Bills</span>
                 <span class="menu-icon"><i class="im im-icon-Cable-Car"></i></span>
+            </a>
+        </li>
+        <li class="barr4 {!! (Request::is('salary*') ? 'active' : '' ) !!}">
+            <a href="{{ route('salary') }}">
+                <span class="mm-text ">Salary</span>
+                <span class="menu-icon"><i class="im im-icon-Money-2"></i></span>
             </a>
         </li>
     </ul>

@@ -52,6 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
     include 'web_builder.php';
     include 'sales.php';
     include 'purchas.php';
+    include 'salary.php';
 
 
 
