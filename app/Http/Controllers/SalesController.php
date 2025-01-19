@@ -124,6 +124,7 @@ class SalesController extends Controller
             }
             DB::commit();
             session()->flash('success', 'Sales created successfully.');
+            session()->flash('sales_id', $sales->id);
             return redirect(route('sales.sales_list'));
         } catch (\Exception $e) {
             DB::rollBack();

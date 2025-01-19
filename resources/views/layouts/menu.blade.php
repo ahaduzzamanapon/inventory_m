@@ -171,7 +171,7 @@
 </li>
 
 
-<li {!! (Request::is('siteSettings*')|| Request::is('companies*') || Request::is('locations*') || Request::is('accountLedgers*') || Request::is('customers*') || Request::is('suppliers*') || Request::is('paymentMethods*')  ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
+<li {!! (Request::is('siteSettings*')|| Request::is('termAndConditions*') || Request::is('companies*') || Request::is('locations*') || Request::is('accountLedgers*') || Request::is('customers*') || Request::is('suppliers*') || Request::is('paymentMethods*')  ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Settings</span>
         <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
@@ -218,6 +218,12 @@
             <a href="{{ route('companies.index') }}">
                 <span class="mm-text ">Companies</span>
                 <span class="menu-icon"><i class="im im-icon-Factory"></i></span>
+            </a>
+        </li>
+        <li class="barr4 {!! (Request::is('termAndConditions*') ? 'active' : '' ) !!}">
+            <a href="{{ route('termAndConditions.index') }}">
+                <span class="mm-text ">Term And Conditions</span>
+                <span class="menu-icon"><i class="im im-icon-document`"></i></span>
             </a>
         </li>
     </ul>

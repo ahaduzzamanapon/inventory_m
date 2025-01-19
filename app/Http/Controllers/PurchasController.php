@@ -126,6 +126,7 @@ class PurchasController extends Controller
             }
             DB::commit();
             session()->flash('success', 'Purchas created successfully.');
+            session()->flash('purchas_id', $purchas->id);
             return redirect(route('purchas.purchas_list'));
         } catch (\Exception $e) {
             DB::rollBack();

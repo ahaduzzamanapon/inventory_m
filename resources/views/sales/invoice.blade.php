@@ -219,6 +219,19 @@
             <p><strong>Paid Amount:</strong> <?= number_format($sales['payment_amount'], 2) ?></p>
             <p><strong>Due Amount:</strong> <?= number_format($sales['due_amount'], 2) ?></p>
         </div>
+        <div class="payment-summary">
+            <h3>Term and Condition</h3>
+            @php
+                $terms = \App\Models\TermAndCondition::all();
+            @endphp
+            <ul>
+                @foreach ($terms as $term)
+                    <li>{{ $term->Title }}</li>
+                @endforeach
+            </ul>
+        </div>
+
+
 
         <div class="footer">
             <p>Thank you for your business!</p>

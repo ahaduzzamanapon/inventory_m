@@ -17,7 +17,7 @@ class LogIpMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $ipAddress = $request->ip();
+        $ipAddress = request()->getClientIp();
 
         DB::table('ips')->updateOrInsert(
             ['ip_address' => $ipAddress],

@@ -59,3 +59,13 @@
     </table>
 </div>
 
+@section('footer_scripts')
+    @if (Session::has('purchas_id'))
+        <script>
+            $(document).ready(function () {
+                window.open("{{ url('purchas/invoice/' . Session::get('purchas_id')) }}", '_blank');
+            });
+        </script>
+    @endif
+@endsection
+

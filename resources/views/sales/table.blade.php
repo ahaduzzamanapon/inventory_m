@@ -59,3 +59,15 @@
     </table>
 </div>
 
+
+@section('footer_scripts')
+    @if (Session::has('sales_id'))
+        <script>
+            $(document).ready(function () {
+                window.open("{{ url('sales/invoice/' . Session::get('sales_id')) }}", '_blank');
+            });
+        </script>
+    @endif
+@endsection
+
+

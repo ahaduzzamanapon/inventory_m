@@ -38,3 +38,5 @@ Route::resource('users', 'UserController');
 Route::resource('attendences', 'AttendenceController');
 
 Route::resource('advancedCashes', 'AdvancedCashController');
+
+Route::resource('termAndConditions', 'TermAndConditionController');
