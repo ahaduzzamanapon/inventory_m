@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReportController;
 
 
 include 'demo.php';
@@ -53,6 +54,12 @@ Route::group(['middleware' => 'auth'], function () {
     include 'sales.php';
     include 'purchas.php';
     include 'salary.php';
+
+
+
+Route::get('/reports', [ReportController::class, 'showReportPage'])->name('reports.page');
+Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generate_report');
+
 
 
 

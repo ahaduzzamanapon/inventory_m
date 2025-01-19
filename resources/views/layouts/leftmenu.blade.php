@@ -2,7 +2,7 @@
     <style>
         /* Main menu container */
         .barrr {
-            background: linear-gradient(135deg, #38cb87, #2da669);
+            background: linear-gradient(135deg, #13007D, #3819e7);
             display: flex;
             flex-direction: column;
             padding: 20px 15px !important;
@@ -39,14 +39,14 @@
 
         /* Hover effect for menu items */
         .barr2:hover {
-            background-color: #e1f5e1;
+            background-color: #e0d6ff;
             transform: translateX(8px);
             box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.2);
         }
 
         .barr2 .menu-icon {
             font-size: 22px;
-            color: #38cb87;
+            color: #13007D;
             transition: color 0.3s ease;
         }
 
@@ -59,18 +59,18 @@
         /* Dropdown arrow icon */
         .imicon {
             font-size: 20px;
-            color: #38cb87;
+            color: #13007D;
             transition: transform 0.4s ease, color 0.3s ease;
         }
 
         .menu-dropdown:hover .imicon {
             transform: rotate(90deg);
-            color: #2d9c6a;
+            color: rgb(58 0 255);
         }
 
         /* Sub-menu items */
         .barr3 {
-            background: linear-gradient(135deg, #32bf7e, #2da669)!important;
+            background: linear-gradient(135deg, #3819e7, #3819e7)!important;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -100,13 +100,13 @@
         }
 
         .barr4:hover {
-            background-color: #e9f9f1;
+            background-color: #e0d6ff;
             transform: scale(1.05);
         }
 
         /* Active state styling */
         .barr4.active {
-            background-color: #e9f9f1;
+            background-color: #e0d6ff;
             color: white;
             box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
             overflow: hidden;
@@ -126,7 +126,7 @@
         }
 
         .barr4 a:hover {
-            color: #38cb87;
+            color: #13007D;
             transform: translateX(4px);
         }
 

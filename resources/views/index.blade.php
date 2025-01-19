@@ -11,7 +11,7 @@
 
 <style>
 .custom-card {
-    background: linear-gradient(135deg, #38cb87, #2da669);
+    background: linear-gradient(135deg, #13007D, #3819e7);
     border-radius: 15px;
     color: #fff;
     overflow: hidden;
@@ -42,6 +42,7 @@
 .card-value {
     font-size: 2.5rem;
     font-weight: 900;
+    color: #ffffff;
 }
 
 /* Card subtitle */

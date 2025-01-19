@@ -80,7 +80,7 @@ a:hover {
 }
 
 #menu .navigation a:hover i {
-  color: rgba(0, 189, 91, 0.7803921569);
+  color: rgb(62 19 207);
 }
 
 #menu .navigation a i {
@@ -121,7 +121,7 @@ ol.breadcrumb .breadcrumb-item + .breadcrumb-item::before {
 }
 
 .breadcrumb-item.active {
-  color: rgba(0, 189, 91, 0.7803921569);
+  color: rgb(62 19 207);
 }
 
 .card-breadcrumb {
@@ -735,7 +735,7 @@ ol.breadcrumb .breadcrumb-item + .breadcrumb-item::before {
 }
 
 .accordion.accordion-solid-header .card .card-header a[aria-expanded=true] {
-  background: rgba(0, 189, 91, 0.7803921569);
+  background: rgb(62 19 207);
   color: #ffffff;
 }
 
@@ -828,7 +828,7 @@ td.details-control {
 
 .card-box-w .card-box-header:after {
   content: "";
-  background-color: rgba(0, 189, 91, 0.7803921569);
+  background-color: rgb(62 19 207);
   width: 32px;
   height: 7px;
   border-radius: 2px;
@@ -847,7 +847,7 @@ td.details-control {
 }
 
 .select2-container--bootstrap4 .select2-results__option--highlighted, .select2-container--bootstrap4 .select2-results__option--highlighted.select2-results__option[aria-selected=true], .select2-container--bootstrap4 .select2-selection__clear {
-  background-color: rgba(0, 189, 91, 0.7803921569) !important;
+  background-color: rgb(62 19 207) !important;
 }
 
 .select2-results__option span img {
@@ -927,10 +927,10 @@ body {
 .signin-form .active::after,
 .signup-form .active::after {
   content: "";
-  border-bottom: 3px solid rgba(0, 189, 91, 0.7803921569);
+  border-bottom: 3px solid rgb(62 19 207);
   width: 17px;
   height: 4px;
-  background-color: rgba(0, 189, 91, 0.7803921569);
+  background-color: rgb(62 19 207);
   display: block;
   border-radius: 50px;
 }

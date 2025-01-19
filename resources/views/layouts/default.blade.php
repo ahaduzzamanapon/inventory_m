@@ -118,7 +118,7 @@
         /* HTML: <div class="loaderss"></div> */
         .loaderss {
             --c1: #673b14;
-            --c2: #38cb87;
+            --c2: #13007D;
             width: 40px;
             height: 80px;
             border-top: 4px solid var(--c1);
@@ -306,7 +306,7 @@
 
         .dropdown-item:hover {
             background: #e7f7ef;
-            color: #2d9c6a;
+            color: rgb(58 0 255);
         }
         @media (max-width: 767px) {
             .logo {
@@ -318,9 +318,9 @@
 
 
     <header class="header">
-        <nav class="navbar navbar-expand-lg navbar-light col-md-12" style="background: #e7fff5;" role="navigation">
+        <nav class="navbar navbar-expand-lg navbar-light col-md-12" style="background: #eae2fb;" role="navigation">
             <div class="col-md-12 header-container"
-            style="display: flex;align-items: center;padding: 15px 20px;background: linear-gradient(135deg, #38cb87, #2da669);box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);border-radius: 10px;">
+            style="display: flex;align-items: center;padding: 15px 20px;background: linear-gradient(135deg, #13007D, #3819e7);box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);border-radius: 10px;">
                 <!-- Sidebar Toggle for Mobile -->
                 <a href="javascript:void(0)" onclick="toggleSidebar()" class="toggle-menu d-xl-none d-lg-block">
                     <img src="{{ asset('img/images/toggle.png') }}" alt="Toggle Menu" style="height: 30px;">
@@ -332,7 +332,7 @@
                 </a>
 
                 <!-- Title -->
-                <h3 class="header-title text-center mx-auto" style="font-size: 24px; font-weight: 600; color: #333;">
+                <h3 class="header-title text-center mx-auto" style="font-size: 24px; font-weight: 600; color: #ffffff;">
                     {{ $setting->name ?? 'Inventory' }} - {{ $setting->slogan ?? 'Inventory' }}
                 </h3>
 
@@ -341,7 +341,7 @@
                     <ul class="navbar-nav nav">
                         <li class="dropdown notifications-menu nav-item">
                             <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown"
-                            style="border: 1px solid #ddd;padding: 10px 15px;border-radius: 8px;transition: all 0.3s ease;background: linear-gradient(135deg, #a1dfc2, #85edb8);">
+                            style="border: 1px solid #ddd;padding: 10px 15px;border-radius: 8px;transition: all 0.3s ease;background: linear-gradient(135deg, #bdb2fd, #bdb2fd);">
                                 <i class="im im-icon-Boy fs-16"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-notifications"
