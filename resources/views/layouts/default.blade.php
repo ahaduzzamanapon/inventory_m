@@ -394,6 +394,7 @@
     <!-- end of page level js -->
     <!-- Start of vendor js -->
     @yield('footer_scripts')
+    @yield('scripts')
 
     <script src="{{ asset('vendors/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>

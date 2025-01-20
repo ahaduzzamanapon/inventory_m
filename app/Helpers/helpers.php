@@ -47,4 +47,21 @@ if (!function_exists('get_supplier_with_id')) {
 
     }
 }
+if (!function_exists('can')) {
+
+    function can($key)
+    {
+        $group_id = auth()->user()->group_id;
+        $permissions = \App\Models\RollHas::where('roll_id', $group_id)
+            ->join('permissions', 'roll_has.permission_id', '=', 'permissions.id')
+            ->select('permissions.key')
+            ->get()
+            ->pluck('key')
+            ->toArray();
+        if (in_array($key, $permissions)) {
+            return true;
+        }
+        return false;
+    }
+}
 

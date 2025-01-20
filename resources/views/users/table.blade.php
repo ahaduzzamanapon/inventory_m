@@ -1,3 +1,8 @@
+
+
+
+
+
 <div class="table-responsive">
     <table class="table" id="users-table">
         <thead>
@@ -19,7 +24,7 @@
             <td>{{ $users->emp_id }}</td>
             <td>{{ $users->name }}</td>
             <td>{{ $users->last_name }}</td>
-            <td>{{ $users->group_id }}</td>
+            <td>{{ $users->role }}</td>
             <td>{{ $users->email }}</td>
             <td>{{ $users->salary }}</td>
                 <td>

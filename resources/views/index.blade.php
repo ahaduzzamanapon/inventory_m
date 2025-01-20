@@ -9,6 +9,8 @@
 @stop
 @section('content')
 
+
+
 <style>
 .custom-card {
     background: linear-gradient(135deg, #13007D, #3819e7);
@@ -87,6 +89,8 @@
         <div class="separator-breadcrumb border-top"></div>--}}
     </section>
     <!-- /.content -->
+
+    @if(can('dashboard'))
     <section class="content">
         <div class="container-lg col-md-12">
             <div class="row">
@@ -102,6 +106,10 @@
                     'System Users' => DB::table('users')->count(),
                     'Total Due' => DB::table('sales_models')->sum('due_amount'),
                 ];
+
+                $permi=[
+                    'daily_sales','total_sales','total_product_items','category_dashboard','dashboard_brand','total_customers','total_suppliers','system_users','total_due'
+            ];
 
                 $icons = [
                     'Daily Sales' => 'fas fa-calendar-day',
@@ -127,8 +135,19 @@
                     'Total Due' => 'Pending payment amounts',
                 ];
                 ?>
-
+                @php
+                    $i=0;
+                @endphp
                 @foreach ($counts as $title => $count)
+                @php
+                    if(can($permi[$i])==false){
+                        $i++;
+                        continue;
+                    }else {
+                        $i++;
+                    }
+                @endphp
+
                 <div class="col-12 col-md-4 col-xxl-3 mb-10">
                     <div class="custom-card">
                         <div class="card-body">
@@ -150,6 +169,7 @@
 
         </div>
     </section>
+    @endif
 
 @stop
 @section('footer_scripts')

@@ -103,11 +103,16 @@
 </div>
 
 
+@php
+    $roles = \App\Models\RoleAndPermission::all()->pluck('name','id')->toArray();
+@endphp
+
+
 <!-- Group Id Field -->
 <div class="col-md-3">
     <div class="form-group">
-        {!! Form::label('group_id', 'Group Id:',['class'=>'control-label']) !!}
-        {!! Form::select('group_id', ['1' => 'admin', '2' => 'account', '3' => 'general'], null, ['class' => 'form-control']) !!}
+        {!! Form::label('group_id', 'Roll:',['class'=>'control-label']) !!}
+        {!! Form::select('group_id',$roles, null, ['class' => 'form-control']) !!}
     </div>
 </div>
 

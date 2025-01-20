@@ -12,7 +12,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         /** @var User $users */
-        $users = User::paginate(10);
+        $users = User::select('users.*', 'roles.name as role')
+            ->join('roles', 'users.group_id', '=', 'roles.id')
+            ->paginate(10);
 
         return view('users.index')
             ->with('users', $users);

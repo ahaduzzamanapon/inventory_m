@@ -129,7 +129,7 @@ class SalesController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             session()->flash('error', $e->getMessage());
-            dd($e->getMessage());
+            //dd($e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

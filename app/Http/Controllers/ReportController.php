@@ -16,12 +16,10 @@ class ReportController extends Controller
     public function generateReport(Request $request)
     {
         $companies = DB::table('companies')->get();
-
         $fromDate = $request->input('from_date');
         $toDate = $request->input('to_date');
         $type = $request->input('type');
         $company = $request->input('company');
-
         $query = null;
         $headers = [];
         $reportData = [];

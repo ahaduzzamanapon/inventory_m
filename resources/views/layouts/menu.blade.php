@@ -7,6 +7,7 @@
 
 
 {{-- Sales Management --}}
+@if(can('sales_management'))
 <li {!! (Request::is('new_sales') || Request::is('sales_list') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Sales Management</span>
@@ -29,7 +30,9 @@
         </li>
     </ul>
 </li>
+@endif
 {{-- purchas Management --}}
+@if(can('purchase_management'))
 <li {!! (Request::is('new_purchas') || Request::is('purchas_list') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Purchase Management</span>
@@ -51,7 +54,9 @@
         </li>
     </ul>
 </li>
+@endif
 {{-- //Inventory Management --}}
+@if(can('inventory_management'))
 <li {!! (Request::is('categories*')|| Request::is('items*') || Request::is('subCategories*') || Request::is('brands*') || Request::is('units*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Inventory Management</span>
@@ -99,9 +104,11 @@
         </li>
     </ul>
 </li>
+@endif
 {{-- Settings --}}
 
 {{-- Account --}}
+@if(can('account'))
 <li {!! (Request::is('pettyCashes*') || Request::is('advancedCashes*')|| Request::is('salary*') || Request::is('logisticBills*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Account</span>
@@ -136,8 +143,9 @@
         </li>
     </ul>
 </li>
-
+@endif
 {{-- uSER mANAMENT --}}
+@if(can('user_management'))
 <li {!! (Request::is('users*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Users Management</span>
@@ -148,12 +156,20 @@
         <li class="barr4 {!! (Request::is('users*') ? 'active' : '' ) !!}">
             <a href="{{ route('users.index') }}">
                 <span class="mm-text ">Users</span>
-                <span class="menu-icon"><i class="im im-icon-Man"></i></span>
+                <span class="menu-icon"><i class="im im-icon-User"></i></span>
+            </a>
+        </li>
+        <li class="barr4 {!! (Request::is('roleAndPermissions*') ? 'active' : '' ) !!}">
+            <a href="{{ route('roleAndPermissions.index') }}">
+                <span class="mm-text ">Role Management</span>
+                <span class="menu-icon"><i class="im im-icon-Security-Settings"></i></span>
             </a>
         </li>
     </ul>
 </li>
+@endif
 {{-- HRM --}}
+@if(can('hrm'))
 <li {!! (Request::is('attendences*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">HRM</span>
@@ -169,8 +185,9 @@
         </li>
     </ul>
 </li>
+@endif
 
-
+@if(can('settings'))
 <li {!! (Request::is('siteSettings*')|| Request::is('termAndConditions*') || Request::is('companies*') || Request::is('locations*') || Request::is('accountLedgers*') || Request::is('customers*') || Request::is('suppliers*') || Request::is('paymentMethods*')  ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Settings</span>
@@ -228,21 +245,7 @@
         </li>
     </ul>
 </li>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@endif
 
 
 
