@@ -73,15 +73,24 @@ $units = DB::table('units')->get();
 </div>
 
 
-<!-- Item Purchase Price Field -->
+@if(can('view_item_purchase_price'))
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('item_purchase_price', 'Item Purchase Price:', ['class' => 'control-label']) !!}
         {!! Form::text('item_purchase_price', null, ['class' => 'form-control']) !!}
     </div>
 </div>
+@else
+<div class="col-md-3 d-none">
+    <div class="form-group">
+        {!! Form::label('item_purchase_price', 'Item Purchase Price:', ['class' => 'control-label']) !!}
+        {!! Form::text('item_purchase_price', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+@endif
 
 
+@if(can('view_item_sale_price'))
 <!-- Item Sale Price Field -->
 <div class="col-md-3">
     <div class="form-group">
@@ -89,6 +98,14 @@ $units = DB::table('units')->get();
         {!! Form::text('item_sale_price', null, ['class' => 'form-control']) !!}
     </div>
 </div>
+@else
+<div class="col-md-3 d-none">
+    <div class="form-group">
+        {!! Form::label('item_sale_price', 'Item Sale Price:', ['class' => 'control-label']) !!}
+        {!! Form::text('item_sale_price', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+@endif
 
 
 <!-- Item Company Id Field -->

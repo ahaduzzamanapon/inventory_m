@@ -70,7 +70,7 @@ $locations = DB::table('locations')->get();
     </div>
 </div>
 
-
+@if(can('logistic_bills_approval'))
 <!-- Status Field -->
 <div class="col-md-3">
     <div class="form-group">
@@ -78,6 +78,7 @@ $locations = DB::table('locations')->get();
         {!! Form::select('status', ['Pending' => 'Pending', 'Approved' => 'Approved', 'Payment' => 'Payment'], null, ['class' => 'form-control']) !!}
     </div>
 </div>
+@endif
 
 
 <!-- Submit Field -->

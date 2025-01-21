@@ -25,7 +25,9 @@ Items @parent
         <section class="card-header">
             <h5 class="card-title d-inline">Items</h5>
             <span class="float-right">
+                @if(can('add_item'))
                 <a class="btn btn-primary pull-right" href="{{ route('items.create') }}">Add New</a>
+                @endif
             </span>
         </section>
         <div class="card-body table-responsive" >

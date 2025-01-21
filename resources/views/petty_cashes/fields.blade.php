@@ -64,7 +64,7 @@
 </div>
  <div class="clearfix"></div>
 
-
+@if(can('petty_cash_approval'))
 <!-- Status Field -->
 <div class="col-md-3">
     <div class="form-group">
@@ -72,6 +72,7 @@
         {!! Form::select('status', ['Pending' => 'Pending', 'Approved' => 'Approved'], null, ['class' => 'form-control']) !!}
     </div>
 </div>
+@endif
 
 
 <!-- Submit Field -->

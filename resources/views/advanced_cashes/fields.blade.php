@@ -32,7 +32,7 @@
     </div>
 </div>
 
-
+@if(can('advanced_cash_approval'))
 <!-- Status Field -->
 <div class="col-md-3">
     <div class="form-group">
@@ -40,6 +40,7 @@
         {!! Form::select('status', ['Pending' => 'Pending', 'Approved' => 'Approved', 'Payment' => 'Payment'], null, ['class' => 'form-control']) !!}
     </div>
 </div>
+@endif
 
 
 <!-- Submit Field -->
