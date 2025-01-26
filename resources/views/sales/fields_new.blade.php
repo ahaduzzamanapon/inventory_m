@@ -8,7 +8,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     {!! Form::label('sale_date', 'Date:') !!}
-                    {!! Form::date('sale_date', null, ['class' => 'form-control', 'required']) !!}
+                    {!! Form::date('sale_date', date('Y-m-d'), ['class' => 'form-control', 'required']) !!}
                 </div>
 
                 <div class="form-group col-md-3">

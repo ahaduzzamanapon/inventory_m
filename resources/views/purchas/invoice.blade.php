@@ -165,7 +165,9 @@
                 <?php foreach ($PurchasItem as $index => $item): ?>
                     <tr>
                         <td><?= $index + 1 ?></td>
-                        <td><?= $item['item_name'] ?></td>
+                        <td>
+                            <?= get_item_name_by_id($item['item_id']) ?>
+                        </td>
                         <td class="text-right"><?= number_format($item['item_per_price'], 2) ?></td>
                         <td class="text-right"><?= $item['purchas_qty'] ?></td>
                         <td class="text-right"><?= number_format($item['total_price'], 2) ?></td>

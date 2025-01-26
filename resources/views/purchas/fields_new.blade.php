@@ -8,7 +8,7 @@
                 </div>
                 <div class="form-group col-md-12">
                     {!! Form::label('purchas_date', 'Date:') !!}
-                    {!! Form::date('purchas_date', null , ['class' => 'form-control', 'required']) !!}
+                    {!! Form::date('purchas_date', date('Y-m-d') , ['class' => 'form-control', 'required']) !!}
                 </div>
             </div>
         </div>
@@ -388,7 +388,6 @@
                         if(response.serial_status == 2){
                             $('#serial_number'+item_id).html('');
                                 for (let i = 0; i < quantity; i++) {
-
                                     $('#serial_number'+item_id).append('<input type="text" name="serial_number['+item_id+'][]" class="form-control" placeholder="Serial Number '+ (i+1) +'" required>');
                                 }
                         }
