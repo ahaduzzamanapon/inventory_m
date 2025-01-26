@@ -5,8 +5,7 @@
                 <th>SL</th>
         <th>Name</th>
         <th>Type</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+
                 <th>Action</th>
             </tr>
         </thead>
@@ -16,8 +15,7 @@
                 <td>{{ $key + 1 }}</td>
             <td>{{ $accountLedger->name }}</td>
             <td>{{ $accountLedger->type }}</td>
-            <td>{{ $accountLedger->created_at }}</td>
-            <td>{{ $accountLedger->updated_at }}</td>
+           
                 <td>
                     {!! Form::open(['route' => ['accountLedgers.destroy', $accountLedger->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

@@ -9,8 +9,7 @@
         <th>Amount</th>
         <th>Attachment</th>
         <th>Status</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+
                 <th>Action</th>
             </tr>
         </thead>
@@ -24,8 +23,7 @@
             <td>{{ $pettyCash->amount }}</td>
             <td>{{ $pettyCash->attachment }}</td>
             <td>{{ $pettyCash->status }}</td>
-            <td>{{ $pettyCash->created_at }}</td>
-            <td>{{ $pettyCash->updated_at }}</td>
+          
                 <td>
                     {!! Form::open(['route' => ['pettyCashes.destroy', $pettyCash->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

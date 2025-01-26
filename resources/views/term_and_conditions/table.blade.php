@@ -4,8 +4,7 @@
             <tr>
                 <th>Id</th>
         <th>Title</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+
                 <th>Action</th>
             </tr>
         </thead>
@@ -14,8 +13,7 @@
             <tr>
                 <td>{{ $termAndCondition->id }}</td>
             <td>{{ $termAndCondition->Title }}</td>
-            <td>{{ $termAndCondition->created_at }}</td>
-            <td>{{ $termAndCondition->updated_at }}</td>
+
                 <td>
                     {!! Form::open(['route' => ['termAndConditions.destroy', $termAndCondition->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

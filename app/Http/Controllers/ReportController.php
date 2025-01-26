@@ -10,11 +10,12 @@ class ReportController extends Controller
     public function showReportPage()
     {
         $companies = DB::table('companies')->get();
-        return view('reports', compact('companies'));
+        return view('report.reports', compact('companies'));
     }
 
     public function generateReport(Request $request)
     {
+        //dd($request->all());
         $companies = DB::table('companies')->get();
         $fromDate = $request->input('from_date');
         $toDate = $request->input('to_date');
@@ -81,6 +82,6 @@ class ReportController extends Controller
             $reportData = $query->get();
         }
 
-        return view('reports', compact('reportData', 'headers', 'companies'));
+        return view('report.report_view', compact('reportData', 'headers', 'companies'));
     }
 }

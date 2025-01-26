@@ -5,8 +5,7 @@
                 <th>Id</th>
         <th>Location Name</th>
         <th>Location Address</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+
                 <th>Action</th>
             </tr>
         </thead>
@@ -16,8 +15,7 @@
                 <td>{{ $location->id }}</td>
             <td>{{ $location->location_name }}</td>
             <td>{{ $location->location_address }}</td>
-            <td>{{ $location->created_at }}</td>
-            <td>{{ $location->updated_at }}</td>
+            
                 <td>
                     {!! Form::open(['route' => ['locations.destroy', $location->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

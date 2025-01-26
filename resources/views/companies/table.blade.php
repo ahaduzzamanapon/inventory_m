@@ -5,8 +5,7 @@
                 <th>Id</th>
         <th>Companie Name</th>
         <th>Companie Address</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+
                 <th>Action</th>
             </tr>
         </thead>
@@ -16,8 +15,7 @@
                 <td>{{ $companie->id }}</td>
             <td>{{ $companie->companie_name }}</td>
             <td>{{ $companie->companie_address }}</td>
-            <td>{{ $companie->created_at }}</td>
-            <td>{{ $companie->updated_at }}</td>
+
                 <td>
                     {!! Form::open(['route' => ['companies.destroy', $companie->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

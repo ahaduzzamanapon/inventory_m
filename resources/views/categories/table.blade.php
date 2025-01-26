@@ -4,8 +4,7 @@
             <tr>
                 <th>Sl</th>
         <th>Name</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+
                 <th >Action</th>
             </tr>
         </thead>
@@ -14,8 +13,7 @@
             <tr>
                 <td>{{ $key + 1 }}</td>
             <td>{{ $category->Name }}</td>
-            <td>{{ $category->created_at }}</td>
-            <td>{{ $category->updated_at }}</td>
+
                 <td>
                     {!! Form::open(['route' => ['categories.destroy', $category->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

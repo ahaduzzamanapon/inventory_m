@@ -6,8 +6,7 @@
         <th>Method Name</th>
         <th>Method Type</th>
         <th>Method Number</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+
                 <th>Action</th>
             </tr>
         </thead>
@@ -18,8 +17,7 @@
             <td>{{ $paymentMethod->method_name }}</td>
             <td>{{ $paymentMethod->method_type }}</td>
             <td>{{ $paymentMethod->method_number }}</td>
-            <td>{{ $paymentMethod->created_at }}</td>
-            <td>{{ $paymentMethod->updated_at }}</td>
+          
                 <td>
                     {!! Form::open(['route' => ['paymentMethods.destroy', $paymentMethod->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

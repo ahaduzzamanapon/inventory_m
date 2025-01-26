@@ -7,8 +7,7 @@
                 <th>Supplier Email</th>
                 <th>Supplier Phone</th>
                 <th>Supplier Address</th>
-                <th>Created At</th>
-                <th>Updated At</th>
+
                 <th>Action</th>
             </tr>
         </thead>
@@ -20,8 +19,7 @@
             <td>{{ $supplier->supplier_email }}</td>
             <td>{{ $supplier->supplier_phone }}</td>
             <td>{{ $supplier->supplier_address }}</td>
-            <td>{{ $supplier->created_at }}</td>
-            <td>{{ $supplier->updated_at }}</td>
+            
                 <td>
                     {!! Form::open(['route' => ['suppliers.destroy', $supplier->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

@@ -5,8 +5,7 @@
                 <th>SL</th>
         <th>Sub-category Name</th>
         <th>Category</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+
                 <th>Action</th>
             </tr>
         </thead>
@@ -16,8 +15,7 @@
                 <td>{{ $key + 1 }}</td>
             <td>{{ $subCategory->SubCategoryName }}</td>
             <td>{{ $subCategory->CategoryName }}</td>
-            <td>{{ $subCategory->created_at }}</td>
-            <td>{{ $subCategory->updated_at }}</td>
+            
                 <td>
                     {!! Form::open(['route' => ['subCategories.destroy', $subCategory->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

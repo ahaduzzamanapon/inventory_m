@@ -7,8 +7,7 @@
         <th>Purpose</th>
         <th>Amount</th>
         <th>Status</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+
                 <th>Action</th>
             </tr>
         </thead>
@@ -20,8 +19,7 @@
             <td>{{ $advancedCash->purpose }}</td>
             <td>{{ $advancedCash->amount }}</td>
             <td>{{ $advancedCash->status }}</td>
-            <td>{{ $advancedCash->created_at }}</td>
-            <td>{{ $advancedCash->updated_at }}</td>
+
                 <td>
                     <div class='btn-group'>
                         <a href="{{ route('advancedCashes.show', [$advancedCash->id]) }}" class='btn btn-outline-primary btn-xs'><i class="im im-icon-Eye" data-placement="top" title="View"></i></a>

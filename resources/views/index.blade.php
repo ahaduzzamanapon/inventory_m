@@ -153,14 +153,15 @@
                         <div class="card-body">
                             <div class="card-content d-flex align-items-center">
                                 <div>
-                                    <h5 class="card-title">{{ $title }}</h5>
+                                    {{-- <h5 class="card-title">{{ $title }}</h5> --}}
+                                    <h5 class="card-title">{{ $subtitles[$title] }}</h5>
                                     <h3 class="card-value">{{ $count }}</h3>
                                 </div>
                                 <div class="icon-container">
                                     <i class="{{ $icons[$title] }}"></i>
                                 </div>
                             </div>
-                            <p class="card-subtitle">{{ $subtitles[$title] }}</p>
+                            {{-- <p class="card-subtitle">{{ $subtitles[$title] }}</p> --}}
                         </div>
                     </div>
                 </div>

@@ -8,7 +8,7 @@
 
 {{-- Sales Management --}}
 @if(can('sales_management'))
-<li {!! (Request::is('new_sales') || Request::is('sales_list') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
+<li {!! (Request::is('new_sales')|| Request::is('sales*') || Request::is('sales_list') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Sales Management</span>
         <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
@@ -24,7 +24,7 @@
         </li>
         @endif
         @if(can('sales_list'))
-        <li class="barr4 {!! (Request::is('sales_list') ? 'active' : '' ) !!}">
+        <li class="barr4 {!! (Request::is('sales_list') || Request::is('sales*') ? 'active' : '' ) !!}">
             <a href="{{route('sales.sales_list')}}">
                 <span class="mm-text ">Sales List</span>
                 <span class="menu-icon"><i class="im im-icon-Add-Bag"></i></span>
@@ -214,6 +214,27 @@
 </li>
 @endif
 
+
+@if(can('report'))
+<li {!! (Request::is('reports*') || Request::is('generate_report*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
+    <a href="#"  class="barr2">
+        <span class="mm-text ">Reports</span>
+        <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
+        <span class="im im-icon-Arrow-Right imicon"></span>
+    </a>
+    <ul class="sub-menu list-unstyled barr3">
+        @if(can('report'))
+        <li class="barr4 {!! (Request::is('reports*') || Request::is('generate_report*') ? 'active' : '' ) !!}">
+            <a href="{{ route('reports.page') }}">
+                <span class="mm-text ">Reports</span>
+                <span class="menu-icon"><i class="im im-icon-Calendar"></i></span>
+            </a>
+        </li>
+        @endif
+    </ul>
+</li>
+@endif
+
 @if(can('settings'))
 <li {!! (Request::is('siteSettings*')|| Request::is('termAndConditions*') || Request::is('companies*') || Request::is('locations*') || Request::is('accountLedgers*') || Request::is('customers*') || Request::is('suppliers*') || Request::is('paymentMethods*')  ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
@@ -262,14 +283,14 @@
             </a>
         </li>
         @endif
-        @if(can('locations'))
+        {{-- @if(can('locations'))
         <li class="barr4 {!! (Request::is('locations*') ? 'active' : '' ) !!}">
             <a href="{{ route('locations.index') }}">
                 <span class="mm-text ">Locations</span>
                 <span class="menu-icon"><i class="im im-icon-Map"></i></span>
             </a>
         </li>
-        @endif
+        @endif --}}
         @if(can('companies'))
         <li class="barr4 {!! (Request::is('companies*') ? 'active' : '' ) !!}">
             <a href="{{ route('companies.index') }}">

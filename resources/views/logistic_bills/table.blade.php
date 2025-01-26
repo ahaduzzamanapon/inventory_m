@@ -10,8 +10,7 @@
         <th>Attachment</th>
         <th>Note</th>
         <th>Status</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+
                 <th>Action</th>
             </tr>
         </thead>
@@ -26,8 +25,7 @@
             <td>{{ $logisticBill->attachment }}</td>
             <td>{{ $logisticBill->note }}</td>
             <td>{{ $logisticBill->status }}</td>
-            <td>{{ $logisticBill->created_at }}</td>
-            <td>{{ $logisticBill->updated_at }}</td>
+           
                 <td>
                     {!! Form::open(['route' => ['logisticBills.destroy', $logisticBill->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

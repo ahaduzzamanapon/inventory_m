@@ -4,8 +4,7 @@
             <tr>
                 <th>SL</th>
         <th>Brand name</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+
                 <th>Action</th>
             </tr>
         </thead>
@@ -14,8 +13,7 @@
             <tr>
             <td>{{ $key + 1 }}</td>
             <td>{{ $brand->BrandName }}</td>
-            <td>{{ $brand->created_at }}</td>
-            <td>{{ $brand->updated_at }}</td>
+
                 <td>
                     {!! Form::open(['route' => ['brands.destroy', $brand->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

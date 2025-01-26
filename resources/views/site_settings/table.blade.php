@@ -6,8 +6,7 @@
         <th>Name</th>
         <th>Logo</th>
         <th>Slogan</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+
                 <th>Action</th>
             </tr>
         </thead>
@@ -18,8 +17,7 @@
             <td>{{ $siteSetting->name }}</td>
             <td><img src="{{asset($siteSetting->logo)}}" alt="" width="100"></td>
             <td>{{ $siteSetting->slogan }}</td>
-            <td>{{ $siteSetting->created_at }}</td>
-            <td>{{ $siteSetting->updated_at }}</td>
+          
                 <td>
                     <div class='btn-group'>
                         <a href="{{ route('siteSettings.show', [$siteSetting->id]) }}" class='btn btn-outline-primary btn-xs'><i class="im im-icon-Eye" data-placement="top" title="View"></i></a>

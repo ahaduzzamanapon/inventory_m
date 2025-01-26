@@ -320,7 +320,7 @@
     <header class="header">
         <nav class="navbar navbar-expand-lg navbar-light col-md-12" style="background: #eae2fb;" role="navigation">
             <div class="col-md-12 header-container"
-            style="display: flex;align-items: center;padding: 15px 20px;background: linear-gradient(135deg, #13007D, #3819e7);box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);border-radius: 10px;">
+            style="display: flex;align-items: center;padding: 4px 20px;background: linear-gradient(135deg, #13007D, #3819e7);box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);border-radius: 10px;">
                 <!-- Sidebar Toggle for Mobile -->
                 <a href="javascript:void(0)" onclick="toggleSidebar()" class="toggle-menu d-xl-none d-lg-block">
                     <img src="{{ asset('img/images/toggle.png') }}" alt="Toggle Menu" style="height: 30px;">

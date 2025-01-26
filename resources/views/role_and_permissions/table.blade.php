@@ -4,9 +4,7 @@
             <tr>
                 <th>Id</th>
         <th>Name</th>
-        <th>Key</th>
-        <th>Created At</th>
-        <th>Updated At</th>
+        {{-- <th>Key</th> --}}
                 <th>Action</th>
             </tr>
         </thead>
@@ -15,9 +13,7 @@
             <tr>
                 <td>{{ $roleAndPermission->id }}</td>
             <td>{{ $roleAndPermission->name }}</td>
-            <td>{{ $roleAndPermission->key }}</td>
-            <td>{{ $roleAndPermission->created_at }}</td>
-            <td>{{ $roleAndPermission->updated_at }}</td>
+            {{-- <td>{{ $roleAndPermission->key }}</td> --}}
                 <td>
                     {!! Form::open(['route' => ['roleAndPermissions.destroy', $roleAndPermission->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

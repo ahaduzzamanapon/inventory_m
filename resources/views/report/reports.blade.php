@@ -13,7 +13,7 @@
             <h5 class="card-title">Filter Reports</h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('generate_report') }}" method="POST">
+            <form action="{{ route('generate_report') }}" method="POST" id="report-form">
                 @csrf
                 <div class="row">
                     <div class="col-md-3">
@@ -56,32 +56,36 @@
         </div>
     </div>
 
-    @if (isset($reportData))
         <div class="card mt-4">
             <div class="card-header">
                 <h5 class="card-title">Report Details</h5>
             </div>
-            <div class="card-body table-responsive">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            @foreach ($headers as $header)
-                                <th>{{ $header }}</th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($reportData as $data)
-                            <tr>
-                                @foreach ($data as $value)
-                                    <td>{{ $value }}</td>
-                                @endforeach
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+            <div class="card-body table-responsive" id="report-view">
+
             </div>
         </div>
-    @endif
 </div>
+
+
+    @section('scripts')
+        <script>
+            $(document).ready(function () {
+                $('#report-form').on('submit', function (e) {
+                    e.preventDefault();
+                    var formData = $(this).serialize();
+                    $.ajax({
+                        url: "{{ route('generate_report') }}",
+                        method: 'POST',
+                        data: formData,
+                        success: function (response) {
+                            $('#report-view').html(response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            });
+        </script>
+    @endsection
 @endsection
