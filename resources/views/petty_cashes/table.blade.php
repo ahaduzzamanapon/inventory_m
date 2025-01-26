@@ -17,13 +17,13 @@
         @foreach($pettyCashes as $key => $pettyCash)
             <tr>
             <td>{{ $key + 1 }}</td>
-            <td>{{ $pettyCash->date }}</td>
+            <td>{{date('d-m-Y', strtotime($pettyCash->date))  }}</td>
             <td>{{ $pettyCash->account_ledger_name }}</td>
             <td>{{ $pettyCash->account_description }}</td>
             <td>{{ $pettyCash->amount }}</td>
             <td>{{ $pettyCash->attachment }}</td>
             <td>{{ $pettyCash->status }}</td>
-          
+
                 <td>
                     {!! Form::open(['route' => ['pettyCashes.destroy', $pettyCash->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

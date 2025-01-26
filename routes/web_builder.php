@@ -26,6 +26,7 @@ Route::resource('pettyCashes', 'PettyCashController');
 
 Route::resource('items', 'ItemController');
 
+
 Route::resource('companies', 'CompanieController');
 
 

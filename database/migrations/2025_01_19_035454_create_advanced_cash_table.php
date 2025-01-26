@@ -19,6 +19,9 @@ class CreateAdvancedCashTable extends Migration
             $table->string('purpose');
             $table->integer('amount');
             $table->string('status');
+            $table->string('settled_amount')->nullable();
+            $table->string('settled_status')->default('Pending')->nullable();
+
             $table->timestamps();
         });
     }

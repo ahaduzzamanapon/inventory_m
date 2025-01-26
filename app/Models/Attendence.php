@@ -18,7 +18,7 @@ class Attendence extends Model
 {
 
     public $table = 'attendences';
-    
+
 
 
 
@@ -26,7 +26,8 @@ class Attendence extends Model
         'date',
         'emp_id',
         'status',
-        'late_status'
+        'late_status',
+        'late_time'
     ];
 
     /**
@@ -54,5 +55,5 @@ class Attendence extends Model
         'late_status' => 'required'
     ];
 
-    
+
 }

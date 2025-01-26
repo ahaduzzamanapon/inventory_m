@@ -14,6 +14,7 @@ class SalesPaymentModel extends Model
         'payment_date',
         'sale_id',
         'payment_method',
+        'cheque_number',
         'payment_amount',
         'payment_status',
     ];

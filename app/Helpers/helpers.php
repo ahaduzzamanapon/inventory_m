@@ -64,4 +64,17 @@ if (!function_exists('can')) {
         return false;
     }
 }
+if (!function_exists('get_item_name_by_id')) {
+
+    function get_item_name_by_id($id)
+    {
+        $item=\App\Models\Item::find($id);
+
+        if($item){
+            return $item->item_name . ' ' . $item->model . ' ' . $item->origin . ' ' . $item->warranty;
+        } else {
+            return 'N/A';
+        }
+    }
+}
 

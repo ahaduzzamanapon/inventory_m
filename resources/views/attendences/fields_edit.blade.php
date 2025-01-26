@@ -17,6 +17,7 @@
                 <th>Name</th>
                 <th>Present Status</th>
                 <th>Late Status</th>
+                <th>Late Time</th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +33,7 @@
                                 <option  value="">Select Status</option>
                                 <option {{ $user->status == 'Absent' ? 'selected' : ''}} value="Absent">Absent</option>
                                 <option  {{ $user->status == 'Present' ? 'selected' : ''}} value="Present">Present</option>
+                                <option  {{ $user->status == 'Leave' ? 'selected' : ''}} value="Leave">Leave</option>
                             </select>
                         </div>
                     </td>
@@ -42,6 +44,11 @@
                                 <option {{ $user->late_status == 'No' ? 'selected' : ''}} value="No">No</option>
                                 <option {{ $user->late_status == 'Yes' ? 'selected' : ''}} value="Yes">Yes</option>
                             </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" name="late_time[]" value="{{ $user->late_time }}" class="form-control">
                         </div>
                     </td>
                 </tr>

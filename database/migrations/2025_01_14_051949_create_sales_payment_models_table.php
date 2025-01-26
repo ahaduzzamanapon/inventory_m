@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('payment_date');
             $table->foreignId('sale_id')->constrained('sales_models')->onDelete('cascade');
             $table->integer('payment_method');
+            $table->string('cheque_number')->nullable();
             $table->decimal('payment_amount', 10, 2);
             $table->enum('payment_status', ['Pending', 'Completed', 'Failed'])->default('Pending');
             $table->timestamps();

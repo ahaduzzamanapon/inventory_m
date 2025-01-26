@@ -7,6 +7,7 @@
         <th>Email</th>
         <th>Phone</th>
         <th>Address</th>
+        <th>Owner</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -18,6 +19,7 @@
             <td>{{ $customer->customer_email }}</td>
             <td>{{ $customer->customer_phone }}</td>
             <td>{{ $customer->customer_address }}</td>
+            <td>{{ $customer->owner_name }}</td>
                 <td>
                     {!! Form::open(['route' => ['customers.destroy', $customer->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

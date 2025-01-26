@@ -26,6 +26,8 @@ class AdvancedCash extends Model
         'member_id',
         'purpose',
         'amount',
+        'settled_amount',
+        'settled_status',
         'status'
     ];
 

@@ -54,7 +54,20 @@ Sales Details @parent
                 <tbody>
                     @foreach($SalesItem as $item)
                     <tr>
-                        <td>{{ $item->item_name }}</td>
+                        <td>
+                            <?= get_item_name_by_id($item['item_id']) ?>
+                            @if($item['item_serial'] !=null)
+                            @php
+                                $serials =  json_decode($item['item_serial']);
+                                //dd($serials);
+                                $item_serials=DB::table('item_serials')->whereIn('id', $serials)->get();
+                                //dd($item_serials);
+                                foreach ($item_serials as $serial) {
+                                    echo $serial->item_serial_number.',';
+                                }
+                            @endphp
+                            @endif
+                        </td>
                         <td>{{ number_format($item->item_per_price, 2) }}</td>
                         <td>{{ $item->sales_qty }}</td>
                         <td>{{ number_format($item->total_price, 2) }}</td>

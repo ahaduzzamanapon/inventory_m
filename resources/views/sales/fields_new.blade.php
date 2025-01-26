@@ -133,6 +133,7 @@
                                     <tr>
                                         <th>Payment ID</th>
                                         <th>Payment Method</th>
+                                        <th>Cheque No</th>
                                         <th>Payment Date</th>
                                         <th>Amount</th>
                                         <th>Action <a class="btn btn-primary" onclick="addPaymentRow()"><i
@@ -167,7 +168,6 @@
     @section('footer_scripts')
         <script>
             var paymentMethods = @json($paymentMethods);
-
             function addPaymentRow() {
                 console.log(paymentMethods);
 
@@ -181,6 +181,7 @@
                 newRow.innerHTML = '<td><input type="text" name="payment_id[]" value="' + uniq_id +
                     '" class="form-control"></td>' +
                     '<td><select name="payment_method_id[]" required class="form-control">' + paymentMethodOptions + '</select></td>' +
+                    '<td><input type="text" name="cheque_number[]" class="form-control" required></td>' +
                     '<td><input type="date" name="payment_date[]" class="form-control" required></td>' +
                     '<td><input type="text" name="payment_amount[]" required value="0" class="form-control text-right payment_amount" onkeyup="calculatePaymentTotal()"></td>' +
                     '<td><a class="btn btn-danger" onclick="removePaymentRow(this)"><i class="fa fa-trash"></i></a></td>';
@@ -334,11 +335,14 @@
                 item_price = parseFloat(item_name_data[2]);
 
 
-                cell1.innerHTML = item_id_u + ' - ' + item_name_u +
+                cell1.innerHTML =item_name_u +
                     '<input type="hidden" class="item_id_hidden"  name="item_id[]" value="' + item.id + '">'+
                     '<input type="hidden" class="item_name_hidden"  name="item_name[]" value="' + item_id_u + ' - ' + item_name_u + '">';
                 cell2.innerHTML =
-                    '<input type="number" name="quantity[]" required min="1" onkeyup="quantityChange(this)" value="1" class="form-control">';
+                    '<input id="quantity'+item.id+'" type="number" name="quantity[]" required min="1" onkeyup="quantityChange(this)" value="1" class="form-control">'+
+                    '<div id="serial_number'+item.id+'">'+
+                    '</div>'
+                    ;
                 cell3.innerHTML = '<input type="text" name="price[]" min="0" onkeyup="quantityChange(this)" value="' + item_price +
                     '" class="form-control text-right" >';
                 cell4.innerHTML = '<input type="text" name="total_price[]" value="' + item_price +
@@ -354,6 +358,46 @@
                 tableBody.appendChild(row);
                 $('#select_item_id').val('select').trigger('chosen:updated');
                 calculate_sub_total();
+                check_srial(item.id,);
             }
+        </script>
+        <script>
+            function check_srial(item_id) {
+                $.ajax({
+                    url: '{{ route('check_item_serial') }}',
+                    method: 'POST',
+                    data: {
+                        item_id: item_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if(response.serial_status == 2){
+                            console.log(response.div_data);
+                            $('#serial_number'+item_id).html(response.div_data);
+                            $('#quantity'+item_id).attr('readonly', true);
+                            $('#quantity'+item_id).val(0);
+                            $('#quantity'+item_id).trigger('keyup');
+                        }
+                    }
+                });
+            }
+        </script>
+        <script>
+            function checkItemSerial(itemId) {
+
+                    console.log(itemId);
+
+                    item_serial_checkbox_class = '.item_serial' + itemId;
+                    console.log(item_serial_checkbox_class);
+
+                    total_checked = $(item_serial_checkbox_class + ':checked').length;
+                    if (total_checked > 0) {
+                        $('#quantity' + itemId).val(total_checked);
+                    } else {
+                        $('#quantity' + itemId).val(0);
+                    }
+                     $('#quantity' + itemId).trigger('keyup');
+
+                }
         </script>
     @endsection

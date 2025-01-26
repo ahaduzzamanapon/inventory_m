@@ -38,7 +38,7 @@ $subcategories = DB::table('subcategorys')->get();
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('item_sub_category', 'Item Sub Category:', ['class' => 'control-label']) !!}
-        {!! Form::select('item_sub_category', ['selct' => 'selct'], null, ['class' => 'form-control']) !!}
+        {!! Form::select('item_sub_category', ['' => 'Select'], null, ['class' => 'form-control']) !!}
     </div>
 </div>
 
@@ -52,13 +52,7 @@ $subcategories = DB::table('subcategorys')->get();
 </div>
 
 
-<!-- Item Qty Field -->
-<div class="col-md-3">
-    <div class="form-group">
-        {!! Form::label('item_qty', 'Item Qty:', ['class' => 'control-label']) !!}
-        {!! Form::number('item_qty', null, ['class' => 'form-control']) !!}
-    </div>
-</div>
+
 
 <?php
 $units = DB::table('units')->get();
@@ -107,12 +101,16 @@ $units = DB::table('units')->get();
 </div>
 @endif
 
+<?php
+$companies = DB::table('companies')->get();
+?>
+
 
 <!-- Item Company Id Field -->
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('item_company_id', 'Item Company Id:', ['class' => 'control-label']) !!}
-        {!! Form::select('item_company_id', ['1' => 'select'], null, ['class' => 'form-control']) !!}
+        {!! Form::select('item_company_id', $companies->pluck('companie_name', 'id')->prepend('Select Company', ''), null, ['class' => 'form-control']) !!}
     </div>
 </div>
 
@@ -129,14 +127,61 @@ $brands = DB::table('brands')->get();
         {!! Form::select('item_brand_id', $brands->pluck('BrandName', 'id')->prepend('Select Brand', ''), null, ['class' => 'form-control']) !!}
     </div>
 </div>
+
 <div class="col-md-3">
     <div class="form-group">
         @if(isset($item))
         <img src="{{asset($item->item_image)}}" class="img-fluid" alt="">
         @endif
-        {!! Form::label('item_image', 'Item Brand:', ['class' => 'control-label']) !!}
+        {!! Form::label('item_image', 'Item Image:', ['class' => 'control-label']) !!}
         {!! Form::file('item_image') !!}
     </div>
+</div>
+
+<div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('item_stock_alert_level', 'Item Stock Alert Level:', ['class' => 'control-label']) !!}
+        {!! Form::number('item_stock_alert_level', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('item_origin', 'Item Origin:', ['class' => 'control-label']) !!}
+        {!! Form::text('item_origin', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('item_warranty', 'Item Warranty:', ['class' => 'control-label']) !!}
+        {!! Form::text('item_warranty', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('item_variant_status', 'Item Variant Status:', ['class' => 'control-label']) !!}
+        {!! Form::select('item_variant_status', ['1' => 'Single Variant', '2' => 'Multi Variant'], null, ['class' => 'form-control', 'onkeyup' => 'serialNumberDiv()']) !!}
+    </div>
+</div>
+<!-- Item Qty Field -->
+
+@if(isset($edit))
+<div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('item_qty', 'Item Qty:', ['class' => 'control-label']) !!}
+        {!! Form::number('item_qty', null, ['class' => 'form-control', 'onkeyup' => 'serialNumberDiv()', 'readonly']) !!}
+    </div>
+</div>
+@else
+<div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('item_qty', 'Item Qty:', ['class' => 'control-label']) !!}
+        {!! Form::number('item_qty', null, ['class' => 'form-control', 'onkeyup' => 'serialNumberDiv()']) !!}
+    </div>
+</div>
+@endif
+
+
+<div class="col-md-12 serial_number_div">
 </div>
 
 
@@ -190,6 +235,29 @@ function categoryChange(id) {
         $('#item_sub_category').html('<option value="select">No Sub Categories Available</option>');
     }
 }
+</script>
+<script>
+        function serialNumberDiv() {
+            var variantStatus = $('#item_variant_status').val();
+            if (variantStatus == 2) {
+                var qty = $('#item_qty').val();
+                var serialNumberDiv = '';
+                for (let i = 0; i < qty; i++) {
+                    serialNumberDiv += `
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="item_serial_number">Item Serial Number ${i + 1}:</label>
+                            <input type="text" name="item_serial_number[]" class="form-control">
+                        </div>
+                    </div>
+                    `;
+                }
+                $('.serial_number_div').html(serialNumberDiv);
+            } else {
+                $('.serial_number_div').html('');
+            }
+        }
+
 </script>
 
 

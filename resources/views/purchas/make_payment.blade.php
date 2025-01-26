@@ -51,6 +51,7 @@
                             <th>Payment ID</th>
                             <th>Payment Date</th>
                             <th>Payment Method</th>
+                            <th>Cheque No</th>
                             <th>Payment Amount</th>
                             <th>Payment Status</th>
                         </tr>
@@ -61,6 +62,7 @@
                                 <td>{{ $payment->payment_id }}</td>
                                 <td>{{ $payment->payment_date }}</td>
                                 <td>{{ $payment->payment_method }}</td>
+                                <td>{{ $payment->cheque_number }}</td>
                                 <td>{{ number_format($payment->payment_amount, 2) }}</td>
                                 <td><span
                                         class="badge badge-{{ $payment->payment_status == 'Paid' ? 'success' : 'warning' }}">{{ $payment->payment_status }}</span>
@@ -86,6 +88,7 @@
                         <tr>
                             <th>Payment ID</th>
                             <th>Payment Method</th>
+                            <th>Chaque No</th>
                             <th>Amount</th>
                             <th>Payment Date</th>
                             <th>Action <a class="btn btn-primary" onclick="addPaymentRow()"><i class="fa fa-plus"></i></a>
@@ -133,6 +136,8 @@
                     newRow.innerHTML = '<td><input type="text" name="payment_id[]" value="' + uniq_id +
                         '" class="form-control"></td>' +
                         '<td><select name="payment_method_id[]" required class="form-control">' + paymentMethodOptions + '</select></td>' +
+                        '<td><input type="text" name="Cheque_number[]" class="form-control" required></td>' +
+
                         '<td><input type="date" name="payment_date[]" class="form-control" required></td>' +
                         '<td><input type="text" name="payment_amount[]" required value="0" class="form-control text-right payment_amount" onkeyup="calculatePaymentTotal()"></td>' +
                         '<td><a class="btn btn-danger" onclick="removePaymentRow(this)"><i class="fa fa-trash"></i></a></td>';

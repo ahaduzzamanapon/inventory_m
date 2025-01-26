@@ -43,6 +43,29 @@
 @endif
 
 
+@if(can('advanced_cash_approval'))
+<!-- Status Field -->
+<div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('settled_amount', 'Settled Amount:',['class'=>'control-label']) !!}
+        {!! Form::number('settled_amount', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+<div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('settled_status', 'Settled Status:',['class'=>'control-label']) !!}
+        {!! Form::select('settled_status', ['Pending' => 'Pending', 'Settled' => 'Settled'], null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+
+
+
+
+
+
+@endif
+
+
 <!-- Submit Field -->
 <div class="form-group col-sm-12" style="text-align-last: right;">
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}

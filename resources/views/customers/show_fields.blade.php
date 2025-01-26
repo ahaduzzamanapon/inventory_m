@@ -26,17 +26,11 @@
     <th scopre="row">{!! Form::label('customer_address', 'Customer Address:') !!}</th>
     <td>{{ $customer->customer_address }}</td>
 </tr>
-
-
 <tr>
-    <th scopre="row">{!! Form::label('created_at', 'Created At:') !!}</th>
-    <td>{{ $customer->created_at }}</td>
+    <th scopre="row">{!! Form::label('owner_name', 'Owner Name:') !!}</th>
+    <td>{{ $customer->owner_name }}</td>
 </tr>
 
 
-<tr>
-    <th scopre="row">{!! Form::label('updated_at', 'Updated At:') !!}</th>
-    <td>{{ $customer->updated_at }}</td>
-</tr>
 
 

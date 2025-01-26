@@ -18,7 +18,7 @@ class Customer extends Model
 {
 
     public $table = 'customers';
-    
+
 
 
 
@@ -26,7 +26,8 @@ class Customer extends Model
         'customer_name',
         'customer_email',
         'customer_phone',
-        'customer_address'
+        'customer_address',
+        'owner_name',
     ];
 
     /**
@@ -53,5 +54,5 @@ class Customer extends Model
         'customer_address' => 'required'
     ];
 
-    
+
 }

@@ -68,8 +68,10 @@ class SalesController extends Controller
             'grand_total_input' => 'required|numeric',
             'payment_id' => 'nullable|array',
             'payment_method_id' => 'nullable|array',
+            'cheque_number' => 'nullable|array',
             'payment_date' => 'nullable|array',
             'payment_amount' => 'nullable|array',
+            'item_serial' => 'nullable|array',
             'total_payment' => 'required|numeric',
             'due' => 'required|numeric',
         ]);
@@ -90,9 +92,9 @@ class SalesController extends Controller
                 'tax_per' => $validated['tax_per'] ?? 0,
                 'tax_amount' => $validated['tax_input'] ?? 0,
                 'grand_total' => $validated['grand_total_input'],
-                'payment_status' => $validated['due'] == 0 ? 'Paid' : ($validated['due'] < $validated['grand_total_input'] ? 'Partial' : 'Pending'),
-                'payment_amount' => $validated['total_payment'],
-                'due_amount' => $validated['due'],
+                'payment_status' => 'Pending',
+                'payment_amount' =>0,
+                'due_amount' => $validated['grand_total_input'],
             ]);
 
             // Insert into SalesItemModel
@@ -100,15 +102,20 @@ class SalesController extends Controller
                 SalesItemModel::create([
                     'sale_id' => $sales->id,
                     'item_id' => $itemId,
+                    'item_serial' => isset($validated['item_serial'][$itemId]) ? json_encode($validated['item_serial'][$itemId]) : null,
                     'item_name' => $validated['item_name'][$index], // Replace with actual item name if available
                     'item_per_price' => $validated['price'][$index],
                     'sales_qty' => $validated['quantity'][$index],
                     'total_price' => $validated['total_price'][$index],
                 ]);
                 Item::where('id', $itemId)->decrement('item_qty', $validated['quantity'][$index]);
+                if (isset($validated['item_serial'][$itemId])) {
+                    foreach ($validated['item_serial'][$itemId] as $serial) {
+                        DB::table('item_serials')->where('id', $serial)->update(['sale_status' => 2]);
+                    }
+                }
             }
 
-            // Insert into SalesPaymentModel
             if (!empty($validated['payment_id'])) {
                 foreach ($validated['payment_id'] as $index => $paymentId) {
                     SalesPaymentModel::create([
@@ -117,11 +124,15 @@ class SalesController extends Controller
                         'payment_date' => $validated['payment_date'][$index],
                         'sale_id' => $sales->id,
                         'payment_method' => $validated['payment_method_id'][$index],
+                        'cheque_number' => $validated['cheque_number'][$index],
                         'payment_amount' => $validated['payment_amount'][$index],
-                        'payment_status' => $validated['payment_amount'][$index] >= $validated['grand_total_input'] ? 'Completed' : 'Pending',
+                        'payment_status' => 'Pending',
                     ]);
                 }
             }
+
+
+
             DB::commit();
             session()->flash('success', 'Sales created successfully.');
             session()->flash('sales_id', $sales->id);
@@ -193,7 +204,9 @@ class SalesController extends Controller
         return view('sales.make_payment', compact('sales', 'SalesItem', 'SalesPayment','customer','paymentMethods'));
     }
     public function make_payment_store(Request $request){
+        //dd($request->all());
         DB::beginTransaction();
+
         try {
             $sales = SalesModel::find($request->sales_id);
             $sales->payment_amount += $request->total_payment;
@@ -205,6 +218,7 @@ class SalesController extends Controller
                 $payment->payment_id = $value;
                 $payment->customer_id = $sales->customer_id;
                 $payment->payment_method = $request->payment_method_id[$key];
+                $payment->cheque_number = $request->Cheque_number[$key];
                 $payment->payment_date = $request->payment_date[$key];
                 $payment->payment_amount = $request->payment_amount[$key];
                 $payment->sale_id = $request->sales_id;
@@ -231,24 +245,37 @@ class SalesController extends Controller
         $SalesItem = SalesItemModel::where('sale_id', $id)->get();
         $SalesPayment = SalesPaymentModel::where('sale_id', $id)->get();
         $siteSettings = \App\Models\SiteSetting::first();
-        //dd($sales,$customer,$SalesItem,$SalesPayment);
-
-        // $salesAttributes = $sales->toArray();
-        // $customerAttributes = $customer->toArray();
-        // $salesItemsAttributes = $SalesItem->toArray();
-        // $salesPaymentsAttributes = $SalesPayment->toArray();
-        // $siteSettingsAttributes = $siteSettings->toArray();
-        // $data=[
-        //     '$sales' => $salesAttributes,
-        //     '$customer' => $customerAttributes,
-        //     '$$SalesItem' => $salesItemsAttributes,
-        //     '$SalesPayment' => $salesPaymentsAttributes,
-        //     '$siteSettings' => $siteSettingsAttributes
-        // ];
-
-
-
         return view('sales.invoice', compact('sales', 'SalesItem', 'SalesPayment','customer','siteSettings'));
+    }
+    public function approve_payment($id){
+        $SalesPayment = SalesPaymentModel::find($id);
+        $sales = SalesModel::find($SalesPayment->sale_id);
+        $sales->payment_amount += $SalesPayment->payment_amount;
+        $sales->due_amount = $sales->grand_total - $sales->payment_amount;
+        $sales->payment_status = $sales->due_amount == 0 ? 'Paid' : 'Partial';
+        $sales->save();
+        $SalesPayment->payment_status = 'Completed';
+        $SalesPayment->save();
+        Flash::success('Payment approved successfully.');
+        return redirect()->back();
+    }
+
+    public function check_item_serial(Request $request){
+        $item = Item::where('id', $request->item_id)->first();
+
+        if($item->item_variant_status ==2){
+            $item_serial = DB::table('item_serials')->where('item_id', $item->id)->where('sale_status', 1)->get();
+            $item_serials = '';
+            foreach ($item_serial as $key => $value) {
+                $item_serials .= "<input type='checkbox' onchange='checkItemSerial(".$item->id.")' class='item_serial".$item->id."' name='item_serial[".$item->id."][]' value='".$value->id."'>".$value->item_serial_number."<br>";
+            }
+           $div_data= $item_serials;
+           $serial_status = 2;
+        }else{
+            $div_data = "";
+            $serial_status = 1;
+        }
+        return response()->json(['div_data' => $div_data, 'serial_status' => $serial_status]);
     }
 
 }

@@ -87,4 +87,4 @@ $locations = DB::table('locations')->get();
     <a href="{{ route('logisticBills.index') }}" class="btn btn-danger">Cancel</a>
 </div>
 
-@
+

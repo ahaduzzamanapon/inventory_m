@@ -95,78 +95,64 @@
         <div class="container-lg col-md-12">
             <div class="row">
                 <?php
-                $counts = [
-                    'Daily Sales' => DB::table('sales_models')->whereDate('created_at', DB::raw('CURDATE()'))->count(),
-                    'Total Sales' => DB::table('sales_models')->count(),
-                    'Total Product Items' => DB::table('items')->count(),
-                    'Category' => DB::table('categorys')->count(),
-                    'Brand' => DB::table('brands')->count(),
-                    'Total Customers' => DB::table('customers')->count(),
-                    'Total Suppliers' => DB::table('suppliers')->count(),
-                    'System Users' => DB::table('users')->count(),
-                    'Total Due' => DB::table('sales_models')->sum('due_amount'),
+                $metrics = [
+                    'Monthly Sales' => DB::table('sales_models')
+                        ->whereMonth('created_at', now()->month)
+                        ->count(),
+                    'Monthly Expense' => DB::table('pettycash')
+                        ->whereMonth('created_at', now()->month)
+                        ->sum('amount'),
+                    'Total Due' => DB::table('sales_models')
+                        ->sum('due_amount'),
+                    'Total Advance' => DB::table('advanced_cash')
+                        ->sum('amount'),
+                    'Total Product Value' => DB::table('items')
+                        ->sum(DB::raw('item_qty * item_purchase_price')),
+                    'Total Yearly Profit' => DB::table('sales_payment_models')
+                        ->whereYear('created_at', now()->year)
+                        ->where('payment_status', 'Completed')
+                        ->sum('payment_amount'),
                 ];
 
-                $permi=[
-                    'daily_sales','total_sales','total_product_items','category_dashboard','dashboard_brand','total_customers','total_suppliers','system_users','total_due'
-            ];
-
                 $icons = [
-                    'Daily Sales' => 'fas fa-calendar-day',
-                    'Total Sales' => 'fas fa-hand-holding-usd',
-                    'Total Product Items' => 'fas fa-box',
-                    'Category' => 'fas fa-tags',
-                    'Brand' => 'fas fa-trademark',
-                    'Total Customers' => 'fas fa-users',
-                    'Total Suppliers' => 'fas fa-truck',
-                    'System Users' => 'fas fa-user-cog',
-                    'Total Due' => 'fas fa-money-bill',
+                    'Monthly Sales' => 'fas fa-dollar-sign',
+                    'Monthly Expense' => 'fas fa-money-bill',
+                    'Total Due' => 'fas fa-credit-card',
+                    'Total Advance' => 'fas fa-forward',
+                    'Total Product Value' => 'fas fa-boxes',
+                    'Total Yearly Profit' => 'fas fa-chart-line',
                 ];
 
                 $subtitles = [
-                    'Daily Sales' => 'Sales made today',
-                    'Total Sales' => 'Cumulative sales',
-                    'Total Product Items' => 'All items in inventory',
-                    'Category' => 'Categories available',
-                    'Brand' => 'Brands available',
-                    'Total Customers' => 'Registered customers',
-                    'Total Suppliers' => 'Suppliers in system',
-                    'System Users' => 'Users with system access',
-                    'Total Due' => 'Pending payment amounts',
+                    'Monthly Sales' => 'Sales made this month',
+                    'Monthly Expense' => 'Expenses this month',
+                    'Total Due' => 'Outstanding dues',
+                    'Total Advance' => 'Total advanced payments',
+                    'Total Product Value' => 'Value of all products in stock',
+                    'Total Yearly Profit' => 'Profit made this year',
                 ];
                 ?>
-                @php
-                    $i=0;
-                @endphp
-                @foreach ($counts as $title => $count)
-                @php
-                    if(can($permi[$i])==false){
-                        $i++;
-                        continue;
-                    }else {
-                        $i++;
-                    }
-                @endphp
 
-                <div class="col-12 col-md-4 col-xxl-3 mb-10">
-                    <div class="custom-card">
-                        <div class="card-body">
-                            <div class="card-content d-flex align-items-center">
-                                <div>
-                                    {{-- <h5 class="card-title">{{ $title }}</h5> --}}
-                                    <h5 class="card-title">{{ $subtitles[$title] }}</h5>
-                                    <h3 class="card-value">{{ $count }}</h3>
+                <div class="row">
+                    @foreach ($metrics as $title => $value)
+                    <div class="col-12 col-md-4 col-xxl-3 mb-10">
+                        <div class="custom-card">
+                            <div class="card-body">
+                                <div class="card-content d-flex align-items-center">
+                                    <div>
+                                        <h5 class="card-title">{{ $title }}</h5>
+                                        <h3 class="card-value">{{ number_format($value, 2) }}</h3>
+                                    </div>
+                                    <div class="icon-container">
+                                        <i class="{{ $icons[$title] }}"></i>
+                                    </div>
                                 </div>
-                                <div class="icon-container">
-                                    <i class="{{ $icons[$title] }}"></i>
-                                </div>
+                                <p class="card-subtitle">{{ $subtitles[$title] }}</p>
                             </div>
-                            {{-- <p class="card-subtitle">{{ $subtitles[$title] }}</p> --}}
                         </div>
                     </div>
+                    @endforeach
                 </div>
-                @endforeach
-            </div>
 
         </div>
     </section>

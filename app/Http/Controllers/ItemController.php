@@ -6,6 +6,7 @@ use App\Http\Requests\CreateItemRequest;
 use App\Http\Requests\UpdateItemRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Item;
+use App\Models\ItemSerial;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
@@ -55,7 +56,8 @@ class ItemController extends AppBaseController
     public function store(CreateItemRequest $request)
     {
         $input = $request->all();
-
+        $item_serial_number = $input['item_serial_number'];
+        unset($input['item_serial_number']);
         if ($request->hasFile('item_image')) {
             $file = $request->file('item_image');
             $folder = 'images/item';
@@ -65,6 +67,13 @@ class ItemController extends AppBaseController
 
         /** @var Item $item */
         $item = Item::create($input);
+        $item_id = $item->id;
+        foreach ($item_serial_number as $key => $value) {
+            $item_serial = new ItemSerial();
+            $item_serial->item_id = $item_id;
+            $item_serial->item_serial_number = $value;
+            $item_serial->save();
+        }
 
         Flash::success('Item saved successfully.');
 
@@ -110,7 +119,8 @@ class ItemController extends AppBaseController
             return redirect(route('items.index'));
         }
 
-        return view('items.edit')->with('item', $item);
+        $edit=true;
+        return view('items.edit')->with('item', $item)->with('edit', $edit);
     }
 
     /**
@@ -182,4 +192,5 @@ class ItemController extends AppBaseController
 
         return redirect(route('items.index'));
     }
+    
 }

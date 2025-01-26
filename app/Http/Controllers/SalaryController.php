@@ -27,13 +27,11 @@ class SalaryController extends Controller
             $attendences = Attendence::where('emp_id', $user->id)
             ->whereBetween('date', [$first_date, $last_date])
             ->get();
-            $total_present = $attendences->where('status', 'Present')->count();
+            $total_present = $attendences->whereIn('status', ['Present', 'Leave'])->count();
             $total_absent = $attendences->where('status', 'Absent')->count();
             $salary=$user->salary;
             $per_day_salary=$salary/$total_day;
             $ba_deduct_day=$total_day-($total_present+$total_absent);
-
-
             $total_salary=$total_present*$per_day_salary;
             $ba_deduct=$ba_deduct_day*$per_day_salary;
             $absent_deduct=$total_absent*$per_day_salary;

@@ -6,6 +6,7 @@ use App\Http\Requests\CreateLogisticBillRequest;
 use App\Http\Requests\UpdateLogisticBillRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\LogisticBill;
+use App\Models\PettyCash;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
@@ -63,8 +64,21 @@ class LogisticBillController extends AppBaseController
 
 
 
+
+
         /** @var LogisticBill $logisticBill */
         $logisticBill = LogisticBill::create($input);
+
+        if($input['status'] == 'Payment'){
+            $pettycash = PettyCash::create([
+                'date' => date('Y-m-d'),
+                'account_ledgers' => 4,
+                'account_description' => 'Debit',
+                'amount' => $input['amount'],
+                'status' => 'Approved',
+            ]);
+        }
+
 
         Flash::success('Logistic Bill saved successfully.');
 
@@ -111,6 +125,8 @@ class LogisticBillController extends AppBaseController
             return redirect(route('logisticBills.index'));
         }
 
+
+
         return view('logistic_bills.edit')->with('logisticBill', $logisticBill);
     }
 
@@ -148,6 +164,16 @@ class LogisticBillController extends AppBaseController
         $logisticBill->save();
 
         Flash::success('Logistic Bill updated successfully.');
+
+        if($input['status'] == 'Payment'){
+            $pettycash = PettyCash::create([
+                'date' => date('Y-m-d'),
+                'account_ledgers' => 4,
+                'account_description' => 'Debit',
+                'amount' => $input['amount'],
+                'status' => 'Approved',
+            ]);
+        }
 
         return redirect(route('logisticBills.index'));
     }

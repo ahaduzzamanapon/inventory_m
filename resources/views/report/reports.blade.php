@@ -29,20 +29,29 @@
                         <select id="type" name="type" class="form-control" required>
                             <option value="">Select Report Type</option>
                             <option value="sales">Sales Report</option>
-                            <option value="expenses">Expenses Report</option>
+                            {{-- <option value="expenses">Expenses Report</option> --}}
                             <option value="purchases">Purchase Report</option>
-                            <option value="income">Income Report</option>
+                            {{-- <option value="income">Income Report</option> --}}
                             <option value="stock">Stock Report</option>
                             <option value="customer_due">Customer Due Report</option>
                             <option value="supplier_due">Supplier Due Report</option>
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <label for="company">Company / Supplier</label>
-                        <select id="company" name="company" class="form-control">
-                            <option value="">All</option>
-                            @foreach ($companies as $company)
-                                <option value="{{ $company->id }}">{{ $company->companie_name }}</option>
+                        <label for="company">Customer</label>
+                        <select id="customer_id" name="customer_id" class="form-control">
+                            <option value="">Select Customer</option>
+                            @foreach ($customers as $customer)
+                                <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="company">Supplier</label>
+                        <select id="supplier_id" name="supplier_id" class="form-control">
+                            <option value="">Select Supplier</option>
+                            @foreach ($suppliers as $supplier)
+                                <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -59,9 +68,9 @@
         <div class="card mt-4">
             <div class="card-header">
                 <h5 class="card-title">Report Details</h5>
+                <a onclick="printReport()" class="btn btn-primary" style="float: right;">Print</a>
             </div>
-            <div class="card-body table-responsive" id="report-view">
-
+            <div class="card-body" id="report-view">
             </div>
         </div>
 </div>
@@ -86,6 +95,15 @@
                     });
                 });
             });
+        </script>
+        <script>
+            function printReport() {
+                var printContents = document.getElementById('report-view').innerHTML;
+                var originalContents = document.body.innerHTML;
+                document.body.innerHTML = printContents;
+                window.print();
+                document.body.innerHTML = originalContents;
+            }
         </script>
     @endsection
 @endsection

@@ -32,6 +32,12 @@
         {!! Form::text('customer_address', null, ['class' => 'form-control']) !!}
     </div>
 </div>
+<div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('owner_name', 'Owner Name:',['class'=>'control-label']) !!}
+        {!! Form::text('owner_name', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
 
 
 <!-- Submit Field -->

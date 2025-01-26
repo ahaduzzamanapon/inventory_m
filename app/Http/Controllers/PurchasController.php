@@ -9,6 +9,7 @@ use Blueprint;
 use App\Models\PurchasModel;
 use App\Models\PurchasItemModel;
 use App\Models\PurchasPaymentModel;
+use App\Models\ItemSerial;
 use App\Models\Supplier;
 use Flash;
 use App\Models\Item;
@@ -70,8 +71,10 @@ class PurchasController extends Controller
             'grand_total_input' => 'required|numeric',
             'payment_id' => 'nullable|array',
             'payment_method_id' => 'nullable|array',
+            'cheque_number' => 'nullable|array',
             'payment_date' => 'nullable|array',
             'payment_amount' => 'nullable|array',
+            'serial_number' => 'nullable|array',
             'total_payment' => 'required|numeric',
             'due' => 'required|numeric',
         ]);
@@ -108,6 +111,19 @@ class PurchasController extends Controller
                     'total_price' => $validated['total_price'][$index],
                 ]);
                 Item::where('id', $itemId)->increment('item_qty', $validated['quantity'][$index]);
+                if(isset($validated['serial_number'][$itemId])){
+                    //dd($validated['serial_number'][$itemId]);
+                    foreach ($validated['serial_number'][$itemId] as $serial) {
+                        if (empty($serial)) {
+                            continue;
+                        }
+                        ItemSerial::create([
+                            'item_id' => $itemId,
+                            'item_serial_number' => $serial,
+                            'sale_status' => 1,
+                        ]);
+                    }
+                }
             }
 
             // Insert into PurchasPaymentModel
@@ -119,11 +135,13 @@ class PurchasController extends Controller
                         'payment_date' => $validated['payment_date'][$index],
                         'purchas_id' => $purchas->id,
                         'payment_method' => $validated['payment_method_id'][$index],
+                        'cheque_number' => $validated['cheque_number'][$index],
                         'payment_amount' => $validated['payment_amount'][$index],
                         'payment_status' => $validated['payment_amount'][$index] >= $validated['grand_total_input'] ? 'Completed' : 'Pending',
                     ]);
                 }
             }
+
             DB::commit();
             session()->flash('success', 'Purchas created successfully.');
             session()->flash('purchas_id', $purchas->id);
@@ -207,6 +225,7 @@ class PurchasController extends Controller
                 $payment->payment_id = $value;
                 $payment->supplier_id = $purchas->supplier_id;
                 $payment->payment_method = $request->payment_method_id[$key];
+                $payment->cheque_number = $request->cheque_number[$key];
                 $payment->payment_date = $request->payment_date[$key];
                 $payment->payment_amount = $request->payment_amount[$key];
                 $payment->purchas_id = $request->purchas_id;

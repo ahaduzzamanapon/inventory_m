@@ -16,6 +16,7 @@ New Sales @parent
         @include('adminlte-templates::common.errors')
         <div class="card">
             <div class="card-body">
+                
                 {!! Form::open(['route' => 'sales.store', 'files' => true,'class' => 'form-horizontal']) !!}
                     @include('sales.fields_new')
                     <!-- Submit Field -->

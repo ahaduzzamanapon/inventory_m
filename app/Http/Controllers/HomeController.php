@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use App\Models\Item;
+
 class HomeController extends Controller
 {
     /**
@@ -22,5 +25,9 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+    public function items_dashboard(){
+        $items=Item::all();
+        return view('items.item_dashboard',compact('items'));
     }
 }

@@ -60,7 +60,8 @@ class AttendenceController extends AppBaseController
                 'date' => $input['date'],
                 'emp_id' => $emp_id,
                 'status' => $input['status'][$key],
-                'late_status' => $input['late_status'][$key]
+                'late_status' => $input['late_status'][$key],
+                'late_time' => $input['late_time'][$key]
             ];
         }
         Attendence::insert($attendences);
@@ -120,7 +121,6 @@ class AttendenceController extends AppBaseController
         ->get();
         if (empty($attendence)) {
             Flash::error('Attendence not found');
-
             return redirect(route('attendences.index'));
         }
 
@@ -153,7 +153,8 @@ class AttendenceController extends AppBaseController
                 'date' => $input['date'],
                 'emp_id' => $emp_id,
                 'status' => $input['status'][$key],
-                'late_status' => $input['late_status'][$key]
+                'late_status' => $input['late_status'][$key],
+                'late_time' => $input['late_time'][$key]
             ];
         }
         //dd($attendences);
@@ -177,17 +178,22 @@ class AttendenceController extends AppBaseController
     {
         /** @var Attendence $attendence */
         $attendence = Attendence::find($id);
-
         if (empty($attendence)) {
             Flash::error('Attendence not found');
-
             return redirect(route('attendences.index'));
         }
-
         $attendence->delete();
-
         Flash::success('Attendence deleted successfully.');
-
         return redirect(route('attendences.index'));
+    }
+    public function getOwnAttendence()
+    {
+        $user_id = auth()->user()->id;
+        $attendence = Attendence::select('attendences.*', 'users.name', 'users.last_name')
+            ->join('users', 'users.id', '=', 'attendences.emp_id')
+            ->where('attendences.emp_id', $user_id)
+            ->get();
+
+        return view('attendences.ownAttendence')->with('attendence', $attendence);
     }
 }

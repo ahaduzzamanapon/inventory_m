@@ -6,6 +6,7 @@ use App\Http\Requests\CreateAdvancedCashRequest;
 use App\Http\Requests\UpdateAdvancedCashRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\AdvancedCash;
+use App\Models\PettyCash;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
@@ -50,12 +51,28 @@ class AdvancedCashController extends AppBaseController
     public function store(CreateAdvancedCashRequest $request)
     {
         $input = $request->all();
-
         /** @var AdvancedCash $advancedCash */
         $advancedCash = AdvancedCash::create($input);
+        $pettycash = PettyCash::create([
+            'date' => date('Y-m-d'),
+            'account_ledgers' => 2,
+            'account_description' => 'Debit',
+            'amount' => $input['amount'],
+            'status' => 'Approved',
+        ]);
+
+        if($input['settled_status'] == 'Settled'){
+            $pettycash = PettyCash::create([
+                'date' => date('Y-m-d'),
+                'account_ledgers' => 3,
+                'account_description' => 'Credit',
+                'amount' => $input['settled_amount'],
+                'status' => 'Approved',
+            ]);
+        }
+
 
         Flash::success('Advanced Cash saved successfully.');
-
         return redirect(route('advancedCashes.index'));
     }
 
@@ -123,8 +140,19 @@ class AdvancedCashController extends AppBaseController
         $advancedCash->fill($request->all());
         $advancedCash->save();
 
-        Flash::success('Advanced Cash updated successfully.');
+        $input = $request->all();
+        //dd($input);
 
+        if($input['settled_status'] == 'Settled'){
+            $pettycash = PettyCash::create([
+                'date' => date('Y-m-d'),
+                'account_ledgers' => 3,
+                'account_description' => 'Credit',
+                'amount' => $input['settled_amount'],
+                'status' => 'Approved',
+            ]);
+        }
+        Flash::success('Advanced Cash updated successfully.');
         return redirect(route('advancedCashes.index'));
     }
 
@@ -154,4 +182,6 @@ class AdvancedCashController extends AppBaseController
 
         return redirect(route('advancedCashes.index'));
     }
+
+
 }

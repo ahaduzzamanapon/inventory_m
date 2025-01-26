@@ -19,6 +19,7 @@ class CreateAttendencesTable extends Migration
             $table->string('emp_id');
             $table->string('status');
             $table->string('late_status');
+            $table->string('late_time')->nullable();
             $table->timestamps();
         });
     }

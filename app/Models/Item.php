@@ -40,7 +40,11 @@ class Item extends Model
         'item_purchase_price',
         'item_sale_price',
         'item_company_id',
-        'item_brand_id'
+        'item_brand_id',
+        'item_stock_alert_level',
+        'item_origin',
+        'item_warranty',
+        'item_variant_status'
     ];
 
     /**

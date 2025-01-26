@@ -2,7 +2,7 @@
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('date', 'Date:',['class'=>'control-label']) !!}
-        {!! Form::date('date', null, ['class' => 'form-control','id'=>'date']) !!}
+        {!! Form::date('date', date('Y-m-d'), ['class' => 'form-control','id'=>'date']) !!}
     </div>
 </div>
 
@@ -20,6 +20,7 @@
                 <th>Name</th>
                 <th>Present Status</th>
                 <th>Late Status</th>
+                <th>Late Time</th>
             </tr>
         </thead>
         <tbody>
@@ -35,6 +36,7 @@
                                 <option value="">Select Status</option>
                                 <option value="Absent">Absent</option>
                                 <option value="Present">Present</option>
+                                <option value="Leave">Leave</option>
                             </select>
                         </div>
                     </td>
@@ -45,6 +47,11 @@
                                 <option value="No">No</option>
                                 <option value="Yes">Yes</option>
                             </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <input type="text" name="late_time[]" class="form-control">
                         </div>
                     </td>
                 </tr>

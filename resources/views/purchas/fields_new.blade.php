@@ -138,6 +138,7 @@
                                     <tr>
                                         <th>Payment ID</th>
                                         <th>Payment Method</th>
+                                        <th>Cheque No</th>
                                         <th>Payment Date</th>
                                         <th>Amount</th>
                                         <th>Action <a class="btn btn-primary" onclick="addPaymentRow()"><i
@@ -186,6 +187,7 @@
                 newRow.innerHTML = '<td><input type="text" name="payment_id[]" value="' + uniq_id +
                     '" class="form-control"></td>' +
                     '<td><select name="payment_method_id[]" required class="form-control">' + paymentMethodOptions + '</select></td>' +
+                    '<td><input type="text" name="cheque_number[]" class="form-control" required></td>' +
                     '<td><input type="date" name="payment_date[]" class="form-control" required></td>' +
                     '<td><input type="text" name="payment_amount[]" required value="0" class="form-control text-right payment_amount" onkeyup="calculatePaymentTotal()"></td>' +
                     '<td><a class="btn btn-danger" onclick="removePaymentRow(this)"><i class="fa fa-trash"></i></a></td>';
@@ -328,11 +330,14 @@
                 item_id_u = item_name_data[0];
                 item_name_u = item_name_data[1];
                 item_price = parseFloat(item_name_data[2]);
-                cell1.innerHTML = item_id_u + ' - ' + item_name_u +
+                cell1.innerHTML = item_name_u +
                     '<input type="hidden" class="item_id_hidden"  name="item_id[]" value="' + item.id + '">'+
                     '<input type="hidden" class="item_name_hidden"  name="item_name[]" value="' + item_id_u + ' - ' + item_name_u + '">';
                 cell2.innerHTML =
-                    '<input type="number" name="quantity[]" required min="1" onkeyup="quantityChange(this)" value="1" class="form-control">';
+                    '<input type="number" name="quantity[]" required min="1" onkeyup="quantityChange(this),addSerial('+item.id+',this.value)" value="1" class="form-control">'+
+                    '<div id="serial_number'+item.id+'">'+
+
+                    '</div>';
                 cell3.innerHTML = '<input type="text" name="price[]" onkeyup="quantityChange(this)" value="' + item_price +
                     '" class="form-control text-right" >';
                 cell4.innerHTML = '<input type="text" name="total_price[]" value="' + item_price +
@@ -347,6 +352,49 @@
                 tableBody.appendChild(row);
                 $('#select_item_id').val('select').trigger('chosen:updated');
                 calculate_sub_total();
+                check_srial(item.id,);
+
+
             }
         </script>
+        <script>
+             function check_srial(item_id) {
+                $.ajax({
+                    url: '{{ route('check_item_serial') }}',
+                    method: 'POST',
+                    data: {
+                        item_id: item_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if(response.serial_status == 2){
+                            $('#serial_number'+item_id).html('<input type="text" name="serial_number[]" class="form-control" required>');
+                        }
+                    }
+                });
+            }
+        </script>
+        <script>
+            function addSerial(item_id,quantity) {
+
+                $.ajax({
+                    url: '{{ route('check_item_serial') }}',
+                    method: 'POST',
+                    data: {
+                        item_id: item_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        if(response.serial_status == 2){
+                            $('#serial_number'+item_id).html('');
+                                for (let i = 0; i < quantity; i++) {
+
+                                    $('#serial_number'+item_id).append('<input type="text" name="serial_number['+item_id+'][]" class="form-control" placeholder="Serial Number '+ (i+1) +'" required>');
+                                }
+                        }
+                    }
+                });
+            }
+        </script>
+
     @endsection

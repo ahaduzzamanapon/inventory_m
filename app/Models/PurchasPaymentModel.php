@@ -14,6 +14,7 @@ class PurchasPaymentModel extends Model
         'payment_date',
         'purchas_id',
         'payment_method',
+        'cheque_number',
         'payment_amount',
         'payment_status',
     ];

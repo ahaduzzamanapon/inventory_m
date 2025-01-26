@@ -64,7 +64,7 @@
 @endif
 {{-- //Inventory Management --}}
 @if(can('inventory_management'))
-<li {!! (Request::is('categories*')|| Request::is('items*') || Request::is('subCategories*') || Request::is('brands*') || Request::is('units*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
+<li {!! (Request::is('categories*')|| Request::is('item_dashboard') || Request::is('items*') || Request::is('subCategories*') || Request::is('brands*') || Request::is('units*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Inventory Management</span>
         <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
@@ -76,6 +76,14 @@
             <a href="{{ route('items.index') }}">
                 <span class="mm-text ">Items</span>
                 <span class="menu-icon"><i class="im im-icon-Bag-Items"></i></span>
+            </a>
+        </li>
+        @endif
+        @if(can('item'))
+        <li class="barr4 {!! (Request::is('item_dashboard') ? 'active' : '' ) !!}">
+            <a href="{{ route('item.dashboard') }}">
+                <span class="mm-text ">Items Dashboard</span>
+                <span class="menu-icon"><i class="im im-icon-Bag"></i></span>
             </a>
         </li>
         @endif
@@ -195,7 +203,7 @@
 @endif
 {{-- HRM --}}
 @if(can('hrm'))
-<li {!! (Request::is('attendences*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
+<li {!! (Request::is('attendences*') || Request::is('getOwnAttendence*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">HRM</span>
         <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
@@ -210,6 +218,12 @@
             </a>
         </li>
         @endif
+        <li class="barr4 {!! (Request::is('getOwnAttendence*') ? 'active' : '' ) !!}">
+            <a href="{{ route('attendences.getOwnAttendence') }}">
+                <span class="mm-text ">My Attendences</span>
+                <span class="menu-icon"><i class="im im-icon-Calendar"></i></span>
+            </a>
+        </li>
     </ul>
 </li>
 @endif

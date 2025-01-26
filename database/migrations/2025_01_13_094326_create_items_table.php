@@ -27,6 +27,10 @@ class CreateItemsTable extends Migration
             $table->float('item_sale_price')->nullable();
             $table->integer('item_company_id')->nullable();
             $table->integer('item_brand_id')->nullable();
+            $table->string('item_stock_alert_level')->nullable();
+            $table->string('item_origin')->nullable();
+            $table->string('item_warranty')->nullable();
+            $table->string('item_variant_status')->nullable();
             $table->timestamps();
         });
     }

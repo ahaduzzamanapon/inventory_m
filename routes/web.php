@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AttendenceController;
+use App\Http\Controllers\SalesController;
 
 
 include 'demo.php';
@@ -61,6 +64,10 @@ Route::get('/reports', [ReportController::class, 'showReportPage'])->name('repor
 Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generate_report');
 
 
+Route::get('/item_dashboard', [HomeController::class, 'items_dashboard'])->name('item.dashboard');
+Route::get('/getOwnAttendence', [AttendenceController::class, 'getOwnAttendence'])->name('attendences.getOwnAttendence');
+Route::get('/approve_payment/{id}', [SalesController::class, 'approve_payment']);
+Route::post('/check_item_serial', [SalesController::class, 'check_item_serial'])->name('check_item_serial');
 
 
 
