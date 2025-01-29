@@ -79,7 +79,7 @@
         <span class="im im-icon-Arrow-Right imicon"></span>
     </a>
     <ul class="sub-menu list-unstyled barr3">
-        
+
           @if(can('item'))
         <li class="barr4 {!! (Request::is('item_dashboard') ? 'active' : '' ) !!}">
             <a href="{{ route('item.dashboard') }}">
@@ -96,7 +96,7 @@
             </a>
         </li>
         @endif
-      
+
         @if(can('categories'))
         <li class="barr4 {!! (Request::is('categories*') ? 'active li_active' : '' ) !!}" >
             <a href="{{ route('categories.index') }}">
@@ -266,7 +266,7 @@
 @endif
 
 @if(can('settings'))
-<li {!! (Request::is('siteSettings*')|| Request::is('termAndConditions*') || Request::is('companies*') || Request::is('locations*') || Request::is('accountLedgers*') || Request::is('customers*') || Request::is('suppliers*') || Request::is('paymentMethods*')  ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
+<li {!! (Request::is('siteSettings*')|| Request::is('designations*') || Request::is('termAndConditions*') || Request::is('companies*') || Request::is('locations*') || Request::is('accountLedgers*') || Request::is('customers*') || Request::is('suppliers*') || Request::is('paymentMethods*')  ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Settings</span>
         <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
@@ -313,14 +313,14 @@
             </a>
         </li>
         @endif
-        {{-- @if(can('locations'))
+        @if(can('locations'))
         <li class="barr4 {!! (Request::is('locations*') ? 'active' : '' ) !!}">
             <a href="{{ route('locations.index') }}">
                 <span class="mm-text ">Locations</span>
                 <span class="menu-icon"><i class="im im-icon-Map"></i></span>
             </a>
         </li>
-        @endif --}}
+        @endif
         @if(can('companies'))
         <li class="barr4 {!! (Request::is('companies*') ? 'active' : '' ) !!}">
             <a href="{{ route('companies.index') }}">
@@ -329,6 +329,15 @@
             </a>
         </li>
         @endif
+        @if(can('designations'))
+        <li class="barr4 {!! (Request::is('designations*') ? 'active' : '' ) !!}">
+            <a href="{{ route('designations.index') }}">
+                <span class="mm-text ">Designations</span>
+                <span class="menu-icon"><i class="im im-icon-Teacher"></i></span>
+            </a>
+        </li>
+        @endif
+
         @if(can('term_and_conditions'))
         <li class="barr4 {!! (Request::is('termAndConditions*') ? 'active' : '' ) !!}">
             <a href="{{ route('termAndConditions.index') }}">

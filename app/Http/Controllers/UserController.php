@@ -81,6 +81,7 @@ class UserController extends Controller
     {
         /** @var User $users */
         $users = User::find($id);
+        //
 
         if (empty($users)) {
             Flash::error('User not found');

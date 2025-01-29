@@ -550,8 +550,11 @@
 
 <script>
     function date_fixer(id){
+
         const dateField = document.getElementById(id);
         var dateValue = dateField.value;
+        console.log('dateValue', dateValue);
+
         if(dateValue == ''){
             dateValue = '{{ date('Y-m-d') }}';
         }

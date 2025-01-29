@@ -5,24 +5,24 @@ namespace App\Models;
 use Eloquent as Model;
 
 /**
- * Class AccountLedger
+ * Class Designation
  * @package App\Models
- * @version January 13, 2025, 7:13 am UTC
+ * @version January 29, 2025, 5:40 am UTC
  *
- * @property string $name
- * @property string $type
+ * @property string $desi_name
+ * @property string $desi_status
  */
-class AccountLedger extends Model
+class Designation extends Model
 {
 
-    public $table = 'accountledgers';
-
+    public $table = 'designations';
+    
 
 
 
     public $fillable = [
-        'name',
-        'type'
+        'desi_name',
+        'desi_status'
     ];
 
     /**
@@ -32,8 +32,8 @@ class AccountLedger extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'name' => 'string',
-        'type' => 'string'
+        'desi_name' => 'string',
+        'desi_status' => 'string'
     ];
 
     /**
@@ -42,11 +42,9 @@ class AccountLedger extends Model
      * @var array
      */
     public static $rules = [
-        'name' => 'required',
-        'type' => 'required'
+        'desi_name' => 'required',
+        'desi_status' => 'required'
     ];
 
     
-
-
 }

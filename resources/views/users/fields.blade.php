@@ -60,6 +60,16 @@
         {!! Form::select('gender', ['Male' => 'Male', 'Female' => 'Female'], null, ['class' => 'form-control','required']) !!}
     </div>
 </div>
+@php
+    $designations = \App\Models\Designation::all()->pluck('desi_name','id')->prepend('Select Designation', '')->toArray();
+@endphp
+<!-- Gender Field -->
+<div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('designation_id', 'Designation:',['class'=>'control-label']) !!}
+        {!! Form::select('designation_id',$designations, null, ['class' => 'form-control','required']) !!}
+    </div>
+</div>
 
 
 <!-- Address Field -->
@@ -131,13 +141,13 @@
     <div class="form-group">
         {!! Form::label('blood_group', 'Blood Group:',['class'=>'control-label']) !!}
         {!! Form::select('blood_group', [
-            'A+' => 'A+', 
-            'A-' => 'A-', 
-            'B+' => 'B+', 
-            'B-' => 'B-', 
-            'AB+' => 'AB+', 
-            'AB-' => 'AB-', 
-            'O+' => 'O+', 
+            'A+' => 'A+',
+            'A-' => 'A-',
+            'B+' => 'B+',
+            'B-' => 'B-',
+            'AB+' => 'AB+',
+            'AB-' => 'AB-',
+            'O+' => 'O+',
             'O-' => 'O-'
         ], null, ['class' => 'form-control']) !!}
     </div>
