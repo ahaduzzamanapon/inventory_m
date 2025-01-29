@@ -16,4 +16,5 @@ public/mix.js.map
 app_2.zip
 slope.zip
 *.zip
-
+.env
+*.env
