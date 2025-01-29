@@ -239,7 +239,7 @@
         <div class="payment-summary">
             <h3>Term and Condition</h3>
             @php
-                $terms = \App\Models\TermAndCondition::all();
+                $terms = \App\Models\TermAndCondition::where('status', 'Active')->get();
             @endphp
             <ul>
                 @foreach ($terms as $term)

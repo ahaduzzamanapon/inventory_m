@@ -5,6 +5,14 @@
         {!! Form::textarea('Title', null, ['class' => 'form-control']) !!}
     </div>
 </div>
+<!-- Title Field -->
+<div class="col-md-12">
+    <div class="form-group ">
+        {!! Form::label('status', 'Status:',['class'=>'control-label']) !!}
+        {!! Form::select('status', ['Active' => 'Active', 'Inactive' => 'Inactive'], null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+
 
 
 <!-- Submit Field -->

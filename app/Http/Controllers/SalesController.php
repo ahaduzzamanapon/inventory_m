@@ -10,6 +10,7 @@ use App\Models\SalesModel;
 use App\Models\SalesItemModel;
 use App\Models\SalesPaymentModel;
 use App\Models\Customer;
+use App\Models\ReturnSale;
 use App\Models\Item;
 use Flash;
 
@@ -161,13 +162,16 @@ class SalesController extends Controller
         $customer = Customer::find($sales->customer_id);
         $SalesItem = SalesItemModel::where('sale_id', $id)->get();
         $SalesPayment = SalesPaymentModel::where('sale_id', $id)->get();
+        //dd($sales);
+
+        $sales_return = ReturnSale::where('sale_id', $sales->sales_id)->get();
 
 
 
 
 
 
-        return view('sales.show', compact('sales', 'SalesItem', 'SalesPayment','customer'));
+        return view('sales.show', compact('sales', 'SalesItem', 'SalesPayment','customer','sales_return'));
     }
 
     static function delete($id){
@@ -208,11 +212,11 @@ class SalesController extends Controller
         DB::beginTransaction();
 
         try {
-            $sales = SalesModel::find($request->sales_id);
-            $sales->payment_amount += $request->total_payment;
-            $sales->due_amount = $request->due;
-            $sales->payment_status = $request->due == 0 ? 'Paid' : 'Partial';
-            $sales->save();
+             $sales = SalesModel::find($request->sales_id);
+            // $sales->payment_amount += $request->total_payment;
+            // $sales->due_amount = $request->due;
+            // $sales->payment_status = $request->due == 0 ? 'Paid' : 'Partial';
+            // $sales->save();
             foreach ($request->payment_id as $key => $value) {
                 $payment = new SalesPaymentModel();
                 $payment->payment_id = $value;
@@ -278,4 +282,71 @@ class SalesController extends Controller
         return response()->json(['div_data' => $div_data, 'serial_status' => $serial_status]);
     }
 
+    public function sales_return(){
+        $sales = SalesModel::all()->pluck('sales_id', 'sales_id')->prepend('Select Sales ID', '');
+        return view('sales.sales_return', compact('sales'));
+    }
+
+    public function get_return_sale_data(Request $request){
+        $sales = SalesModel::where('sales_id', $request->sales_id)->first();
+        $customer = Customer::find($sales->customer_id);
+        $SalesItem = SalesItemModel::where('sale_id', $sales->id)->get();
+        $SalesPayment = SalesPaymentModel::where('sale_id', $sales->id)->get();
+        return view('sales.sales_item_data', compact('sales', 'SalesItem'));
+    }
+    public function return_store(Request $request){
+        //dd($request->all());
+        DB::beginTransaction();
+        try {
+            foreach ($request->sales_details_id as $key => $value) {
+                if ( $request->return_qty[$key] == 0 || $request->return_qty[$key] == '' ) {
+                    continue;
+                }
+                $SalesItem = SalesItemModel::where('id', $value)->first();
+
+                $item_id = $SalesItem->item_id;
+                $return_qty = $request->return_qty[$key] ?? 0;
+                $return_amount = $request->return_amount[$key] ?? 0;
+                $salesItem = ReturnSale::create([
+                    'sale_id' => $request->sales_id,
+                    'item_id' => $item_id,
+                    'return_qty' => $return_qty,
+                    'return_serial' => isset($request->return_serial[$value]) ? json_encode($request->return_serial[$value]) : null,
+                    'return_amount' => $return_amount,
+                    'return_date' => date('Y-m-d'),
+                    'payment_status' => 'Pending',
+                ]);
+            }
+            foreach ($request->sales_details_id as $key => $value) {
+                if (isset($request->return_serial[$value])) {
+                    foreach ($request->return_serial[$value] as $serial) {
+                        DB::table('item_serials')->where('id', $serial)->update(['sale_status' => 1]);
+                    }
+                }
+            }
+            DB::commit();
+            Flash::success('Sales returned successfully.');
+            return redirect(route('sales.sales_list'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e->getMessage());
+            Flash::error('Something went wrong while returning sales');
+            return redirect(route('sales.sales_list'));
+        }
+
+    }
+    public function sales_return_payment($id){
+        $sales = ReturnSale::find($id);
+        if (empty($sales)) {
+            Flash::error('Return not found');
+            return redirect(route('sales.sales_list'));
+        }else{
+            $sales->payment_status = 'Completed';
+            $sales->save();
+            Flash::success('Payment approved successfully.');
+            return redirect()->back();
+        }
+
+        return view('sales.sales_return_payment', compact('sales'));
+    }
 }

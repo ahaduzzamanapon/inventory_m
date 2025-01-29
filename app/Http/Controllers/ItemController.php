@@ -56,7 +56,11 @@ class ItemController extends AppBaseController
     public function store(CreateItemRequest $request)
     {
         $input = $request->all();
+        if(isset($input['item_serial_number'])){
         $item_serial_number = $input['item_serial_number'];
+        }else{
+            $item_serial_number=[];
+        }
         unset($input['item_serial_number']);
         if ($request->hasFile('item_image')) {
             $file = $request->file('item_image');
@@ -68,6 +72,7 @@ class ItemController extends AppBaseController
         /** @var Item $item */
         $item = Item::create($input);
         $item_id = $item->id;
+        
         foreach ($item_serial_number as $key => $value) {
             $item_serial = new ItemSerial();
             $item_serial->item_id = $item_id;

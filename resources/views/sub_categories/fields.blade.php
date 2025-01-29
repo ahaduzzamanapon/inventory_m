@@ -1,11 +1,3 @@
-<!-- Subcategoryname Field -->
-<div class="col-md-3">
-    <div class="form-group">
-        {!! Form::label('SubCategoryName', 'Subcategoryname:',['class'=>'control-label']) !!}
-        {!! Form::text('SubCategoryName', null, ['class' => 'form-control']) !!}
-    </div>
-</div>
-
 <?php
     $categories = DB::table('categorys')->get();
 ?>
@@ -17,6 +9,16 @@
         {!! Form::select('Category', $categories->pluck('Name','id'), null, ['class' => 'form-control select2']) !!}
     </div>
 </div>
+
+<!-- Subcategoryname Field -->
+<div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('SubCategoryName', 'Subcategoryname:',['class'=>'control-label']) !!}
+        {!! Form::text('SubCategoryName', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+
+
 
 
 <!-- Submit Field -->

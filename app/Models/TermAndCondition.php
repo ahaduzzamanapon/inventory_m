@@ -15,12 +15,13 @@ class TermAndCondition extends Model
 {
 
     public $table = 'termandconditions';
-    
+
 
 
 
     public $fillable = [
-        'Title'
+        'Title',
+        'status',
     ];
 
     /**
@@ -42,5 +43,5 @@ class TermAndCondition extends Model
         'Title' => 'required'
     ];
 
-    
+
 }

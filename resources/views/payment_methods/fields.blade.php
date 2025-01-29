@@ -11,7 +11,7 @@
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('method_type', 'Method Type:',['class'=>'control-label']) !!}
-        {!! Form::select('method_type', ['Cash' => 'Cash', 'Bank' => 'Bank', 'Card' => 'Card', 'Check' => 'Check'], null, ['class' => 'form-control']) !!}
+        {!! Form::select('method_type', ['Cash' => 'Cash', 'Bank' => 'Bank', 'Card' => 'Card', 'Cheque' => 'Cheque'], null, ['class' => 'form-control']) !!}
     </div>
 </div>
 

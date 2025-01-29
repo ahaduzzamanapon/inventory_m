@@ -45,3 +45,6 @@ Route::resource('termAndConditions', 'TermAndConditionController');
 Route::resource('permissions', 'PermissionController');
 
 Route::resource('roleAndPermissions', 'RoleAndPermissionController');
+
+
+Route::resource('bonuses', 'BonusController');

@@ -24,10 +24,18 @@
         </li>
         @endif
         @if(can('sales_list'))
-        <li class="barr4 {!! (Request::is('sales_list') || Request::is('sales*') ? 'active' : '' ) !!}">
+        <li class="barr4 {!! (Request::is('sales_list') ? 'active' : '' ) !!}">
             <a href="{{route('sales.sales_list')}}">
                 <span class="mm-text ">Sales List</span>
                 <span class="menu-icon"><i class="im im-icon-Add-Bag"></i></span>
+            </a>
+        </li>
+        @endif
+        @if(can('sales_list'))
+        <li class="barr4 {!! (Request::is('sales_return') ? 'active' : '' ) !!}">
+            <a href="{{route('sales.sales_return')}}">
+                <span class="mm-text ">Sales return</span>
+                <span class="menu-icon"><i class="im im-icon-Receipt"></i></span>
             </a>
         </li>
         @endif
@@ -71,6 +79,15 @@
         <span class="im im-icon-Arrow-Right imicon"></span>
     </a>
     <ul class="sub-menu list-unstyled barr3">
+        
+          @if(can('item'))
+        <li class="barr4 {!! (Request::is('item_dashboard') ? 'active' : '' ) !!}">
+            <a href="{{ route('item.dashboard') }}">
+                <span class="mm-text ">Items Dashboard</span>
+                <span class="menu-icon"><i class="im im-icon-Bag"></i></span>
+            </a>
+        </li>
+        @endif
         @if(can('item'))
         <li class="barr4 {!! (Request::is('items*') ? 'active' : '' ) !!}">
             <a href="{{ route('items.index') }}">
@@ -79,14 +96,7 @@
             </a>
         </li>
         @endif
-        @if(can('item'))
-        <li class="barr4 {!! (Request::is('item_dashboard') ? 'active' : '' ) !!}">
-            <a href="{{ route('item.dashboard') }}">
-                <span class="mm-text ">Items Dashboard</span>
-                <span class="menu-icon"><i class="im im-icon-Bag"></i></span>
-            </a>
-        </li>
-        @endif
+      
         @if(can('categories'))
         <li class="barr4 {!! (Request::is('categories*') ? 'active li_active' : '' ) !!}" >
             <a href="{{ route('categories.index') }}">
@@ -129,7 +139,7 @@
 
 {{-- Account --}}
 @if(can('account'))
-<li {!! (Request::is('pettyCashes*') || Request::is('advancedCashes*')|| Request::is('salary*') || Request::is('logisticBills*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
+<li {!! (Request::is('pettyCashes*')|| Request::is('bonuses*') || Request::is('advancedCashes*')|| Request::is('salary*') || Request::is('logisticBills*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Account</span>
         <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
@@ -167,6 +177,12 @@
             <a href="{{ route('salary') }}">
                 <span class="mm-text ">Salary</span>
                 <span class="menu-icon"><i class="im im-icon-Money-2"></i></span>
+            </a>
+        </li>
+        <li class="barr4 {!! (Request::is('bonuses*') ? 'active' : '' ) !!}">
+            <a href="{{ route('bonuses.index') }}">
+                <span class="mm-text ">Bonuses</span>
+                <span class="menu-icon"><i class="im im-icon-Money"></i></span>
             </a>
         </li>
         @endif
@@ -324,6 +340,8 @@
     </ul>
 </li>
 @endif
+
+
 
 
 

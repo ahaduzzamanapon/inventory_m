@@ -13,8 +13,12 @@
         <th>Company</th>
         <th>Qty</th>
         <th>Unit</th>
+        @if(can('view_item_purchase_price'))
         <th>Purchase Price</th>
-        <th>Sale Price</th>
+            @endif
+        @if(can('view_item_sale_price'))
+            <th>Sale Price</th>
+            @endif
                 <th>Action</th>
             </tr>
         </thead>
@@ -32,8 +36,13 @@
             <td>{{ $item->CompanyName }}</td>
             <td>{{ $item->item_qty }}</td>
             <td>{{ $item->Unit_Name }}</td>
+                    @if(can('view_item_purchase_price'))
+
             <td>{{ $item->item_purchase_price }}</td>
+            @endif
+            @if(can('view_item_sale_price'))
             <td>{{ $item->item_sale_price }}</td>
+            @endif
                 <td>
                     {!! Form::open(['route' => ['items.destroy', $item->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

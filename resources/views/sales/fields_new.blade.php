@@ -13,14 +13,14 @@
 
                 <div class="form-group col-md-3">
                     {!! Form::label('reference_no', 'Reference:') !!}
-                    {!! Form::text('reference_no', 'Ref-' . time(), [
+                    {!! Form::text('reference_no', 'REF:Sale/Slope/' . time(), [
                         'class' => 'form-control',
                         'placeholder' => 'Reference Number',
                     ]) !!}
                 </div>
                 <div class="form-group col-md-3">
                     {!! Form::label('sales_id', 'Sales ID:') !!}
-                    {!! Form::text('sales_id', 'sale-' . time(), [
+                    {!! Form::text('sales_id', 'Sale/Slope/' . time(), [
                         'class' => 'form-control',
                         'placeholder' => 'Sales ID',
                         'readonly',
@@ -182,7 +182,7 @@
                     '" class="form-control"></td>' +
                     '<td><select name="payment_method_id[]" required class="form-control">' + paymentMethodOptions + '</select></td>' +
                     '<td><input type="text" name="cheque_number[]" class="form-control" required></td>' +
-                    '<td><input type="date" name="payment_date[]" class="form-control" required></td>' +
+                    '<td><input type="date" name="payment_date[]" value="{{ date('Y-m-d') }}" class="form-control" required></td>' +
                     '<td><input type="text" name="payment_amount[]" required value="0" class="form-control text-right payment_amount" onkeyup="calculatePaymentTotal()"></td>' +
                     '<td><a class="btn btn-danger" onclick="removePaymentRow(this)"><i class="fa fa-trash"></i></a></td>';
                 paymentTableBody.appendChild(newRow);

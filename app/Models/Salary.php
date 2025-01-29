@@ -20,6 +20,7 @@ class Salary extends Model
         'total_salary',
         'ba_deduct',
         'absent_deduct',
+        'bonus_amount',
         'gross_salary',
     ];
 

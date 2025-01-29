@@ -7,6 +7,8 @@
 </div>
 
 
+
+
 @php
     $accountLedgers = DB::table('accountledgers')->get();
 @endphp
@@ -65,14 +67,21 @@
  <div class="clearfix"></div>
 
 @if(can('petty_cash_approval'))
-<!-- Status Field -->
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('status', 'Status:',['class'=>'control-label']) !!}
         {!! Form::select('status', ['Pending' => 'Pending', 'Approved' => 'Approved'], null, ['class' => 'form-control']) !!}
     </div>
 </div>
+@else
+<div class="col-md-3 d-none">
+    <div class="form-group">
+        {!! Form::label('status', 'Status:',['class'=>'control-label']) !!}
+        {!! Form::select('status', ['Pending' => 'Pending', 'Approved' => 'Approved'], null, ['class' => 'form-control']) !!}
+    </div>
+</div>
 @endif
+
 
 
 <!-- Submit Field -->

@@ -85,6 +85,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
     <!-- jQuery Library -->
 
+    <!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 
 
@@ -532,6 +537,32 @@
         });
     });
 
+</script>
+
+<script>
+    $(document).ready(function() {
+        var dateFields = document.querySelectorAll('input[type="date"]');
+        dateFields.forEach(function(dateField) {
+            date_fixer(dateField.id);
+        });
+    });
+</script>
+
+<script>
+    function date_fixer(id){
+        const dateField = document.getElementById(id);
+        var dateValue = dateField.value;
+        if(dateValue == ''){
+            dateValue = '{{ date('Y-m-d') }}';
+        }
+        date_ayy = dateValue.split('-');
+        daValue = date_ayy[2] + '-' + date_ayy[1] + '-' + date_ayy[0];
+        flatpickr(`#${id}`, {
+            dateFormat: "d-m-Y",
+            allowInput: true,
+            defaultDate: daValue
+        });
+    }
 </script>
 
 

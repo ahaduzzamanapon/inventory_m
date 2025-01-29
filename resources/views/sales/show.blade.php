@@ -113,6 +113,57 @@ Sales Details @parent
                 <li class="list-group-item"><strong>Due Amount:</strong> {{ number_format($sales->due_amount, 2) }}</li>
             </ul>
         </div>
+        <!-- Sales Return -->
+        @if(!empty($sales_return))
+        <div class="mb-4">
+            <h5 class="text-primary">Sales Return</h5>
+            <table class="table table-hover table-bordered">
+                <thead class="table-prymari">
+                    <tr>
+                        <th>Item Name</th>
+                        <th>Return Qty</th>
+                        <th>Return Serial</th>
+                        <th>Return Amount</th>
+                        <th>Return Date</th>
+                        <th>Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($sales_return as $return)
+                    <tr>
+                        <td>{{ get_item_name_by_id($return->item_id) }}</td>
+                        <td>{{ $return->return_qty }}</td>
+                        <td>
+                            @if($return->return_serial !=null)
+                                @php
+                                    $serials =  json_decode($return->return_serial);
+                                    //dd($serials);
+                                    $item_serials=DB::table('item_serials')->whereIn('id', $serials)->get();
+                                    //dd($item_serials);
+                                    foreach ($item_serials as $serial) {
+                                        echo $serial->item_serial_number.',';
+                                    }
+                                @endphp
+                            @endif
+                        </td>
+                        <td>{{ number_format($return->return_amount, 2) }}</td>
+                        <td>{{ $return->return_date }}</td>
+                        <td>
+                            @if($return->payment_status == 'Pending')
+                                <span class="badge badge-warning">Pending</span>
+                                <a class="btn btn-primary" href="{{url('sales_return_payment/'.$return->id)}}">Payment complete</a>
+                            @else
+                                <span class="badge badge-success">Paid</span>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        @endif
+        <!-- Sales Return -->
+
 
         <!-- Back Button -->
         <div class="text-right">

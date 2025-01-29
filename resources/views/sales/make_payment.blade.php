@@ -28,6 +28,7 @@
                         <li class="list-group-item"><strong>Payment Status:</strong> <span
                                 class="badge badge-{{ $sales->payment_status == 'Paid' ? 'success' : 'warning' }}">{{ $sales->payment_status }}</span>
                         </li>
+                        <li class="list-group-item"><strong>Total ammount:</strong> {{ $sales->grand_total }}</li>
                     </ul>
                 </div>
                 <div class="col-md-6">
@@ -62,12 +63,12 @@
                                 <td>{{ $payment->payment_id }}</td>
                                 <td>{{ $payment->payment_date }}</td>
                                 <td>{{ $payment->payment_method }}</td>
-                                <td>{{ $payment->cheque_no }}</td>
+                                <td>{{ $payment->cheque_number }}</td>
                                 <td>{{ number_format($payment->payment_amount, 2) }}</td>
                                 <td><span>
                                         {{ $payment->payment_status }}
                                         </span>
-                                        @if($payment->payment_status == 'Pending')
+                                        @if($payment->payment_status == 'Pending' && can('approve_payment'))
                                         <a href="{{ url('approve_payment/' . $payment->id) }}" class="btn btn-primary btn-sm">Approve</a>
                                         @endif
                                 </td>
@@ -135,14 +136,14 @@
                     }).join('');
 
                     var paymentTableBody = document.getElementById('payment_table_body');
-                    var uniq_id = 'pay-' + Math.random().toString(10).substr(2, 9);
+                    var uniq_id = 'Pay ID-' + Math.random().toString(10).substr(2, 9);
                     var newRow = document.createElement('tr');
                     newRow.innerHTML = '<td><input type="text" name="payment_id[]" value="' + uniq_id +
                         '" class="form-control"></td>' +
                         '<td><select name="payment_method_id[]" required class="form-control">' + paymentMethodOptions + '</select></td>' +
                         '<td><input type="text" name="Cheque_number[]" class="form-control" required></td>' +
 
-                        '<td><input type="date" name="payment_date[]" class="form-control" required></td>' +
+                        '<td><input type="date" name="payment_date[]" value="{{ date('Y-m-d') }}" class="form-control" required></td>' +
                         '<td><input type="text" name="payment_amount[]" required value="0" class="form-control text-right payment_amount" onkeyup="calculatePaymentTotal()"></td>' +
                         '<td><a class="btn btn-danger" onclick="removePaymentRow(this)"><i class="fa fa-trash"></i></a></td>';
                     paymentTableBody.appendChild(newRow);

@@ -95,17 +95,14 @@ Item Dashboard @parent
         <div class="container-lg col-md-12">
             <div class="row">
                 @foreach($items as $item)
-
                 <div class="col-12 col-md-3 col-xxl-3 mb-10" >
                     <div class="custom-card" style="background: {{($item->item_qty < $item->item_stock_alert_level) ? '#ff0000' : ''}}">
 
-                        <div class="card-body">
-                            <div class="card-content d-flex align-items-center">
-                                <div>
+                        <div class="card-body" style="width: 100%;justify-items: center;padding: 0.55rem;">
+                            <div class="card-content d-flex align-items-center flex-column">
                                     {{-- <h5 class="card-title">{{ $title }}</h5> --}}
                                     <h5 class="card-title">{{ $item->item_name }}</h5>
                                     <h3 class="card-value">{{ $item->item_qty }}</h3>
-                                </div>
                             </div>
                         </div>
                     </div>

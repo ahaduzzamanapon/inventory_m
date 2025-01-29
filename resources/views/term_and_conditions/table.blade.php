@@ -4,6 +4,7 @@
             <tr>
                 <th>Id</th>
         <th>Title</th>
+                <th>Status</th>
 
                 <th>Action</th>
             </tr>
@@ -13,6 +14,7 @@
             <tr>
                 <td>{{ $termAndCondition->id }}</td>
             <td>{{ $termAndCondition->Title }}</td>
+                <td>{{ $termAndCondition->status }}</td>
 
                 <td>
                     {!! Form::open(['route' => ['termAndConditions.destroy', $termAndCondition->id], 'method' => 'delete']) !!}

@@ -99,9 +99,15 @@
                     'Monthly Sales' => DB::table('sales_models')
                         ->whereMonth('created_at', now()->month)
                         ->count(),
+                    'Total Liability' => DB::table('purchas_models')
+                        ->whereMonth('created_at', now()->month)
+                        ->count(),
                     'Monthly Expense' => DB::table('pettycash')
                         ->whereMonth('created_at', now()->month)
                         ->sum('amount'),
+                    'Running Petty cash' => DB::table('pettycash')
+                        ->where('status', 'Pending')
+                        ->count(),
                     'Total Due' => DB::table('sales_models')
                         ->sum('due_amount'),
                     'Total Advance' => DB::table('advanced_cash')
@@ -112,6 +118,9 @@
                         ->whereYear('created_at', now()->year)
                         ->where('payment_status', 'Completed')
                         ->sum('payment_amount'),
+                    'Total Item' => DB::table('items')
+                        ->count(),
+
                 ];
 
                 $icons = [
@@ -121,6 +130,11 @@
                     'Total Advance' => 'fas fa-forward',
                     'Total Product Value' => 'fas fa-boxes',
                     'Total Yearly Profit' => 'fas fa-chart-line',
+                    'Total Liability' => 'fas fa-credit-card',
+                    'Total Item' => 'fas fa-boxes',
+                    'Running Petty cash' => 'fas fa-money-bill',
+
+
                 ];
 
                 $subtitles = [
@@ -130,10 +144,12 @@
                     'Total Advance' => 'Total advanced payments',
                     'Total Product Value' => 'Value of all products in stock',
                     'Total Yearly Profit' => 'Profit made this year',
+                    'Total Liability' => 'Total liabilities',
+                    'Total Item' => 'Total items in stock',
+                    'Running Petty cash' => 'Running petty cash',
                 ];
                 ?>
 
-                <div class="row">
                     @foreach ($metrics as $title => $value)
                     <div class="col-12 col-md-4 col-xxl-3 mb-10">
                         <div class="custom-card">
@@ -152,7 +168,6 @@
                         </div>
                     </div>
                     @endforeach
-                </div>
 
         </div>
     </section>

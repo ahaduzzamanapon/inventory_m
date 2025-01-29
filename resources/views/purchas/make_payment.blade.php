@@ -131,14 +131,14 @@
                     }).join('');
 
                     var paymentTableBody = document.getElementById('payment_table_body');
-                    var uniq_id = 'pay-' + Math.random().toString(10).substr(2, 9);
+                    var uniq_id = 'Pay ID-' + Math.random().toString(10).substr(2, 9);
                     var newRow = document.createElement('tr');
                     newRow.innerHTML = '<td><input type="text" name="payment_id[]" value="' + uniq_id +
                         '" class="form-control"></td>' +
                         '<td><select name="payment_method_id[]" required class="form-control">' + paymentMethodOptions + '</select></td>' +
                         '<td><input type="text" name="Cheque_number[]" class="form-control" required></td>' +
 
-                        '<td><input type="date" name="payment_date[]" class="form-control" required></td>' +
+                        '<td><input type="date" name="payment_date[]" value="{{ date('Y-m-d') }}" class="form-control" required></td>' +
                         '<td><input type="text" name="payment_amount[]" required value="0" class="form-control text-right payment_amount" onkeyup="calculatePaymentTotal()"></td>' +
                         '<td><a class="btn btn-danger" onclick="removePaymentRow(this)"><i class="fa fa-trash"></i></a></td>';
                     paymentTableBody.appendChild(newRow);

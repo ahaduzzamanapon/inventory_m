@@ -25,6 +25,7 @@ return new class extends Migration
             $table->decimal('total_salary', 10, 2);
             $table->decimal('ba_deduct', 10, 2);
             $table->decimal('absent_deduct', 10, 2);
+            $table->decimal('bonus_amount', 10, 2);
             $table->decimal('gross_salary', 10, 2);
             $table->timestamps();
         });

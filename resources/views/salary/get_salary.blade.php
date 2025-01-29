@@ -42,6 +42,7 @@
             <th>Total Present</th>
             <th>Total Absent</th>
             <th>Absent Deduction</th>
+            <th>Bonus Amount</th>
             <th>Total Salary</th>
         </tr>
         </thead>
@@ -55,7 +56,8 @@
                 <td>{{ $salary->total_present }}</td>
                 <td>{{ $salary->total_absent }}</td>
                 <td>{{ number_format($salary->absent_deduct, 2) }}</td>
-                <td>{{ number_format($salary->total_salary, 2) }}</td>
+                <td>{{ number_format($salary->bonus_amount, 2) }}</td>
+                <td>{{ number_format($salary->gross_salary, 2) }}</td>
             </tr>
         @endforeach
         </tbody>

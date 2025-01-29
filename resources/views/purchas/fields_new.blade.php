@@ -16,7 +16,7 @@
             <div class="col-md-12">
                 <div class="form-group col-md-12">
                     {!! Form::label('reference_no', 'Reference:') !!}
-                    {!! Form::text('reference_no', 'Ref-' . time(), [
+                    {!! Form::text('reference_no', 'REF:Pur/Slope/' . time(), [
                         'class' => 'form-control',
                         'placeholder' => 'Reference Number',
                     ]) !!}
@@ -188,7 +188,7 @@
                     '" class="form-control"></td>' +
                     '<td><select name="payment_method_id[]" required class="form-control">' + paymentMethodOptions + '</select></td>' +
                     '<td><input type="text" name="cheque_number[]" class="form-control" required></td>' +
-                    '<td><input type="date" name="payment_date[]" class="form-control" required></td>' +
+                    '<td><input type="date" name="payment_date[]" value="{{ date('Y-m-d') }}" class="form-control" required></td>' +
                     '<td><input type="text" name="payment_amount[]" required value="0" class="form-control text-right payment_amount" onkeyup="calculatePaymentTotal()"></td>' +
                     '<td><a class="btn btn-danger" onclick="removePaymentRow(this)"><i class="fa fa-trash"></i></a></td>';
                 paymentTableBody.appendChild(newRow);
@@ -338,8 +338,13 @@
                     '<div id="serial_number'+item.id+'">'+
 
                     '</div>';
+                    @if(auth()->user()->group_id == 1)
                 cell3.innerHTML = '<input type="text" name="price[]" onkeyup="quantityChange(this)" value="' + item_price +
                     '" class="form-control text-right" >';
+                    @else
+                    cell3.innerHTML = '<input type="text" name="price[]" onkeyup="quantityChange(this)" value="' + item_price +
+                    '" class="form-control text-right" readonly>';
+                    @endif
                 cell4.innerHTML = '<input type="text" name="total_price[]" value="' + item_price +
                     '" class="form-control text-right total_input_price" readonly>';
                 cell5.innerHTML =

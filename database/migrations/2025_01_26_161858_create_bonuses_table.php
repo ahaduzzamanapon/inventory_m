@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateTermandconditionsTable extends Migration
+class CreateBonusesTable extends Migration
 {
 
     /**
@@ -13,10 +13,12 @@ class CreateTermandconditionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('termandconditions', function (Blueprint $table) {
+        Schema::create('bonuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('Title');
-            $table->text('status');
+            $table->string('user_id');
+            $table->text('month');
+            $table->text('amount');
+            $table->text('reason');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateTermandconditionsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('termandconditions');
+        Schema::drop('bonuses');
     }
 }

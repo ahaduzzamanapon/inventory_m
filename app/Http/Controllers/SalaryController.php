@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Attendence;
+use App\Models\Bonus;
 use App\Models\Salary;
 
 
@@ -27,6 +28,12 @@ class SalaryController extends Controller
             $attendences = Attendence::where('emp_id', $user->id)
             ->whereBetween('date', [$first_date, $last_date])
             ->get();
+            $bonus = Bonus::where('user_id', $user->id)->where('month', $month)->first();
+            if($bonus){
+                $bonus_amount=$bonus->amount;
+            }else{
+                $bonus_amount=0;
+            }
             $total_present = $attendences->whereIn('status', ['Present', 'Leave'])->count();
             $total_absent = $attendences->where('status', 'Absent')->count();
             $salary=$user->salary;
@@ -35,6 +42,7 @@ class SalaryController extends Controller
             $total_salary=$total_present*$per_day_salary;
             $ba_deduct=$ba_deduct_day*$per_day_salary;
             $absent_deduct=$total_absent*$per_day_salary;
+
             $data=[
                 'user_id'=>$user->id,
                 'emp_id'=>$user->emp_id,
@@ -46,7 +54,8 @@ class SalaryController extends Controller
                 'total_salary'=>round($total_salary, 2),
                 'ba_deduct'=>round($ba_deduct, 2),
                 'absent_deduct'=>round($absent_deduct, 2),
-                'gross_salary'=>round($total_salary, 2)
+                'bonus_amount'=>round($bonus_amount, 2),
+                'gross_salary'=>round($total_salary+$bonus_amount, 2)
             ];
             $find_salary=Salary::where('user_id', $user->id)->where('month', $month)->first();
             //dd($find_salary);

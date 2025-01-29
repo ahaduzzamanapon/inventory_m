@@ -130,9 +130,19 @@
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('blood_group', 'Blood Group:',['class'=>'control-label']) !!}
-        {!! Form::select('blood_group', ['A+' => 'A+', 'B+' => 'B+'], null, ['class' => 'form-control']) !!}
+        {!! Form::select('blood_group', [
+            'A+' => 'A+', 
+            'A-' => 'A-', 
+            'B+' => 'B+', 
+            'B-' => 'B-', 
+            'AB+' => 'AB+', 
+            'AB-' => 'AB-', 
+            'O+' => 'O+', 
+            'O-' => 'O-'
+        ], null, ['class' => 'form-control']) !!}
     </div>
 </div>
+
 
 
 <!-- Religion Field -->
