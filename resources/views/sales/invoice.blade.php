@@ -202,7 +202,7 @@
                     <td colspan="4" class="text-right">Tax</td>
                     <td class="text-right"><?= number_format($sales['tax_amount'], 2) ?></td>
                 </tr>
-                <tr class="grand-total">
+                <tr class="">
                     <td colspan="4" class="text-right">Grand Total</td>
                     <td class="text-right"><?= number_format($sales['grand_total'], 2) ?></td>
                 </tr>

@@ -12,8 +12,9 @@ class UserController extends Controller
     public function index(Request $request)
     {
         /** @var User $users */
-        $users = User::select('users.*', 'roles.name as role')
+        $users = User::select('users.*', 'roles.name as role', 'designations.desi_name as designation')
             ->join('roles', 'users.group_id', '=', 'roles.id')
+            ->join('designations', 'users.designation_id', '=', 'designations.id')
             ->paginate(10);
 
         return view('users.index')

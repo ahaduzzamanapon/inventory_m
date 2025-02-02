@@ -68,8 +68,13 @@
                                 <td><span>
                                         {{ $payment->payment_status }}
                                         </span>
-                                        @if($payment->payment_status == 'Pending' && can('approve_payment'))
-                                        <a href="{{ url('approve_payment/' . $payment->id) }}" class="btn btn-primary btn-sm">Approve</a>
+                                        @if($payment->payment_status == 'Pending')
+                                            @if(can('approve_payment'))
+                                            <a href="{{ url('approve_payment/' . $payment->id) }}" class="btn btn-primary btn-sm">Approve</a>
+                                            @endif
+                                            @if(can('cheque_return'))
+                                            <a href="{{ url('cheque_return/' . $payment->id) }}" class="btn btn-danger btn-sm">Cheque return</a>
+                                            @endif
                                         @endif
                                 </td>
                             </tr>

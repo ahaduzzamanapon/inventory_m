@@ -44,13 +44,15 @@
             <td>{{ $item->item_sale_price }}</td>
             @endif
                 <td>
-                    {!! Form::open(['route' => ['items.destroy', $item->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         <a href="{{ route('items.edit', [$item->id]) }}" class='btn btn-outline-primary btn-xs'><i
-                                class="im im-icon-Pen"  data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
-                        {!! Form::button('<i class="im im-icon-Remove" data-toggle="tooltip" data-placement="top" title="Delete"></i>', ['type' => 'submit', 'class' => 'btn btn-outline-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                            class="im im-icon-Pen"  data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
+                        @if(can('delete_option'))
+                            {!! Form::open(['route' => ['items.destroy', $item->id], 'method' => 'delete']) !!}
+                            {!! Form::button('<i class="im im-icon-Remove" data-toggle="tooltip" data-placement="top" title="Delete"></i>', ['type' => 'submit', 'class' => 'btn btn-outline-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                            {!! Form::close() !!}
+                        @endif
                     </div>
-                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach

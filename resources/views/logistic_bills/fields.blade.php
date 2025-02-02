@@ -12,7 +12,6 @@
 @php
 $sales = DB::table('sales_models')->get();
 $customers = DB::table('customers')->get();
-$locations = DB::table('locations')->get();
 @endphp
 
 
@@ -29,7 +28,7 @@ $locations = DB::table('locations')->get();
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('location', 'Location:',['class'=>'control-label']) !!}
-        {!! Form::select('location', $locations->pluck('location_name', 'id'), null, ['class' => 'form-control']) !!}
+        {!! Form::text('location', null, ['class' => 'form-control','required']) !!}
     </div>
 </div>
 

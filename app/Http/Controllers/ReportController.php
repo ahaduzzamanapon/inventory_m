@@ -17,8 +17,9 @@ class ReportController extends Controller
     public function generateReport(Request $request)
     {
 
-        $fromDate = $request->input('from_date');
-        $toDate = $request->input('to_date');
+        $fromDate = date('Y-m-d', strtotime($request->input('from_date')));
+        $toDate = date('Y-m-d', strtotime($request->input('to_date'))); 
+
         $type = $request->input('type');
         $supplier_id = $request->input('supplier_id');
         $customer_id = $request->input('customer_id');

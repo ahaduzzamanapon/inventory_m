@@ -17,7 +17,7 @@
                 <th>Name</th>
                 <th>Present Status</th>
                 <th>Late Status</th>
-                <th>Late Time</th>
+                <th>Remarks</th>
             </tr>
         </thead>
         <tbody>
@@ -34,6 +34,7 @@
                                 <option {{ $user->status == 'Absent' ? 'selected' : ''}} value="Absent">Absent</option>
                                 <option  {{ $user->status == 'Present' ? 'selected' : ''}} value="Present">Present</option>
                                 <option  {{ $user->status == 'Leave' ? 'selected' : ''}} value="Leave">Leave</option>
+                                <option  {{ $user->status == 'Tour' ? 'selected' : ''}} value="Tour">Tour</option>
                             </select>
                         </div>
                     </td>

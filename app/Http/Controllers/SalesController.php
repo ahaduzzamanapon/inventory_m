@@ -263,6 +263,20 @@ class SalesController extends Controller
         Flash::success('Payment approved successfully.');
         return redirect()->back();
     }
+    public function cheque_return($id){
+        $SalesPayment = SalesPaymentModel::find($id);
+        // $sales = SalesModel::find($SalesPayment->sale_id);
+
+        // $sales->payment_amount -= $SalesPayment->payment_amount;
+        // $sales->due_amount = $sales->grand_total - $sales->payment_amount;
+        // $sales->payment_status = $sales->due_amount == 0 ? 'Paid' : 'Partial';
+        // $sales->save();
+
+        $SalesPayment->payment_status = 'Cheque Return';
+        $SalesPayment->save();
+        Flash::success('Payment approved successfully.');
+        return redirect()->back();
+    }
 
     public function check_item_serial(Request $request){
         $item = Item::where('id', $request->item_id)->first();

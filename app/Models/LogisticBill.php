@@ -49,7 +49,7 @@ class LogisticBill extends Model
         'id' => 'integer',
         'date' => 'date',
         'Sale' => 'integer',
-        'location' => 'integer',
+        'location' => 'string',
         'customer' => 'integer',
         'amount' => 'string',
         'attachment' => 'string',

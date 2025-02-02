@@ -32,9 +32,11 @@
                         <a href="{{ route('advancedCashes.edit', [$advancedCash->id]) }}" class='btn btn-outline-primary btn-xs'><i
                             class="im im-icon-Pen"  data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
                         @if($advancedCash->status == 'Pending')
-                        {!! Form::open(['route' => ['advancedCashes.destroy', $advancedCash->id], 'method' => 'delete']) !!}
-                        {!! Form::button('<i class="im im-icon-Remove" data-toggle="tooltip" data-placement="top" title="Delete"></i>', ['type' => 'submit', 'class' => 'btn btn-outline-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                        {!! Form::close() !!}
+                            @if(can('delete_option'))
+                            {!! Form::open(['route' => ['advancedCashes.destroy', $advancedCash->id], 'method' => 'delete']) !!}
+                            {!! Form::button('<i class="im im-icon-Remove" data-toggle="tooltip" data-placement="top" title="Delete"></i>', ['type' => 'submit', 'class' => 'btn btn-outline-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                            {!! Form::close() !!}
+                            @endif
                         @endif
 
                     </div>

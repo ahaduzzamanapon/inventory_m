@@ -148,9 +148,23 @@
                     'Total Item' => 'Total items in stock',
                     'Running Petty cash' => 'Running petty cash',
                 ];
+                $permissions=[
+                    'Monthly Sales' => 'monthly_sales',
+                    'Monthly Expense' => 'monthly_expense',
+                    'Total Due' => 'total_due',
+                    'Total Advance' => 'total_advance',
+                    'Total Product Value' => 'total_product_value',
+                    'Total Yearly Profit' => 'total_yearly_profit',
+                    'Total Liability' => 'total_liability',
+                    'Total Item' => 'total_item',
+                    'Running Petty cash' => 'running_petty_cash',
+                ];
                 ?>
 
                     @foreach ($metrics as $title => $value)
+                    @if(!can($permissions[$title]))
+                    @continue
+                    @endif
                     <div class="col-12 col-md-4 col-xxl-3 mb-10">
                         <div class="custom-card">
                             <div class="card-body">

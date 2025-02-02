@@ -20,7 +20,7 @@
                 <th>Name</th>
                 <th>Present Status</th>
                 <th>Late Status</th>
-                <th>Late Time</th>
+                <th>Remarks</th>
             </tr>
         </thead>
         <tbody>
@@ -37,6 +37,7 @@
                                 <option value="Absent">Absent</option>
                                 <option value="Present">Present</option>
                                 <option value="Leave">Leave</option>
+                                <option value="Tour">Tour</option>
                             </select>
                         </div>
                     </td>

@@ -17,7 +17,7 @@ class CreateLogisticBillsTable extends Migration
             $table->increments('id');
             $table->date('date');
             $table->integer('Sale');
-            $table->integer('location');
+            $table->text('location');
             $table->integer('customer');
             $table->string('amount');
             $table->text('attachment');

@@ -20,15 +20,15 @@ return new class extends Migration
             $table->date('sale_date');
             $table->string('reference_no')->nullable();
             $table->decimal('sub_total', 10, 2);
-            $table->enum('discount_status',['Fixed', 'Percentage'])->default('Fixed');
+            $table->string('discount_status')->default('Fixed');
             $table->decimal('discount_per', 5, 2)->nullable();
             $table->decimal('discount_amount', 10, 2)->default(0.00);
-            $table->enum('tax_status',['Fixed', 'Percentage'])->default('Fixed');
+            $table->string('tax_status')->default('Fixed');
             $table->decimal('tax_per', 5, 2)->nullable();
             $table->decimal('tax_amount', 10, 2)->default(0.00);
             $table->decimal('other_charges', 10, 2)->default(0.00);
             $table->decimal('grand_total', 10, 2);
-            $table->enum('payment_status', ['Pending', 'Paid', 'Partial'])->default('Pending');
+            $table->string('payment_status')->default('Pending');
             $table->decimal('payment_amount', 10, 2)->default(0.00);
             $table->decimal('due_amount', 10, 2)->default(0.00);
             $table->timestamps();

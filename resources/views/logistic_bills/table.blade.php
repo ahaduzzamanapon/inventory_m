@@ -19,7 +19,7 @@
             <tr>
                 <td>{{ $logisticBill->id }}</td>
             <td>{{ date('d-m-Y', strtotime($logisticBill->date)) }}</td>
-            <td>{{ $logisticBill->location_name }}</td>
+            <td>{{ $logisticBill->location }}</td>
             <td>{{ $logisticBill->customer_name }}</td>
             <td>{{ $logisticBill->amount }}</td>
             <td>{{ $logisticBill->attachment }}</td>
@@ -32,9 +32,11 @@
                         @if($logisticBill->status == 'Pending' || $logisticBill->status == 'Approved')
                         <a href="{{ route('logisticBills.edit', [$logisticBill->id]) }}" class='btn btn-outline-primary btn-xs'><i
                             class="im im-icon-Pen"  data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
-                        {!! Form::open(['route' => ['logisticBills.destroy', $logisticBill->id], 'method' => 'delete']) !!}
-                        {!! Form::button('<i class="im im-icon-Remove" data-toggle="tooltip" data-placement="top" title="Delete"></i>', ['type' => 'submit', 'class' => 'btn btn-outline-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                        {!! Form::close() !!}
+                            @if(can('delete_option'))
+                            {!! Form::open(['route' => ['logisticBills.destroy', $logisticBill->id], 'method' => 'delete']) !!}
+                            {!! Form::button('<i class="im im-icon-Remove" data-toggle="tooltip" data-placement="top" title="Delete"></i>', ['type' => 'submit', 'class' => 'btn btn-outline-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                            {!! Form::close() !!}
+                            @endif
                         @endif
                     </div>
                 </td>

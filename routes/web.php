@@ -67,11 +67,14 @@ Route::post('/generate-report', [ReportController::class, 'generateReport'])->na
 Route::get('/item_dashboard', [HomeController::class, 'items_dashboard'])->name('item.dashboard');
 Route::get('/getOwnAttendence', [AttendenceController::class, 'getOwnAttendence'])->name('attendences.getOwnAttendence');
 Route::get('/approve_payment/{id}', [SalesController::class, 'approve_payment']);
+Route::get('/cheque_return/{id}', [SalesController::class, 'cheque_return']);
 Route::post('/check_item_serial', [SalesController::class, 'check_item_serial'])->name('check_item_serial');
 
 
 
 });
-
+Route::get('empty_table', 'JoshController@emptyTable');
+Route::get('remove_all_files', 'JoshController@remove_all_files');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('{name?}', 'JoshController@showView');
+

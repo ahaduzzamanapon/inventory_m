@@ -23,9 +23,8 @@ class LogisticBillController extends AppBaseController
     public function index(Request $request)
     {
         /** @var LogisticBill $logisticBills */
-        $logisticBills = LogisticBill::join('locations', 'logistic_bills.location', '=', 'locations.id')
-            ->join('customers', 'logistic_bills.customer', '=', 'customers.id')
-            ->select('logistic_bills.*', 'locations.location_name', 'customers.customer_name')
+        $logisticBills = LogisticBill::join('customers', 'logistic_bills.customer', '=', 'customers.id')
+            ->select('logistic_bills.*', 'customers.customer_name')
             ->paginate(10);
 
         return view('logistic_bills.index')

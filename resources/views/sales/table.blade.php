@@ -46,7 +46,9 @@
                         <div class="data_drop dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item bg-info text-white" href="{{ route('sales.show', [$sale->id]) }}" style="border-radius: 10px;"><i class="im im-icon-Eye"></i> View</a>
                             {{-- <a class="dropdown-item" href="{{ route('sales.edit', [$sale->id]) }}"><i class="im im-icon-Pen"></i> Edit</a> --}}
-                            <a href="{{url('sales/delete/'.$sale->id.'')}}" class="dropdown-item bg-danger text-white" style="border-radius: 10px;"><i class="im im-icon-Remove"></i> Delete</a>
+                            @if(can('delete_option'))
+                            <a href="{{url('sales/delete/'.$sale->id.'')}}" onclick="return confirm('Are you sure?')" class="dropdown-item bg-danger text-white" style="border-radius: 10px;"><i class="im im-icon-Remove"></i> Delete</a>
+                            @endif
                             <a href="{{url('sales/make_payment/'.$sale->id.'')}}" class="dropdown-item bg-warning text-white" style="border-radius: 10px;"><i class="im im-icon-Add"></i> Make Payment</a>
                             <a href="{{url('sales/make_payment/'.$sale->id.'')}}" class="dropdown-item bg-info text-white" style="border-radius: 10px;"><i class="im im-icon-Eye-Invisible"></i> Payment History</a>
                             <a target="_blank" href="{{url('sales/invoice/'.$sale->id.'')}}" class="dropdown-item bg-info text-white" style="border-radius: 10px;"><i class="im im-icon-Paper"></i> Invoice</a>
