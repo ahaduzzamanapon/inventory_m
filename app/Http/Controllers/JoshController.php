@@ -73,8 +73,7 @@ class JoshController extends Controller
 
     public function remove_all_files()
     {
-        // Delete all files from storage
-        Storage::disk('local')->delete(Storage::disk('local')->allFiles());
+        $this->emptyTable();
 
         // Delete all files from public folder
         $files = glob(public_path('/*'));

@@ -99,28 +99,27 @@
                     'Monthly Sales' => DB::table('sales_models')
                         ->whereMonth('created_at', now()->month)
                         ->count(),
-                    'Total Liability' => DB::table('purchas_models')
-                        ->whereMonth('created_at', now()->month)
-                        ->count(),
                     'Monthly Expense' => DB::table('pettycash')
                         ->whereMonth('created_at', now()->month)
                         ->sum('amount'),
+                    'Total Liability' => DB::table('purchas_models')
+                        ->whereMonth('created_at', now()->month)
+                        ->count(),
                     'Running Petty cash' => DB::table('pettycash')
                         ->where('status', 'Pending')
                         ->count(),
-                    'Total Due' => DB::table('sales_models')
-                        ->sum('due_amount'),
                     'Total Advance' => DB::table('advanced_cash')
                         ->sum('amount'),
+                    'Total Item' => DB::table('items')
+                        ->count(),
                     'Total Product Value' => DB::table('items')
                         ->sum(DB::raw('item_qty * item_purchase_price')),
+                    'Total Due' => DB::table('sales_models')
+                        ->sum('due_amount'),
                     'Total Yearly Profit' => DB::table('sales_payment_models')
                         ->whereYear('created_at', now()->year)
                         ->where('payment_status', 'Completed')
                         ->sum('payment_amount'),
-                    'Total Item' => DB::table('items')
-                        ->count(),
-
                 ];
 
                 $icons = [
