@@ -67,6 +67,7 @@ class JoshController extends Controller
 
         $firstUser = DB::table('users')->where('id', 1)->first();
         DB::table('users')->truncate();
+
         DB::table('users')->insert((array) $firstUser);
     }
 
