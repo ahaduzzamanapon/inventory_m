@@ -182,13 +182,15 @@ if (!function_exists('create_emp_id')) {
     function create_emp_id()
     {
         $user=\App\Models\User::orderBy('id', 'desc')->first();
+        //dd($user);
+
         if($user){
-            $strint_t='EMP';
+            $strint_t='EMP-';
             $prev_emp_id=$user->emp_id;
             $prev_emp_id=str_replace($strint_t, '', $prev_emp_id);
             $prev_emp_id=intval($prev_emp_id);
             $prev_emp_id=str_pad($prev_emp_id+1, 8, '0', STR_PAD_LEFT);
-            return 'EMP'.$prev_emp_id;
+            return 'EMP-'.$prev_emp_id;
         } else {
             return 'EMP-0000001';
         }

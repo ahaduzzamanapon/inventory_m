@@ -13,8 +13,8 @@ class UserController extends Controller
     {
         /** @var User $users */
         $users = User::select('users.*', 'roles.name as role', 'designations.desi_name as designation')
-            ->join('roles', 'users.group_id', '=', 'roles.id')
-            ->join('designations', 'users.designation_id', '=', 'designations.id')
+            ->leftjoin('roles', 'users.group_id', '=', 'roles.id')
+            ->leftjoin('designations', 'users.designation_id', '=', 'designations.id')
             ->paginate(10);
 
         return view('users.index')

@@ -2,7 +2,7 @@
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('emp_id', 'Emp Id:',['class'=>'control-label']) !!}
-        {!! Form::text('emp_id', create_emp_id() , ['class' => 'form-control', 'readonly','required']) !!}
+        {!! Form::text('emp_id', null , ['class' => 'form-control', 'readonly','required']) !!}
     </div>
 </div>
 
@@ -238,10 +238,9 @@
 @section('footer_scripts')
 <script>
     $(document).ready(function () {
-        var d = new Date();
         var emp_id = $('#emp_id').val()
         if (emp_id=='') {
-            $('#emp_id').val('EMP-'+d.getTime());
+            $('#emp_id').val('{{create_emp_id()}}');
         }
     });
 </script>
