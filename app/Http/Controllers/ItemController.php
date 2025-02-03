@@ -24,11 +24,11 @@ class ItemController extends AppBaseController
     {
         /** @var Item $items */
         $items = Item::select('items.*', 'brands.BrandName', 'categorys.Name as CategoryName', 'subcategorys.SubCategoryName', 'units.Unit_Name', 'companies.companie_name as CompanyName')
-            ->join('brands', 'brands.id', '=', 'items.item_brand_id')
-            ->join('categorys', 'categorys.id', '=', 'items.item_category')
-            ->join('subcategorys', 'subcategorys.id', '=', 'items.item_sub_category')
-            ->join('units', 'units.id', '=', 'items.item_unit')
-            ->join('companies', 'companies.id', '=', 'items.item_company_id')
+            ->leftJoin('brands', 'brands.id', '=', 'items.item_brand_id')
+            ->leftJoin('categorys', 'categorys.id', '=', 'items.item_category')
+            ->leftJoin('subcategorys', 'subcategorys.id', '=', 'items.item_sub_category')
+            ->leftJoin('units', 'units.id', '=', 'items.item_unit')
+            ->leftJoin('companies', 'companies.id', '=', 'items.item_company_id')
             ->orderBy('items.id', 'desc')
             ->get();
 
@@ -72,7 +72,7 @@ class ItemController extends AppBaseController
         /** @var Item $item */
         $item = Item::create($input);
         $item_id = $item->id;
-        
+
         foreach ($item_serial_number as $key => $value) {
             $item_serial = new ItemSerial();
             $item_serial->item_id = $item_id;
@@ -197,5 +197,5 @@ class ItemController extends AppBaseController
 
         return redirect(route('items.index'));
     }
-    
+
 }

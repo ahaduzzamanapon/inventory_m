@@ -13,14 +13,14 @@
 
                 <div class="form-group col-md-3">
                     {!! Form::label('reference_no', 'Reference:') !!}
-                    {!! Form::text('reference_no', 'REF:Sale/Slope/' . time(), [
+                    {!! Form::text('reference_no', create_reference_id_sales(), [
                         'class' => 'form-control',
                         'placeholder' => 'Reference Number',
                     ]) !!}
                 </div>
                 <div class="form-group col-md-3">
                     {!! Form::label('sales_id', 'Sales ID:') !!}
-                    {!! Form::text('sales_id', 'Sale/Slope/' . time(), [
+                    {!! Form::text('sales_id', create_sale_id_sales(), [
                         'class' => 'form-control',
                         'placeholder' => 'Sales ID',
                         'readonly',
@@ -168,6 +168,7 @@
     @section('footer_scripts')
         <script>
             var paymentMethods = @json($paymentMethods);
+            var create_payment_id_sales = '{{ create_payment_id_sales() }}';
             function addPaymentRow() {
                 console.log(paymentMethods);
 
@@ -176,7 +177,7 @@
                 }).join('');
 
                 var paymentTableBody = document.getElementById('payment_table_body');
-                var uniq_id = 'pay-' + Math.random().toString(10).substr(2, 9);
+                var uniq_id = create_payment_id_sales;
                 var newRow = document.createElement('tr');
                 newRow.innerHTML = '<td><input type="text" name="payment_id[]" value="' + uniq_id +
                     '" class="form-control"></td>' +
@@ -213,7 +214,6 @@
                 document.getElementById('due').value = (parseFloat(document.getElementById('grand_total_input').value) - total).toFixed(2);
             }
         </script>
-
 
         <script>
 
@@ -274,23 +274,12 @@
             }
         </script>
 
-
-
-
-
-
-
-
-
         <script>
             function deleteRow(button) {
                 var row = button.parentNode.parentNode;
                 row.parentNode.removeChild(row);
             }
         </script>
-
-
-
 
         <script>
             var items = @json($items);
@@ -330,9 +319,10 @@
                 var cell4 = document.createElement('td');
                 var cell5 = document.createElement('td');
                 var item_name_data = item.item_name.split('-');
-                item_id_u = item_name_data[0];
-                item_name_u = item_name_data[1];
-                item_price = parseFloat(item_name_data[2]);
+
+                item_id_u = item_name_data[0]+' - '+item_name_data[1];
+                item_name_u = item_name_data[2];
+                item_price = parseFloat(item_name_data[3]);
 
 
                 cell1.innerHTML =item_name_u +

@@ -132,16 +132,13 @@
             @section('footer_scripts')
             <script>
                 var paymentMethods = @json($paymentMethods);
-
+                var create_payment_id_sales = '{{ create_payment_id_sales() }}';
                 function addPaymentRow() {
-                    console.log(paymentMethods);
-
                     var paymentMethodOptions = paymentMethods.map(function(paymentMethod) {
                         return '<option value="' + paymentMethod.id + '">' + paymentMethod.method_name + '</option>';
                     }).join('');
-
                     var paymentTableBody = document.getElementById('payment_table_body');
-                    var uniq_id = 'Pay ID-' + Math.random().toString(10).substr(2, 9);
+                    var uniq_id = create_payment_id_sales;
                     var newRow = document.createElement('tr');
                     newRow.innerHTML = '<td><input type="text" name="payment_id[]" value="' + uniq_id +
                         '" class="form-control"></td>' +

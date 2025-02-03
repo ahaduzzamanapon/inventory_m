@@ -16,14 +16,14 @@
             <div class="col-md-12">
                 <div class="form-group col-md-12">
                     {!! Form::label('reference_no', 'Reference:') !!}
-                    {!! Form::text('reference_no', 'REF:Pur/Slope/' . time(), [
+                    {!! Form::text('reference_no', create_reference_id_purchase(), [
                         'class' => 'form-control',
                         'placeholder' => 'Reference Number',
                     ]) !!}
                 </div>
                 <div class="form-group col-md-12">
                     {!! Form::label('purchas_id', 'Purchas ID:') !!}
-                    {!! Form::text('purchas_id', 'purchas-' . time(), [
+                    {!! Form::text('purchas_id', create_purchase_id_purchases(), [
                         'class' => 'form-control',
                         'placeholder' => 'Purchas ID',
                         'readonly',
@@ -327,9 +327,9 @@
                 var cell4 = document.createElement('td');
                 var cell5 = document.createElement('td');
                 var item_name_data = item.item_name.split('-');
-                item_id_u = item_name_data[0];
-                item_name_u = item_name_data[1];
-                item_price = parseFloat(item_name_data[2]);
+                item_id_u = item_name_data[0]+' - '+item_name_data[1];
+                item_name_u = item_name_data[2];
+                item_price = parseFloat(item_name_data[3]);
                 cell1.innerHTML = item_name_u +
                     '<input type="hidden" class="item_id_hidden"  name="item_id[]" value="' + item.id + '">'+
                     '<input type="hidden" class="item_name_hidden"  name="item_name[]" value="' + item_id_u + ' - ' + item_name_u + '">';
