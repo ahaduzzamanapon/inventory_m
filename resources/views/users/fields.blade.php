@@ -107,7 +107,7 @@
 <!-- Nid Field -->
 <div class="col-md-3">
     <div class="form-group">
-        {!! Form::label('nid', 'Nid:',['class'=>'control-label']) !!}
+        {!! Form::label('nid', 'NID:',['class'=>'control-label']) !!}
         {!! Form::text('nid', null, ['class' => 'form-control']) !!}
     </div>
 </div>
