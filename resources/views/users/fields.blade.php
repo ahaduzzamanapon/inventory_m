@@ -2,7 +2,7 @@
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('emp_id', 'Emp Id:',['class'=>'control-label']) !!}
-        {!! Form::text('emp_id', null , ['class' => 'form-control', 'readonly','required']) !!}
+        {!! Form::text('emp_id', create_emp_id() , ['class' => 'form-control', 'readonly','required']) !!}
     </div>
 </div>
 
