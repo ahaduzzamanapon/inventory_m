@@ -37,7 +37,7 @@
             <div class="col-md-12">
                 <div class="form-group col-md-12">
                     {!! Form::label('select_item_id', 'Select Item:') !!}
-                    {!! Form::select('select_item_id', $items, null, [
+                    {!! Form::select('select_item_id', $items2, null, [
                         'class' => 'form-control chosen-select',
                         'onchange' => 'selectItem(this.value)',
                     ]) !!}

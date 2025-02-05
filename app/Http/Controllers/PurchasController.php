@@ -41,12 +41,21 @@ class PurchasController extends Controller
         foreach ($items as $key => $item) {
             $items_list[$item->id] = $item->item_id.' - '.$item->item_name.' ('.$item->item_model.')-'.$item->item_purchase_price;
         }
+
+
+        $items_list2 = [];
+        $items_list2['select'] = 'Select Item';
+        foreach ($items as $key => $item) {
+            $items_list2[$item->id] = $item->item_id.' - '.$item->item_name.' ('.$item->item_model.')';
+        }
+        $items2 = $items_list2;
         $items = $items_list;
+        //dd($items2);
 
         $paymentMethods = \App\Models\PaymentMethod::all();
         $categories = \App\Models\Category::all();
         $subCategories = \App\Models\SubCategory::all();
-        return view('purchas.new_purchas', compact('suppliers', 'items', 'paymentMethods', 'categories', 'subCategories'));
+        return view('purchas.new_purchas', compact('suppliers', 'items','items2', 'paymentMethods', 'categories', 'subCategories'));
     }
     public function store(Request $request)
     {
