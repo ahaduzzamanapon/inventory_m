@@ -331,7 +331,11 @@
 
                 item_id_u = item_name_data[0];
                 item_name_u = item_name_data[1];
+                @if(can('view_item_purchase_price'))
                 item_price = parseFloat(item_name_data[2]);
+                @else
+                item_price = 0;
+                @endif
                 cell1.innerHTML = item_name_u +
                     '<input type="hidden" class="item_id_hidden"  name="item_id[]" value="' + item.id + '">'+
                     '<input type="hidden" class="item_name_hidden"  name="item_name[]" value="' + item_id_u + ' - ' + item_name_u + '">';
