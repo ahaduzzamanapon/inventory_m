@@ -111,8 +111,8 @@ class PurchasController extends Controller
                     'total_price' => $validated['total_price'][$index],
                 ]);
                 Item::where('id', $itemId)->increment('item_qty', $validated['quantity'][$index]);
+
                 if(isset($validated['serial_number'][$itemId])){
-                    //dd($validated['serial_number'][$itemId]);
                     foreach ($validated['serial_number'][$itemId] as $serial) {
                         if (empty($serial)) {
                             continue;

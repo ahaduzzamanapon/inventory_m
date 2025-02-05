@@ -373,7 +373,7 @@
                     },
                     success: function(response) {
                         if(response.serial_status == 2){
-                            $('#serial_number'+item_id).html('<input type="text" name="serial_number[]" class="form-control" required>');
+                            $('#serial_number'+item_id).html('<input type="text" name="serial_number['+item_id+'][]" class="form-control" required>');
                         }
                     }
                 });
