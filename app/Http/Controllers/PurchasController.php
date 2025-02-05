@@ -39,7 +39,7 @@ class PurchasController extends Controller
         $items_list = [];
         $items_list['select'] = 'Select Item';
         foreach ($items as $key => $item) {
-            $items_list[$item->id] = $item->item_id.' - '.$item->item_name.' ('.$item->item_model.')-'.$item->item_purchase_price;
+            $items_list[$item->id] = $item->item_id.' -> '.$item->item_name.' ('.$item->item_model.')->'.$item->item_purchase_price;
         }
 
 
@@ -50,6 +50,7 @@ class PurchasController extends Controller
         }
         $items2 = $items_list2;
         $items = $items_list;
+        //dd($items);
         //dd($items2);
 
         $paymentMethods = \App\Models\PaymentMethod::all();

@@ -33,7 +33,7 @@
         <div class="col-md-12">
             <div class="form-group col-md-12">
                 {!! Form::label('select_item_id', 'Select Item:') !!}
-                {!! Form::select('select_item_id', $items, null, [
+                {!! Form::select('select_item_id', $items2, null, [
                     'class' => 'form-control chosen-select',
                     'onchange' => 'selectItem(this.value)',
                 ]) !!}
@@ -311,6 +311,20 @@
                     return;
                 }
 
+                var item_name_data = item.item_name.split('->');
+                console.log(item_name_data);
+
+
+                item_id_u = item_name_data[0];
+                item_name_u = item_name_data[1];
+                item_price = parseFloat(item_name_data[2]);
+                item_qty = parseFloat(item_name_data[3]);
+                if (item_qty == 0) {
+                    alert('Item out of stock');
+                    $('#select_item_id').val('select').trigger('chosen:updated');
+                    return;
+                }
+
                 var tableBody = document.getElementById('items_table_body');
                 var row = document.createElement('tr');
                 var cell1 = document.createElement('td');
@@ -318,11 +332,8 @@
                 var cell3 = document.createElement('td');
                 var cell4 = document.createElement('td');
                 var cell5 = document.createElement('td');
-                var item_name_data = item.item_name.split('-');
 
-                item_id_u = item_name_data[0]+' - '+item_name_data[1];
-                item_name_u = item_name_data[2];
-                item_price = parseFloat(item_name_data[3]);
+
 
 
                 cell1.innerHTML =item_name_u +

@@ -37,14 +37,20 @@ class SalesController extends Controller
         $items_list = [];
         $items_list['select'] = 'Select Item';
         foreach ($items as $key => $item) {
-            $items_list[$item->id] = $item->item_id.' - '.$item->item_name.' ('.$item->item_model.')-'.$item->item_sale_price;
+            $items_list[$item->id] = $item->item_id.' -> '.$item->item_name.' ('.$item->item_model.')->'.$item->item_sale_price.'->'.$item->item_qty;
+        }
+        $items_list2 = [];
+        $items_list2['select'] = 'Select Item';
+        foreach ($items as $key => $item) {
+            $items_list2[$item->id] = $item->item_id.' -> '.$item->item_name.' ('.$item->item_model.')';
         }
         $items = $items_list;
+        $items2 = $items_list2;
 
         $paymentMethods = \App\Models\PaymentMethod::all();
         $categories = \App\Models\Category::all();
         $subCategories = \App\Models\SubCategory::all();
-        return view('sales.new_sales', compact('customers', 'items', 'paymentMethods', 'categories', 'subCategories'));
+        return view('sales.new_sales', compact('customers', 'items','items2', 'paymentMethods', 'categories', 'subCategories'));
     }
     public function store(Request $request)
     {

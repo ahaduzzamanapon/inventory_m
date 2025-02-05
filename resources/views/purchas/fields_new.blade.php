@@ -326,10 +326,12 @@
                 var cell3 = document.createElement('td');
                 var cell4 = document.createElement('td');
                 var cell5 = document.createElement('td');
-                var item_name_data = item.item_name.split('-');
-                item_id_u = item_name_data[0]+' - '+item_name_data[1];
-                item_name_u = item_name_data[2];
-                item_price = parseFloat(item_name_data[3]);
+                var item_name_data = item.item_name.split('->');
+                console.log(item_name_data);
+
+                item_id_u = item_name_data[0];
+                item_name_u = item_name_data[1];
+                item_price = parseFloat(item_name_data[2]);
                 cell1.innerHTML = item_name_u +
                     '<input type="hidden" class="item_id_hidden"  name="item_id[]" value="' + item.id + '">'+
                     '<input type="hidden" class="item_name_hidden"  name="item_name[]" value="' + item_id_u + ' - ' + item_name_u + '">';
