@@ -218,7 +218,13 @@
         <script>
 
             function quantityChange(input) {
+                var quantityHave = parseFloat(input.closest('tr').querySelector('.item_qty_have_hidden').value);
                 var quantity =  parseFloat(input.closest('tr').querySelector('td:nth-child(2) input').value);
+                if (quantity > quantityHave) {
+                   alert('Quantity cannot be greater than available quantity');
+                   input.closest('tr').querySelector('td:nth-child(2) input').value = quantityHave;
+                   input.value = quantityHave;
+                }
                 var price = parseFloat(input.closest('tr').querySelector('td:nth-child(3) input').value);
                 var total = quantity * price;
                 input.closest('tr').querySelector('td:nth-child(4) input').value = total.toFixed(2);
@@ -339,8 +345,9 @@
                 cell1.innerHTML =item_name_u +
                     '<input type="hidden" class="item_id_hidden"  name="item_id[]" value="' + item.id + '">'+
                     '<input type="hidden" class="item_name_hidden"  name="item_name[]" value="' + item_id_u + ' - ' + item_name_u + '">';
+
                 cell2.innerHTML =
-                    '<input id="quantity'+item.id+'" type="number" name="quantity[]" required min="1" onkeyup="quantityChange(this)" value="1" class="form-control">'+
+                    '<input id="quantity'+item.id+'" type="number" name="quantity[]" required min="1" max="'+item_qty+'" onkeyup="quantityChange(this)" value="1" class="form-control">'+
                     '<div id="serial_number'+item.id+'">'+
                     '</div>'
                     ;
@@ -349,7 +356,9 @@
                 cell4.innerHTML = '<input type="text" name="total_price[]" value="' + item_price +
                     '" class="form-control text-right total_input_price" readonly>';
                 cell5.innerHTML =
-                    '<button type="button" class="btn btn-danger btn-xs" onclick="deleteRow(this)"><i class="im im-icon-Remove"></i></button>';
+                    '<button type="button" class="btn btn-danger btn-xs" onclick="deleteRow(this)"><i class="im im-icon-Remove"></i></button>'+
+                    '<input type="hidden" class="item_qty_have_hidden"  value="' + item_qty + '">';
+                    ;
 
                 row.appendChild(cell1);
                 row.appendChild(cell2);

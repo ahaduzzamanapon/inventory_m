@@ -106,6 +106,10 @@ class SalesController extends Controller
 
             // Insert into SalesItemModel
             foreach ($validated['item_id'] as $index => $itemId) {
+                $item_validate=Item::where('id', $itemId)->first();
+                if ($item_validate->item_qty < $validated['quantity'][$index]) {
+                    return redirect()->route('sales.new_sales')->with('error', 'Item Quantity is not enough');
+                }
                 SalesItemModel::create([
                     'sale_id' => $sales->id,
                     'item_id' => $itemId,
