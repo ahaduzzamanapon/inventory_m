@@ -27,12 +27,14 @@
                 <td>
                     <div class='btn-group'>
                         <a href="{{ route('pettyCashes.show', [$pettyCash->id]) }}" class='btn btn-outline-primary btn-xs'><i class="im im-icon-Eye" data-placement="top" title="View"></i></a>
+                        @if($pettyCash->status == 'Pending')
                         <a href="{{ route('pettyCashes.edit', [$pettyCash->id]) }}" class='btn btn-outline-primary btn-xs'><i
                             class="im im-icon-Pen"  data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
                         @if(can('delete_option'))
                             {!! Form::open(['route' => ['pettyCashes.destroy', $pettyCash->id], 'method' => 'delete']) !!}
                             {!! Form::button('<i class="im im-icon-Remove" data-toggle="tooltip" data-placement="top" title="Delete"></i>', ['type' => 'submit', 'class' => 'btn btn-outline-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
                             {!! Form::close() !!}
+                        @endif
                         @endif
                     </div>
                 </td>
