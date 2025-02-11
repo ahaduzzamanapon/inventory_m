@@ -113,7 +113,6 @@ class UserController extends Controller
             $folder = 'images/user';
             $customName = 'user-'.time();
             $input['image'] = uploadFile($file, $folder, $customName);
-            dd($input['image']);
         }else{
             unset($input['image']);
         }
