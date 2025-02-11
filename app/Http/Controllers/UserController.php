@@ -39,6 +39,7 @@ class UserController extends Controller
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
+
             $folder = 'images/user';
             $customName = 'user-'.time();
             $input['image'] = uploadFile($file, $folder, $customName);
@@ -112,6 +113,7 @@ class UserController extends Controller
             $folder = 'images/user';
             $customName = 'user-'.time();
             $input['image'] = uploadFile($file, $folder, $customName);
+            dd($input['image']);
         }else{
             unset($input['image']);
         }

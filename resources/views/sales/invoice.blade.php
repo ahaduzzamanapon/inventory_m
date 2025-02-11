@@ -206,6 +206,7 @@
                     <td colspan="4" class="text-right">Grand Total</td>
                     <td class="text-right"><?= number_format($sales['grand_total'], 2) ?></td>
                 </tr>
+
             </tfoot>
         </table>
 
@@ -235,6 +236,13 @@
             <h3>Payment Summary</h3>
             <p><strong>Paid Amount:</strong> <?= number_format($sales['payment_amount'], 2) ?></p>
             <p><strong>Due Amount:</strong> <?= number_format($sales['due_amount'], 2) ?></p>
+            @php
+                $grand_due = DB::table('sales_models')->where('customer_id', $sales['customer_id'])->sum('due_amount');
+            @endphp
+            <p><strong>Grand Due:</strong> <?= number_format($grand_due, 2) ?></p>
+
+
+
         </div>
         <div class="payment-summary">
             <h3>Term and Condition</h3>
