@@ -69,10 +69,14 @@ class ItemController extends AppBaseController
             $input['item_image'] = uploadFile($file, $folder, $customName);
         }
 
+        $item_id_validate=Item::where('item_id', $input['item_id'])->first();
+        if ($item_id_validate) {
+            Flash::success('Item ID already exists.');
+            return redirect()->back();
+        }
         /** @var Item $item */
         $item = Item::create($input);
         $item_id = $item->id;
-
         foreach ($item_serial_number as $key => $value) {
             $item_serial = new ItemSerial();
             $item_serial->item_id = $item_id;
