@@ -90,6 +90,7 @@ Petty Cash @parent
 
     $totalCredit = 0;
     $totalDebit = 0;
+    $total_advanced=0;
 
     foreach ($pettyCashes as $pettyCash) {
         if ($pettyCash->status == 'Approved') {
@@ -98,13 +99,16 @@ Petty Cash @parent
             } else {
                 $totalDebit += $pettyCash->amount;
             }
+            if ($pettyCash->account_ledgers == 2) {
+                $total_advanced += $pettyCash->amount;
+            }
         }
     }
 
     @endphp
 <div class="col-md-12">
     <div class="row">
-        <div class="col-12 col-md-4 col-xxl-3 mb-10" >
+        <div class="col-12 col-md-3 col-xxl-3 mb-10" >
             <div class="custom-card">
                 <div class="card-body" style="width: 100%;justify-items: center;padding: 0.55rem;">
                     <div class="card-content d-flex align-items-center flex-column">
@@ -115,7 +119,18 @@ Petty Cash @parent
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-4 col-xxl-3 mb-10" >
+        <div class="col-12 col-md-3 col-xxl-3 mb-10" >
+            <div class="custom-card">
+                <div class="card-body" style="width: 100%;justify-items: center;padding: 0.55rem;">
+                    <div class="card-content d-flex align-items-center flex-column">
+                            {{-- <h5 class="card-title">{{ $title }}</h5> --}}
+                            <h5 class="card-title">Total Advanced</h5>
+                            <h3 class="card-value">{{ number_format($total_advanced, 2) }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3 col-xxl-3 mb-10" >
             <div class="custom-card">
                 <div class="card-body" style="width: 100%;justify-items: center;padding: 0.55rem;">
                     <div class="card-content d-flex align-items-center flex-column">
@@ -127,7 +142,7 @@ Petty Cash @parent
             </div>
         </div>
 
-        <div class="col-12 col-md-4 col-xxl-3 mb-10" >
+        <div class="col-12 col-md-3 col-xxl-3 mb-10" >
             <div class="custom-card">
                 <div class="card-body" style="width: 100%;justify-items: center;padding: 0.55rem;">
                     <div class="card-content d-flex align-items-center flex-column">
@@ -138,6 +153,7 @@ Petty Cash @parent
                 </div>
             </div>
         </div>
+
 
     </div>
 </div>

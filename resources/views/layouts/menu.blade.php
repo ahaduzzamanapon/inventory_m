@@ -31,7 +31,7 @@
             </a>
         </li>
         @endif
-        @if(can('sales_list'))
+        @if(can('sale_return'))
         <li class="barr4 {!! (Request::is('sales_return') ? 'active' : '' ) !!}">
             <a href="{{route('sales.sales_return')}}">
                 <span class="mm-text ">Sales return</span>
@@ -179,6 +179,8 @@
                 <span class="menu-icon"><i class="im im-icon-Money-2"></i></span>
             </a>
         </li>
+        @endif
+        @if(can('bonuce'))
         <li class="barr4 {!! (Request::is('bonuses*') ? 'active' : '' ) !!}">
             <a href="{{ route('bonuses.index') }}">
                 <span class="mm-text ">Bonuses</span>
