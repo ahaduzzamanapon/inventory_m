@@ -29,12 +29,19 @@
                         <select id="type" name="type" class="form-control" required>
                             <option value="">Select Report Type</option>
                             <option value="sales">Sales Report</option>
-                            {{-- <option value="expenses">Expenses Report</option> --}}
                             <option value="purchases">Purchase Report</option>
-                            {{-- <option value="income">Income Report</option> --}}
                             <option value="stock">Stock Report</option>
                             <option value="customer_due">Customer Due Report</option>
                             <option value="supplier_due">Supplier Due Report</option>
+                            <option value="monthly_sales">Monthly Sales</option>
+                            <option value="monthly_expense">Monthly Expense</option>
+                            <option value="Liability">Total Liability</option>
+                            <option value="running_petty_cash">Running Petty cash</option>
+                            <option value="advance">Total Advance</option>
+                            <option value="Item">Total Item</option>
+                            <option value="product_value">Total Product Value</option>
+                            <option value="Due">Total Due</option>
+                            <option value="yearly_profit">Total Yearly Profit</option>
                         </select>
                     </div>
                     <div class="col-md-3">

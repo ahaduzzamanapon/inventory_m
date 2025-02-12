@@ -98,16 +98,16 @@
                 $metrics = [
                     'Monthly Sales' => DB::table('sales_models')
                         ->whereMonth('created_at', now()->month)
-                        ->count(),
+                        ->sum('grand_total'),
                     'Monthly Expense' => DB::table('pettycash')
                         ->whereMonth('created_at', now()->month)
                         ->sum('amount'),
                     'Total Liability' => DB::table('purchas_models')
                         ->whereMonth('created_at', now()->month)
-                        ->count(),
+                        ->sum('grand_total'),
                     'Running Petty cash' => DB::table('pettycash')
                         ->where('status', 'Pending')
-                        ->count(),
+                        ->sum('amount'),
                     'Total Advance' => DB::table('advanced_cash')
                         ->sum('amount'),
                     'Total Item' => DB::table('items')
