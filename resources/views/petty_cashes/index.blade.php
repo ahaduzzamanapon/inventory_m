@@ -105,6 +105,10 @@ Petty Cash @parent
         }
     }
 
+    $last_petty_cash = DB::table('petty_cashes')->where('status', 'Approved')->latest()->first();
+
+
+
     @endphp
 <div class="col-md-12">
     <div class="row">
@@ -113,8 +117,8 @@ Petty Cash @parent
                 <div class="card-body" style="width: 100%;justify-items: center;padding: 0.55rem;">
                     <div class="card-content d-flex align-items-center flex-column">
                             {{-- <h5 class="card-title">{{ $title }}</h5> --}}
-                            <h5 class="card-title">Total Credit</h5>
-                            <h3 class="card-value">{{ number_format($totalCredit, 2) }}</h3>
+                            <h5 class="card-title">Last Credit</h5>
+                            <h3 class="card-value">{{ number_format($last_petty_cash, 2) }}</h3>
                     </div>
                 </div>
             </div>
