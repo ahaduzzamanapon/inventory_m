@@ -116,7 +116,7 @@ class UserController extends Controller
         }else{
             unset($input['image']);
         }
-        if ($request->has('password')) {
+        if ($request->has('password') && !empty($request->password)) {
             $input['password'] = bcrypt($request->password);
         }else{
             unset($input['password']);
