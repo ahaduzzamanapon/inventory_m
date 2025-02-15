@@ -174,7 +174,7 @@
 
 
 <!-- Punch Id Field -->
-<div class="col-md-3">
+<div class="col-md-3 d-none">
     <div class="form-group">
         {!! Form::label('punch_id', 'Punch Id:',['class'=>'control-label']) !!}
         {!! Form::text('punch_id', null, ['class' => 'form-control']) !!}
@@ -206,7 +206,7 @@
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('password', 'Password:',['class'=>'control-label']) !!}
-        {!! Form::password('password', ['class' => 'form-control']) !!}
+        {!! Form::password('password', ['class' => 'form-control', 'autocomplete' => 'off']) !!}
     </div>
 </div>
 
