@@ -70,8 +70,14 @@ $customers = DB::table('customers')->get();
 </div>
 
 @if(can('logistic_bills_approval'))
-<!-- Status Field -->
 <div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('status', 'Status:',['class'=>'control-label']) !!}
+        {!! Form::select('status', ['Pending' => 'Pending', 'Approved' => 'Approved', 'Payment' => 'Payment'], null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+@else
+<div class="col-md-3 d-none">
     <div class="form-group">
         {!! Form::label('status', 'Status:',['class'=>'control-label']) !!}
         {!! Form::select('status', ['Pending' => 'Pending', 'Approved' => 'Approved', 'Payment' => 'Payment'], null, ['class' => 'form-control']) !!}
