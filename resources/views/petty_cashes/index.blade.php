@@ -106,7 +106,7 @@ Petty Cash @parent
     }
 
     $last_petty_cash = DB::table('pettycash')->where('status', 'Approved')->latest()->first();
-    dd($last_petty_cash);
+
 
 
 
@@ -119,7 +119,7 @@ Petty Cash @parent
                     <div class="card-content d-flex align-items-center flex-column">
                             {{-- <h5 class="card-title">{{ $title }}</h5> --}}
                             <h5 class="card-title">Last Credit</h5>
-                            <h3 class="card-value">{{ number_format($last_petty_cash, 2) }}</h3>
+                            <h3 class="card-value">{{ number_format($last_petty_cash->amount, 2) }}</h3>
                     </div>
                 </div>
             </div>
