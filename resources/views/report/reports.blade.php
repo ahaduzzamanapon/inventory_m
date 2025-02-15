@@ -33,6 +33,7 @@
                             <option value="stock">Stock Report</option>
                             <option value="customer_due">Customer Due Report</option>
                             <option value="supplier_due">Supplier Due Report</option>
+
                             <option value="monthly_sales">Monthly Sales</option>
                             <option value="monthly_expense">Monthly Expense</option>
                             <option value="Liability">Total Liability</option>

@@ -352,12 +352,14 @@
                             <ul class="dropdown-menu dropdown-notifications"
                                 style="min-width: 200px; border-radius: 10px;">
                                 <li class="dropdown-item">
-                                    @if (!empty(Auth::user()) && Auth::user()->member_id != null)
-                                        <a href="{{ route('members.details', ['id' => Auth::user()->member_id]) }}"
+                                    @if (!empty(Auth::user()))
+                                        <a href="{{ route('users.show', [Auth::user()->id]) }}"
                                             class="d-block">
-                                            Profile
+                                            {{ Auth::user()->name }} {{ Auth::user()->last_name }}
                                         </a>
                                     @endif
+                                </li>
+                                <li class="dropdown-item">
                                     <a href="{{ route('logout') }}" class="d-block"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                         Logout

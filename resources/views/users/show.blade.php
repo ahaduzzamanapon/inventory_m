@@ -21,8 +21,10 @@ Users @parent
 
     <div class="clearfix"></div>
     <div class="card">
+        @if(can('user'))
         <a href="{{ route('users.index') }}"
                 class="btn btn-primary">Back</a>
+        @endif
         <div class="table-responsive">
         <table class="table table-default">
             @include('users.show_fields')
