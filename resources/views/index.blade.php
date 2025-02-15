@@ -101,7 +101,7 @@
                         ->sum('grand_total'),
                     'Monthly Expense' => DB::table('pettycash')
                         ->whereMonth('created_at', now()->month)
-                        ->where('account_ledgers', 'Debit')
+                        ->where('account_description', 'Debit')
                         ->sum('amount'),
                     'Total Liability' => DB::table('purchas_models')
                         ->whereMonth('created_at', now()->month)
