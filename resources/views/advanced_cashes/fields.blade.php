@@ -33,8 +33,14 @@
 </div>
 
 @if(can('advanced_cash_approval'))
-<!-- Status Field -->
 <div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('status', 'Status:',['class'=>'control-label']) !!}
+        {!! Form::select('status', ['Pending' => 'Pending', 'Approved' => 'Approved', 'Payment' => 'Payment'], null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+@else
+<div class="col-md-3 d-none">
     <div class="form-group">
         {!! Form::label('status', 'Status:',['class'=>'control-label']) !!}
         {!! Form::select('status', ['Pending' => 'Pending', 'Approved' => 'Approved', 'Payment' => 'Payment'], null, ['class' => 'form-control']) !!}
@@ -57,12 +63,19 @@
         {!! Form::select('settled_status', ['Pending' => 'Pending', 'Settled' => 'Settled'], null, ['class' => 'form-control']) !!}
     </div>
 </div>
-
-
-
-
-
-
+@else
+<div class="col-md-3 d-none">
+    <div class="form-group">
+        {!! Form::label('settled_amount', 'Settled Amount:',['class'=>'control-label']) !!}
+        {!! Form::number('settled_amount', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+<div class="col-md-3 d-none">
+    <div class="form-group">
+        {!! Form::label('settled_status', 'Settled Status:',['class'=>'control-label']) !!}
+        {!! Form::select('settled_status', ['Pending' => 'Pending', 'Settled' => 'Settled'], null, ['class' => 'form-control']) !!}
+    </div>
+</div>
 @endif
 
 
