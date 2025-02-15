@@ -105,7 +105,7 @@ Petty Cash @parent
         }
     }
 
-    $last_petty_cash = DB::table('petty_cashes')->where('status', 'Approved')->latest()->first();
+    $last_petty_cash = DB::table('pettycashes')->where('status', 'Approved')->latest()->first();
 
 
 
