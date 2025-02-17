@@ -188,6 +188,14 @@
             </a>
         </li>
         @endif
+        @if(can('commission'))
+        <li class="barr4 {!! (Request::is('commission*') ? 'active' : '' ) !!}">
+            <a href="#">
+                <span class="mm-text ">Commission</span>
+                <span class="menu-icon"><i class="im im-icon-Money"></i></span>
+            </a>
+        </li>
+        @endif
     </ul>
 </li>
 @endif
