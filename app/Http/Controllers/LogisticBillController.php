@@ -184,6 +184,9 @@ class LogisticBillController extends AppBaseController
             $AdvancedCash->settled_amount =$AdvancedCash->amount - $input['amount'];
             $AdvancedCash->save();
         }
+        $logisticBill->save();
+
+        Flash::success('Logistic Bill updated successfully.');
 
         return redirect(route('logisticBills.index'));
     }
@@ -206,7 +209,7 @@ class LogisticBillController extends AppBaseController
             Flash::error('Logistic Bill not found');
 
             return redirect(route('logisticBills.index'));
-            
+
         }
 
         $logisticBill->delete();

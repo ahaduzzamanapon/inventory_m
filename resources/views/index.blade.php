@@ -110,6 +110,7 @@
                         ->where('status', 'Pending')
                         ->sum('amount'),
                     'Total Advance' => DB::table('advanced_cash')
+                        ->where('status', 'Approved')
                         ->sum('amount'),
                     'Total Item' => DB::table('items')
                         ->count(),
