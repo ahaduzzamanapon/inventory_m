@@ -80,9 +80,7 @@
         </div>
     </div>
 </div>
-
 <script>
-
     function printDiv() {
         var divToPrint = document.getElementById('profile');
         var newWin = window.open('');

@@ -10,7 +10,7 @@ use App\Models\PettyCash;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
-
+use App\Models\AdvancedCash;
 class LogisticBillController extends AppBaseController
 {
     /**
@@ -52,6 +52,7 @@ class LogisticBillController extends AppBaseController
     {
         $input = $request->all();
 
+
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
             $folder = 'images/attachment';
@@ -60,6 +61,16 @@ class LogisticBillController extends AppBaseController
         }else{
             $input['attachment'] = '';
         }
+        if($input['customer'] == null || $input['customer'] == ''){
+            $input['Sale'] = null;
+        }
+        if($input['source_of_payment'] == 'Advance'){
+            $input['own_cash_amount'] = null;
+        }else{
+            $input['advance_id'] = null;
+        }
+
+
 
 
 
@@ -68,14 +79,18 @@ class LogisticBillController extends AppBaseController
         /** @var LogisticBill $logisticBill */
         $logisticBill = LogisticBill::create($input);
 
-        if($input['status'] == 'Payment'){
-            $pettycash = PettyCash::create([
-                'date' => date('Y-m-d'),
-                'account_ledgers' => 4,
-                'account_description' => 'Debit',
-                'amount' => $input['amount'],
-                'status' => 'Approved',
-            ]);
+        if($input['status'] == 'Approved' || $input['source_of_payment'] == 'Advance'){
+            // $pettycash = PettyCash::create([
+            //     'date' => date('Y-m-d'),
+            //     'account_ledgers' => 4,
+            //     'account_description' => 'Debit',
+            //     'amount' => $input['amount'],
+            //     'status' => 'Approved',
+            // ]);
+            $AdvancedCash = AdvancedCash::find($input['advance_id']);
+            $AdvancedCash->settled_status = 'Approved';
+            $AdvancedCash->settled_amount =$AdvancedCash->amount - $input['amount'];
+            $AdvancedCash->save();
         }
 
 
@@ -142,13 +157,8 @@ class LogisticBillController extends AppBaseController
         /** @var LogisticBill $logisticBill */
         $logisticBill = LogisticBill::find($id);
 
-        if (empty($logisticBill)) {
-            Flash::error('Logistic Bill not found');
-
-            return redirect(route('logisticBills.index'));
-        }
-
         $input = $request->all();
+
 
         if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
@@ -158,20 +168,21 @@ class LogisticBillController extends AppBaseController
         }else{
             $input['attachment'] = '';
         }
-
+        if($input['customer'] == null || $input['customer'] == ''){
+            $input['Sale'] = null;
+        }
+        if($input['source_of_payment'] == 'Advance'){
+            $input['own_cash_amount'] = null;
+        }else{
+            $input['advance_id'] = null;
+        }
+        /** @var LogisticBill $logisticBill */
         $logisticBill->fill($input);
-        $logisticBill->save();
-
-        Flash::success('Logistic Bill updated successfully.');
-
-        if($input['status'] == 'Payment'){
-            $pettycash = PettyCash::create([
-                'date' => date('Y-m-d'),
-                'account_ledgers' => 4,
-                'account_description' => 'Debit',
-                'amount' => $input['amount'],
-                'status' => 'Approved',
-            ]);
+        if($input['status'] == 'Approved' || $input['source_of_payment'] == 'Advance'){
+            $AdvancedCash = AdvancedCash::find($input['advance_id']);
+            $AdvancedCash->settled_status = 'Approved';
+            $AdvancedCash->settled_amount =$AdvancedCash->amount - $input['amount'];
+            $AdvancedCash->save();
         }
 
         return redirect(route('logisticBills.index'));

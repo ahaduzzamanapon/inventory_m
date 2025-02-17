@@ -31,10 +31,15 @@ class LogisticBill extends Model
 
     public $fillable = [
         'date',
+        'member_id',
         'Sale',
+        'account_ledgers',
         'location',
         'customer',
         'amount',
+        'source_of_payment',
+        'own_cash_amount',
+        'advance_id',
         'attachment',
         'note',
         'status'

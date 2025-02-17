@@ -16,10 +16,15 @@ class CreateLogisticBillsTable extends Migration
         Schema::create('logistic_bills', function (Blueprint $table) {
             $table->increments('id');
             $table->date('date');
+            $table->integer('member_id');
             $table->integer('Sale');
+            $table->integer('account_ledgers');
             $table->text('location');
             $table->integer('customer');
             $table->string('amount');
+            $table->string('source_of_payment');
+            $table->string('own_cash_amount')->nullable();
+            $table->integer('advance_id')->nullable();
             $table->text('attachment');
             $table->text('note');
             $table->string('status');
