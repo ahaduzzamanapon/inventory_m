@@ -119,7 +119,11 @@ Petty Cash @parent
                     <div class="card-content d-flex align-items-center flex-column">
                             {{-- <h5 class="card-title">{{ $title }}</h5> --}}
                             <h5 class="card-title">Last Credit</h5>
+                            @if($last_petty_cash)
                             <h3 class="card-value">{{ number_format($last_petty_cash->amount, 2) }}</h3>
+                            @else
+                            <h3 class="card-value">0.00</h3>
+                            @endif
                     </div>
                 </div>
             </div>
