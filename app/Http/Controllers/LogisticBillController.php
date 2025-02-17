@@ -206,6 +206,7 @@ class LogisticBillController extends AppBaseController
             Flash::error('Logistic Bill not found');
 
             return redirect(route('logisticBills.index'));
+            
         }
 
         $logisticBill->delete();
