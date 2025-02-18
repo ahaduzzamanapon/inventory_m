@@ -25,7 +25,7 @@
 
 @php
     $accountLedgers = DB::table('accountledgers')->get();
-    $advanced_cash = DB::table('advanced_cash')->get();
+    $advanced_cash = DB::table('advanced_cash')->where('settled_status', '!=', 'Settled')->get();
 
 @endphp
 

@@ -23,7 +23,7 @@ class LogisticBillController extends AppBaseController
     public function index(Request $request)
     {
         /** @var LogisticBill $logisticBills */
-        $logisticBills = LogisticBill::join('customers', 'logistic_bills.customer', '=', 'customers.id')
+        $logisticBills = LogisticBill::leftJoin('customers', 'logistic_bills.customer', '=', 'customers.id')
             ->select('logistic_bills.*', 'customers.customer_name')
             ->paginate(10);
 
