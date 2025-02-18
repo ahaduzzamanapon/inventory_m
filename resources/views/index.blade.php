@@ -112,6 +112,17 @@
         }
     }
 
+    // Schema::create('comissions', function (Blueprint $table) {
+    //         $table->increments('id');
+    //         $table->string('date');
+    //         $table->string('purpose');
+    //         $table->string('employee');
+    //         $table->string('customer');
+    //         $table->float('amount');
+    //         $table->text('note');
+    //         $table->timestamps();
+    //     });
+
 
 
 

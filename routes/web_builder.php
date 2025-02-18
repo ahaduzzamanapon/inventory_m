@@ -50,3 +50,5 @@ Route::resource('roleAndPermissions', 'RoleAndPermissionController');
 Route::resource('bonuses', 'BonusController');
 
 Route::resource('designations', 'DesignationController');
+
+Route::resource('comissions', 'ComissionController');

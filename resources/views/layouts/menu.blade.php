@@ -190,7 +190,7 @@
         @endif
         @if(can('commission'))
         <li class="barr4 {!! (Request::is('commission*') ? 'active' : '' ) !!}">
-            <a href="#">
+            <a href="{{ route('comissions.index') }}">
                 <span class="mm-text ">Commission</span>
                 <span class="menu-icon"><i class="im im-icon-Money"></i></span>
             </a>
@@ -359,6 +359,7 @@
     </ul>
 </li>
 @endif
+
 
 
 
