@@ -58,7 +58,7 @@
                     </div>
                 </td>
                 <td>
-                    <input type="number" name="return_amount[]" class="form-control" value="0" min="0" step="0.01" required>
+                    <input type="number" name="return_amount[]" onkeyup="checkItemSerial(event, this)" class="form-control" value="0" min="0" step="0.01" required>
                 </td>
             </tr>
             @endforeach
