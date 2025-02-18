@@ -194,6 +194,7 @@ class LogisticBillController extends AppBaseController
             $AdvancedCash->settled_status = 'Approved';
             $AdvancedCash->settled_amount =$AdvancedCash->amount - $input['amount'];
             $AdvancedCash->save();
+            dd($input);
             if($input['settled_status'] == 'Settled'){
                 $pettycash = PettyCash::create([
                     'date' => date('Y-m-d'),
