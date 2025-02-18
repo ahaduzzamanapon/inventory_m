@@ -115,7 +115,7 @@ Petty Cash @parent
     $total_settled = DB::table('advanced_cash')->where('settled_status', 'Settled')->where('status', 'Approved')->sum('settled_amount');
 
     $totalDebitCard=$totalDebits-$total_advanced-($totalDebits-$total_settled);
-    dd($totalDebits-$total_settled);
+
     $totalDebit=$totalDebits-$total_advanced;
 
 
@@ -168,7 +168,7 @@ Petty Cash @parent
                     <div class="card-content d-flex align-items-center flex-column">
                             {{-- <h5 class="card-title">{{ $title }}</h5> --}}
                             <h5 class="card-title">Balance</h5>
-                            <h3 class="card-value">{{ number_format(($totalCredit - $totalDebit)-$total_advanced-($totalDebits-$total_settled), 2) }}</h3>
+                            <h3 class="card-value">{{ number_format(($totalCredit - $totalDebit)-$total_advanced, 2) }}</h3>
                     </div>
                 </div>
             </div>
