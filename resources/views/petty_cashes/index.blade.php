@@ -99,13 +99,14 @@ Petty Cash @parent
             } else {
                 $totalDebit += $pettyCash->amount;
             }
-            if ($pettyCash->account_ledgers == 2) {
-                $total_advanced += $pettyCash->amount;
-            }
+
         }
     }
 
+
+
     $last_petty_cash = DB::table('pettycash')->where('status', 'Approved')->where('account_ledgers', 5)->latest()->first();
+    $total_advanced = DB::table('advanced_cash')->where('settled_status', 'Pending')->where('status', 'Approved')->sum('amount');
 
 
 
