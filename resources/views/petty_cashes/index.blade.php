@@ -108,7 +108,8 @@ Petty Cash @parent
     $last_petty_cash = DB::table('pettycash')->where('status', 'Approved')->where('account_ledgers', 5)->latest()->first();
     $total_advanced = DB::table('advanced_cash')->where('settled_status', 'Pending')->where('status', 'Approved')->sum('amount');
     $total_settled = DB::table('advanced_cash')->where('settled_status', 'Settled')->where('status', 'Approved')->sum('settled_amount');
-    $totalDebit=$totalDebit-$total_advanced-($totalDebit-$total_settled);
+    $totalDebitCard=$totalDebit-$total_advanced-($totalDebit-$total_settled);
+    $totalDebit=$totalDebit-$total_advanced;
 
 
 
@@ -148,7 +149,7 @@ Petty Cash @parent
                     <div class="card-content d-flex align-items-center flex-column">
                             {{-- <h5 class="card-title">{{ $title }}</h5> --}}
                             <h5 class="card-title">Total Debit</h5>
-                            <h3 class="card-value">{{ number_format($totalDebit, 2) }}</h3>
+                            <h3 class="card-value">{{ number_format($totalDebitCard, 2) }}</h3>
                     </div>
                 </div>
             </div>
