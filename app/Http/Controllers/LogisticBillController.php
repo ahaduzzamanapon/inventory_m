@@ -198,7 +198,7 @@ class LogisticBillController extends AppBaseController
                     'date' => date('Y-m-d'),
                     'account_ledgers' => 3,
                     'account_description' => 'Credit',
-                    'amount' =>$AdvancedCash->amount - $input['settled_amount'],
+                    'amount' =>$AdvancedCash->amount - $AdvancedCash->settled_amount,
                     'status' => 'Approved',
                 ]);
 
