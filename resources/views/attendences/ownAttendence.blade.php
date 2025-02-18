@@ -35,7 +35,7 @@ Attendences @parent
                             <th>Date</th>
                             <th>Present Status</th>
                             <th>Late Status</th>
-                            <th>Late Time</th>
+                            <th>Remarks</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -80,17 +80,19 @@ class LogisticBillController extends AppBaseController
         $logisticBill = LogisticBill::create($input);
 
         if($input['status'] == 'Approved' || $input['source_of_payment'] == 'Advance'){
-            // $pettycash = PettyCash::create([
-            //     'date' => date('Y-m-d'),
-            //     'account_ledgers' => 4,
-            //     'account_description' => 'Debit',
-            //     'amount' => $input['amount'],
-            //     'status' => 'Approved',
-            // ]);
             $AdvancedCash = AdvancedCash::find($input['advance_id']);
             $AdvancedCash->settled_status = 'Approved';
             $AdvancedCash->settled_amount =$AdvancedCash->amount - $input['amount'];
             $AdvancedCash->save();
+            if($input['settled_status'] == 'Settled'){
+                $pettycash = PettyCash::create([
+                    'date' => date('Y-m-d'),
+                    'account_ledgers' => 3,
+                    'account_description' => 'Credit',
+                    'amount' =>$AdvancedCash->amount - $input['settled_amount'],
+                    'status' => 'Approved',
+                ]);
+            }
         }
 
 
@@ -183,11 +185,18 @@ class LogisticBillController extends AppBaseController
             $AdvancedCash->settled_status = 'Approved';
             $AdvancedCash->settled_amount =$AdvancedCash->amount - $input['amount'];
             $AdvancedCash->save();
+            if($input['settled_status'] == 'Settled'){
+                $pettycash = PettyCash::create([
+                    'date' => date('Y-m-d'),
+                    'account_ledgers' => 3,
+                    'account_description' => 'Credit',
+                    'amount' =>$AdvancedCash->amount - $input['settled_amount'],
+                    'status' => 'Approved',
+                ]);
+            }
         }
         $logisticBill->save();
-
         Flash::success('Logistic Bill updated successfully.');
-
         return redirect(route('logisticBills.index'));
     }
 

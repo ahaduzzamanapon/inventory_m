@@ -243,9 +243,9 @@ class SalesController extends Controller
             return redirect(route('sales.sales_list'));
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
+            // dd($e->getMessage());
             Flash::error('Something went wrong while adding payment');
-            return redirect(route('sales.sales_list'));
+            return redirect()->back()->with('error', 'Something went wrong while adding payment');
         }
     }
 

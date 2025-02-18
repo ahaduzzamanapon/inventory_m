@@ -13,6 +13,7 @@
                             <th>Name</th>
                             <th>Present Status</th>
                             <th>Late Status</th>
+                            <th>Remarks</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,6 +24,7 @@
                                 <td>{{ $user->name.' '.$user->last_name }}</td>
                                 <td>{{ $user->status }}</td>
                                 <td>{{ $user->late_status }}</td>
+                                <td>{{ $user->late_time }}</td>
                             </tr>
                         @endforeach
                     </tbody>

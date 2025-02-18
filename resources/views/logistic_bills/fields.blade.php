@@ -208,6 +208,12 @@ $customers = DB::table('customers')->get();
 
     }
 </script>
+<script>
+    $(document).ready(function () {
+        customerChange();
+        sourceOfPaymentChange();
+    });
+</script>
 @endsection
 
 

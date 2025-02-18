@@ -95,20 +95,37 @@
         <div class="container-lg col-md-12">
             <div class="row">
                 <?php
+
+
+    $totalCredit = 0;
+    $totalDebit = 0;
+
+    foreach ($pettyCashes as $pettyCash) {
+        if ($pettyCash->status == 'Approved') {
+            if($pettyCash->account_description == 'Credit') {
+                $totalCredit += $pettyCash->amount;
+            } else {
+                $totalDebit += $pettyCash->amount;
+            }
+        }
+    }
+
+
+
+
+
                 $metrics = [
                     'Monthly Sales' => DB::table('sales_models')
                         ->whereMonth('created_at', now()->month)
                         ->sum('grand_total'),
-                    'Monthly Expense' => DB::table('pettycash')
+                    'Monthly Expense' => DB::table('logistic_bills')
                         ->whereMonth('created_at', now()->month)
-                        ->where('account_description', 'Debit')
+                        ->where('status', 'Approved')
                         ->sum('amount'),
                     'Total Liability' => DB::table('purchas_models')
                         ->whereMonth('created_at', now()->month)
                         ->sum('grand_total'),
-                    'Running Petty cash' => DB::table('pettycash')
-                        ->where('status', 'Pending')
-                        ->sum('amount'),
+                    'Running Petty cash' => $totalCredit - $totalDebit,
                     'Total Advance' => DB::table('advanced_cash')
                         ->where('status', 'Approved')
                         ->sum('amount'),
