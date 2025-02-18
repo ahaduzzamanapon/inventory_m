@@ -159,7 +159,7 @@ Petty Cash @parent
                     <div class="card-content d-flex align-items-center flex-column">
                             {{-- <h5 class="card-title">{{ $title }}</h5> --}}
                             <h5 class="card-title">Balance</h5>
-                            <h3 class="card-value">{{ number_format($totalCredit - $totalDebit, 2) }}</h3>
+                            <h3 class="card-value">{{ number_format(($totalCredit - $totalDebit)-$total_advanced, 2) }}</h3>
                     </div>
                 </div>
             </div>
