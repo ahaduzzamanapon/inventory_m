@@ -89,7 +89,7 @@ Petty Cash @parent
     @php
 
     $totalCredit = 0;
-    $totalDebit = 0;
+    $totalDebits = 0;
     $total_advanced=0;
 
     foreach ($pettyCashes as $pettyCash) {
@@ -97,7 +97,7 @@ Petty Cash @parent
             if($pettyCash->account_description == 'Credit') {
                 $totalCredit += $pettyCash->amount;
             } else {
-                $totalDebit += $pettyCash->amount;
+                $totalDebits += $pettyCash->amount;
             }
 
         }
@@ -108,8 +108,8 @@ Petty Cash @parent
     $last_petty_cash = DB::table('pettycash')->where('status', 'Approved')->where('account_ledgers', 5)->latest()->first();
     $total_advanced = DB::table('advanced_cash')->where('settled_status', 'Pending')->where('status', 'Approved')->sum('amount');
     $total_settled = DB::table('advanced_cash')->where('settled_status', 'Settled')->where('status', 'Approved')->sum('settled_amount');
-    $totalDebitCard=$totalDebit-$total_advanced-($totalDebit-$total_settled);
-    $totalDebit=$totalDebit-$total_advanced;
+    $totalDebitCard=$totalDebits-$total_advanced-($totalDebits-$total_settled);
+    $totalDebit=$totalDebits-$total_advanced;
 
 
 
@@ -161,7 +161,7 @@ Petty Cash @parent
                     <div class="card-content d-flex align-items-center flex-column">
                             {{-- <h5 class="card-title">{{ $title }}</h5> --}}
                             <h5 class="card-title">Balance</h5>
-                            <h3 class="card-value">{{ number_format(($totalCredit - $totalDebit)-$total_advanced, 2) }}</h3>
+                            <h3 class="card-value">{{ number_format(($totalCredit - $totalDebit)-$total_advanced-($totalDebits-$total_settled), 2) }}</h3>
                     </div>
                 </div>
             </div>
