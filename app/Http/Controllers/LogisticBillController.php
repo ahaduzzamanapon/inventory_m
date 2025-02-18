@@ -194,8 +194,6 @@ class LogisticBillController extends AppBaseController
             $AdvancedCash->settled_status = 'Approved';
             $AdvancedCash->settled_amount =$AdvancedCash->amount - $input['amount'];
             $AdvancedCash->save();
-            dd($input);
-            if($input['settled_status'] == 'Settled'){
                 $pettycash = PettyCash::create([
                     'date' => date('Y-m-d'),
                     'account_ledgers' => 3,
@@ -203,7 +201,7 @@ class LogisticBillController extends AppBaseController
                     'amount' =>$AdvancedCash->amount - $input['settled_amount'],
                     'status' => 'Approved',
                 ]);
-            }
+
         }
         $logisticBill->save();
         Flash::success('Logistic Bill updated successfully.');
