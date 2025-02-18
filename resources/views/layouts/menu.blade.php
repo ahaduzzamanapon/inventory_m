@@ -80,7 +80,7 @@
     </a>
     <ul class="sub-menu list-unstyled barr3">
 
-          @if(can('item'))
+          @if(can('item_dashboard'))
         <li class="barr4 {!! (Request::is('item_dashboard') ? 'active' : '' ) !!}">
             <a href="{{ route('item.dashboard') }}">
                 <span class="mm-text ">Items Dashboard</span>
