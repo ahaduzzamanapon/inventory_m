@@ -85,18 +85,16 @@ class LogisticBillController extends AppBaseController
                 Flash::error('Advanced Cash not found');
                 return redirect()->back();
             }
-            $AdvancedCash->settled_status = 'Approved';
-            $AdvancedCash->settled_amount =$AdvancedCash->amount - $input['amount'];
+            $AdvancedCash->settled_status = 'settled';
+            $AdvancedCash->settled_amount =$input['amount'];
             $AdvancedCash->save();
-            if($input['settled_status'] == 'Settled'){
                 $pettycash = PettyCash::create([
                     'date' => date('Y-m-d'),
                     'account_ledgers' => 3,
                     'account_description' => 'Credit',
-                    'amount' =>$AdvancedCash->amount - $input['settled_amount'],
+                    'amount' =>$AdvancedCash->amount - $AdvancedCash->settled_amount,
                     'status' => 'Approved',
                 ]);
-            }
         }
 
 
