@@ -181,7 +181,12 @@ class LogisticBillController extends AppBaseController
         /** @var LogisticBill $logisticBill */
         $logisticBill->fill($input);
         if($input['status'] == 'Approved' || $input['source_of_payment'] == 'Advance'){
+
             $AdvancedCash = AdvancedCash::find($input['advance_id']);
+            if (empty($AdvancedCash)) {
+                Flash::error('Advanced Cash not found');
+                return redirect()->back();
+            }
             $AdvancedCash->settled_status = 'Approved';
             $AdvancedCash->settled_amount =$AdvancedCash->amount - $input['amount'];
             $AdvancedCash->save();

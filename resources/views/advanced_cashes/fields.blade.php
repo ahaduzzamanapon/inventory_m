@@ -7,46 +7,50 @@
 
 
 <!-- Member Id Field -->
-<div class="col-md-3">
-    <div class="form-group">
-        {!! Form::label('member_id', 'Select Member:',['class'=>'control-label']) !!}
-        {!! Form::select('member_id', $users->pluck('name', 'id')->prepend('Select Member', ''), null, ['class' => 'form-control']) !!}
+
+<div class="row" @if (isset($advancedCash) && $advancedCash->status === 'Approved') style="display: none;" @endif>
+    <div class="col-md-3" >
+        <div class="form-group">
+            {!! Form::label('member_id', 'Select Member:',['class'=>'control-label']) !!}
+                {!! Form::select('member_id', $users->pluck('name', 'id')->prepend('Select Member', ''), null, ['class' => 'form-control']) !!}
+        </div>
     </div>
-</div>
+
+    <!-- Purpose Field -->
+    <div class="col-md-3">
+        <div class="form-group">
+            {!! Form::label('purpose', 'Purpose:',['class'=>'control-label']) !!}
+            {!! Form::text('purpose', null, ['class' => 'form-control']) !!}
+        </div>
+    </div>
 
 
-<!-- Purpose Field -->
-<div class="col-md-3">
-    <div class="form-group">
-        {!! Form::label('purpose', 'Purpose:',['class'=>'control-label']) !!}
-        {!! Form::text('purpose', null, ['class' => 'form-control']) !!}
+    <!-- Amount Field -->
+    <div class="col-md-3">
+        <div class="form-group">
+            {!! Form::label('amount', 'Amount:',['class'=>'control-label']) !!}
+            {!! Form::number('amount', null, ['class' => 'form-control']) !!}
+        </div>
     </div>
-</div>
 
 
-<!-- Amount Field -->
-<div class="col-md-3">
-    <div class="form-group">
-        {!! Form::label('amount', 'Amount:',['class'=>'control-label']) !!}
-        {!! Form::number('amount', null, ['class' => 'form-control']) !!}
+    @if(can('advanced_cash_approval'))
+    <div class="col-md-3">
+        <div class="form-group">
+            {!! Form::label('status', 'Status:',['class'=>'control-label']) !!}
+            {!! Form::select('status', ['Pending' => 'Pending', 'Approved' => 'Approved', 'Payment' => 'Payment'], null, ['class' => 'form-control']) !!}
+        </div>
     </div>
-</div>
+    @else
+    <div class="col-md-3 d-none">
+        <div class="form-group">
+            {!! Form::label('status', 'Status:',['class'=>'control-label']) !!}
+            {!! Form::select('status', ['Pending' => 'Pending', 'Approved' => 'Approved', 'Payment' => 'Payment'], null, ['class' => 'form-control']) !!}
+        </div>
+    </div>
+    @endif
 
-@if(can('advanced_cash_approval'))
-<div class="col-md-3">
-    <div class="form-group">
-        {!! Form::label('status', 'Status:',['class'=>'control-label']) !!}
-        {!! Form::select('status', ['Pending' => 'Pending', 'Approved' => 'Approved', 'Payment' => 'Payment'], null, ['class' => 'form-control']) !!}
-    </div>
 </div>
-@else
-<div class="col-md-3 d-none">
-    <div class="form-group">
-        {!! Form::label('status', 'Status:',['class'=>'control-label']) !!}
-        {!! Form::select('status', ['Pending' => 'Pending', 'Approved' => 'Approved', 'Payment' => 'Payment'], null, ['class' => 'form-control']) !!}
-    </div>
-</div>
-@endif
 
 
 @if(can('advanced_cash_approval'))
@@ -84,3 +88,4 @@
     {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
     <a href="{{ route('advancedCashes.index') }}" class="btn btn-danger">Cancel</a>
 </div>
+
