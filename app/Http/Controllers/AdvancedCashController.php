@@ -53,15 +53,17 @@ class AdvancedCashController extends AppBaseController
         $input = $request->all();
         /** @var AdvancedCash $advancedCash */
         $advancedCash = AdvancedCash::create($input);
-        $pettycash = PettyCash::create([
-            'date' => date('Y-m-d'),
-            'account_ledgers' => 2,
-            'account_description' => 'Debit',
-            'amount' => $input['amount'],
-            'status' => 'Approved',
-        ]);
+
 
         if($input['settled_status'] == 'Settled'){
+            $pettycash = PettyCash::create([
+                'date' => date('Y-m-d'),
+                'account_ledgers' => 2,
+                'account_description' => 'Debit',
+                'amount' => $input['amount'],
+                'status' => 'Approved',
+            ]);
+
             $pettycash = PettyCash::create([
                 'date' => date('Y-m-d'),
                 'account_ledgers' => 3,
@@ -144,6 +146,14 @@ class AdvancedCashController extends AppBaseController
         //dd($input);
 
         if($input['settled_status'] == 'Settled'){
+            $pettycash = PettyCash::create([
+                'date' => date('Y-m-d'),
+                'account_ledgers' => 2,
+                'account_description' => 'Debit',
+                'amount' => $input['amount'],
+                'status' => 'Approved',
+            ]);
+
             $pettycash = PettyCash::create([
                 'date' => date('Y-m-d'),
                 'account_ledgers' => 3,
