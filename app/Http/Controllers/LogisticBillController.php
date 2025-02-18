@@ -79,7 +79,7 @@ class LogisticBillController extends AppBaseController
         /** @var LogisticBill $logisticBill */
         $logisticBill = LogisticBill::create($input);
 
-        if($input['status'] == 'Approved' || $input['source_of_payment'] == 'Advance'){
+        if($input['status'] == 'Approved' && $input['source_of_payment'] == 'Advance'){
             $AdvancedCash = AdvancedCash::find($input['advance_id']);
             if (empty($AdvancedCash)) {
                 Flash::error('Advanced Cash not found');
@@ -184,7 +184,7 @@ class LogisticBillController extends AppBaseController
         }
         /** @var LogisticBill $logisticBill */
         $logisticBill->fill($input);
-        if($input['status'] == 'Approved' || $input['source_of_payment'] == 'Advance'){
+        if($input['status'] == 'Approved' && $input['source_of_payment'] == 'Advance'){
 
             $AdvancedCash = AdvancedCash::find($input['advance_id']);
             if (empty($AdvancedCash)) {
