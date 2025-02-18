@@ -29,7 +29,7 @@
                 <td>
                     <div class='btn-group'>
                         <a href="{{ route('logisticBills.show', [$logisticBill->id]) }}" class='btn btn-outline-primary btn-xs'><i class="im im-icon-Eye" data-placement="top" title="View"></i></a>
-                        @if($logisticBill->status == 'Approved')
+                        @if($logisticBill->status != 'Approved')
                         <a href="{{ route('logisticBills.edit', [$logisticBill->id]) }}" class='btn btn-outline-primary btn-xs'><i
                             class="im im-icon-Pen"  data-toggle="tooltip" data-placement="top" title="Edit"></i></a>
                             @if(can('delete_option'))
