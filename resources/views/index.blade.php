@@ -100,6 +100,8 @@
     $totalCredit = 0;
     $totalDebit = 0;
 
+    $pettyCashes = DB::table('pettycash')->get();
+
     foreach ($pettyCashes as $pettyCash) {
         if ($pettyCash->status == 'Approved') {
             if($pettyCash->account_description == 'Credit') {
