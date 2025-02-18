@@ -187,6 +187,10 @@
                     '<td><input type="text" name="payment_amount[]" required value="0" class="form-control text-right payment_amount" onkeyup="calculatePaymentTotal()"></td>' +
                     '<td><a class="btn btn-danger" onclick="removePaymentRow(this)"><i class="fa fa-trash"></i></a></td>';
                 paymentTableBody.appendChild(newRow);
+                var dateFields = document.querySelectorAll('input[type="date"]');
+                dateFields.forEach(function(dateField) {
+                    date_fixer(dateField.id);
+                });
             }
             function removePaymentRow(button) {
                 var row = button.parentNode.parentNode;
