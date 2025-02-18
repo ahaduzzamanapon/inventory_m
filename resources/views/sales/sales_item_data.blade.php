@@ -77,19 +77,25 @@
 
 
 <script>
-    function checkItemSerial(event, el){
+    function checkItemSerial(event, el) {
         let serialDiv = el.closest('.serial_div');
-        let serialCheckboxes = serialDiv.querySelectorAll('input[type="checkbox"]');
-        let checkedSerials = [];
-        serialCheckboxes.forEach(checkbox => {
-            if(checkbox.checked){
-                checkedSerials.push(checkbox.value);
+        if (serialDiv) {
+            let serialCheckboxes = serialDiv.querySelectorAll('input[type="checkbox"]');
+            let checkedSerials = [];
+            serialCheckboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    checkedSerials.push(checkbox.value);
+                }
+            });
+            console.log(checkedSerials);
+            let serialInput = serialDiv.closest('td').querySelector('input[type="number"]');
+            if (serialInput) {
+                serialInput.value = checkedSerials.length;
             }
-        });
-        console.log(checkedSerials);
-        let serialInput = serialDiv.closest('td').querySelector('input[type="number"]');
-        serialInput.value = checkedSerials.length;
-        calculate_return_amount(el)
+            calculate_return_amount(el);
+        } else {
+            console.error('Serial div not found');
+        }
     }
     function calculate_return_amount(el){
         let returnQty = el.value;
