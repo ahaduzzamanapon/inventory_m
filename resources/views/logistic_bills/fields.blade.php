@@ -60,7 +60,7 @@ $customers = DB::table('customers')->get();
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('Sale', 'Sale:',['class'=>'control-label']) !!}
-        {!! Form::select('Sale',[], null, ['class' => 'form-control']) !!}
+        {!! Form::select('Sale',['' => 'Select Sale'], null, ['class' => 'form-control']) !!}
     </div>
 </div>
 
@@ -113,7 +113,7 @@ $customers = DB::table('customers')->get();
 <div class="col-md-3 d-none " id="advance_div">
     <div class="form-group">
         {!! Form::label('advance_id', 'Advance :',['class'=>'control-label']) !!}
-        {!! Form::select('advance_id', $advanced_cash->pluck('amount', 'id'), null, ['class' => 'form-control']) !!}
+        {!! Form::select('advance_id',[''=>'Select Advance'], null, ['class' => 'form-control']) !!}
     </div>
 </div>
 
