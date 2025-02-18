@@ -183,7 +183,7 @@
                     '" class="form-control"></td>' +
                     '<td><select name="payment_method_id[]" required class="form-control">' + paymentMethodOptions + '</select></td>' +
                     '<td><input type="text" name="cheque_number[]" class="form-control" required></td>' +
-                    '<td><input type="date" name="payment_date[]" value="{{ date('Y-m-d') }}" class="form-control" required></td>' +
+                    '<td><input type="date" name="payment_date[]" value="" class="form-control" required></td>' +
                     '<td><input type="text" name="payment_amount[]" required value="0" class="form-control text-right payment_amount" onkeyup="calculatePaymentTotal()"></td>' +
                     '<td><a class="btn btn-danger" onclick="removePaymentRow(this)"><i class="fa fa-trash"></i></a></td>';
                 paymentTableBody.appendChild(newRow);
