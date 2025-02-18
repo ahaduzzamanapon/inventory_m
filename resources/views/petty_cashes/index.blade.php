@@ -107,6 +107,7 @@ Petty Cash @parent
 
     $last_petty_cash = DB::table('pettycash')->where('status', 'Approved')->where('account_ledgers', 5)->latest()->first();
     $total_advanced = DB::table('advanced_cash')->where('settled_status', 'Pending')->where('status', 'Approved')->sum('amount');
+    $totalDebit=$totalDebit-$total_advanced;
 
 
 
