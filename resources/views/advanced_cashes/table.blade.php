@@ -25,7 +25,6 @@
             <td>
                 <span class="badge badge-{{ $advancedCash->settled_status == 'Settled' ? 'success' : 'warning' }}">{{ $advancedCash->settled_status == 'Settled' ? 'Settled' : 'Pending' }}</span>
             </td>
-
                 <td>
                     <div class='btn-group'>
                         <a href="{{ route('advancedCashes.show', [$advancedCash->id]) }}" class='btn btn-outline-primary btn-xs'><i class="im im-icon-Eye" data-placement="top" title="View"></i></a>

@@ -66,7 +66,7 @@ class AdvancedCashController extends AppBaseController
                 'date' => date('Y-m-d'),
                 'account_ledgers' => 3,
                 'account_description' => 'Credit',
-                'amount' => $input['settled_amount'],
+                'amount' => $input['amount'] - $input['settled_amount'],
                 'status' => 'Approved',
             ]);
         }
@@ -148,7 +148,7 @@ class AdvancedCashController extends AppBaseController
                 'date' => date('Y-m-d'),
                 'account_ledgers' => 3,
                 'account_description' => 'Credit',
-                'amount' => $input['settled_amount'],
+                'amount' => $input['amount'] - $input['settled_amount'],
                 'status' => 'Approved',
             ]);
         }
