@@ -113,9 +113,8 @@ Petty Cash @parent
     $total_advanced = DB::table('advanced_cash')->where('settled_status', 'Pending')->where('status', 'Approved')->sum('amount');
 
     $total_settled = DB::table('advanced_cash')->where('settled_status', 'Settled')->where('status', 'Approved')->sum('settled_amount');
-    dd($total_settled);
 
-    $totalDebitCard=$totalDebits-$total_advanced-($totalDebits-$total_settled);
+    $totalDebitCard=$totalDebits-$total_advanced;
 
     $totalDebit=$totalDebits-$total_advanced;
 
