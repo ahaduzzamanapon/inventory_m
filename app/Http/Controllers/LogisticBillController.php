@@ -85,7 +85,7 @@ class LogisticBillController extends AppBaseController
                 Flash::error('Advanced Cash not found');
                 return redirect()->back();
             }
-            $AdvancedCash->settled_status = 'settled';
+            $AdvancedCash->settled_status = 'Settled';
             $AdvancedCash->settled_amount =$input['amount'];
             $AdvancedCash->save();
                 $pettycash = PettyCash::create([
@@ -189,7 +189,7 @@ class LogisticBillController extends AppBaseController
                 Flash::error('Advanced Cash not found');
                 return redirect()->back();
             }
-            $AdvancedCash->settled_status = 'settled';
+            $AdvancedCash->settled_status = 'Settled';
             $AdvancedCash->settled_amount =$input['amount'];
             $AdvancedCash->save();
                 $pettycash = PettyCash::create([
