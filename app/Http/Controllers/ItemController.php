@@ -71,7 +71,7 @@ class ItemController extends AppBaseController
 
         $item_id_validate=Item::where('item_id', $input['item_id'])->first();
         if ($item_id_validate) {
-            $input['item_id']=create_sale_id_sales();
+            $input['item_id']=create_item_id();
         }
         /** @var Item $item */
         $item = Item::create($input);
