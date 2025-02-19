@@ -148,19 +148,20 @@ if (!function_exists('create_purchase_id_purchases')) {
 if (!function_exists('create_item_id')) {
     function create_item_id()
     {
-        $item=\App\Models\Item::orderBy('id', 'desc')->first();
-        if($item){
-            $strint_t='IT-';
-            $prev_item_id=$item->item_id;
-            $prev_item_id=str_replace($strint_t, '', $prev_item_id);
-            $prev_item_id=intval($prev_item_id);
-            $prev_item_id=str_pad($prev_item_id+1, 8, '0', STR_PAD_LEFT);
-            return 'IT-'.$prev_item_id;
-        } else {
-            return 'IT-0000001';
+        $latestItem = \App\Models\Item::latest('id')->first(); // Fetch latest item by ID
+
+        $prefix = 'IT-';
+        $nextNumber = 1; // Default if no items exist
+
+        if ($latestItem && isset($latestItem->item_id)) {
+            $lastNumber = (int) substr($latestItem->item_id, strlen($prefix)); // Extract number part
+            $nextNumber = $lastNumber + 1;
         }
+
+        return $prefix . str_pad($nextNumber, 7, '0', STR_PAD_LEFT);
     }
 }
+
 if (!function_exists('create_payment_id_sales')) {
     function create_payment_id_sales()
     {
