@@ -77,124 +77,78 @@ if (!function_exists('get_item_name_by_id')) {
         }
     }
 }
-if (!function_exists('create_reference_id_sales')) {
-    function create_reference_id_sales()
+
+if (!function_exists('generate_unique_id')) {
+    /**
+     * Generate a unique ID for various entities
+     *
+     * @param string $modelClass - The model class (e.g., \App\Models\SalesModel::class)
+     * @param string $column - The column storing the unique ID (e.g., 'reference_no')
+     * @param string $prefix - The prefix for the ID (e.g., 'REF:Sale/Slope/')
+     * @param int $length - The number length (excluding prefix)
+     * @return string
+     */
+    function generate_unique_id($modelClass, $column, $prefix, $length = 8)
     {
-        $sales=\App\Models\SalesModel::orderBy('id', 'desc')->first();
+        $latestRecord = $modelClass::latest('id')->first();
+        $nextNumber = 1; // Default if no records exist
 
-        if($sales){
-            $strint_t='REF:Sale/Slope/';
-            $prev_reference_no=$sales->reference_no;
-            $prev_reference_no=str_replace($strint_t, '', $prev_reference_no);
-            $prev_reference_no=intval($prev_reference_no);
-            $prev_reference_no=str_pad($prev_reference_no+1, 8, '0', STR_PAD_LEFT);
-            return 'REF:Sale/Slope/'.$prev_reference_no;
-        } else {
-            return 'REF:Sale/Slope/00000001';
-        }
-    }
-}
-if (!function_exists('create_reference_id_purchase')) {
-    function create_reference_id_purchase()
-    {
-        $purchases=\App\Models\PurchasModel::orderBy('id', 'desc')->first();
-
-        if($purchases){
-            $strint_t='REF:Pur/Slope/';
-            $prev_reference_no=$purchases->reference_no;
-            $prev_reference_no=str_replace($strint_t, '', $prev_reference_no);
-            $prev_reference_no=intval($prev_reference_no);
-            $prev_reference_no=str_pad($prev_reference_no+1, 8, '0', STR_PAD_LEFT);
-            return 'REF:Pur/Slope/'.$prev_reference_no;
-        } else {
-            return 'REF:Pur/Slope/00000001';
-        }
-    }
-}
-if (!function_exists('create_sale_id_sales')) {
-    function create_sale_id_sales()
-    {
-        $sales=\App\Models\SalesModel::orderBy('id', 'desc')->first();
-
-        if($sales){
-            $strint_t='Sale/Slope/';
-            $prev_sale_id=$sales->sales_id;
-            $prev_sale_id=str_replace($strint_t, '', $prev_sale_id);
-            $prev_sale_id=intval($prev_sale_id);
-            $prev_sale_id=str_pad($prev_sale_id+1, 8, '0', STR_PAD_LEFT);
-            return 'Sale/Slope/'.$prev_sale_id;
-        } else {
-            return 'Sale/Slope/00000001';
-        }
-    }
-}
-if (!function_exists('create_purchase_id_purchases')) {
-    function create_purchase_id_purchases()
-    {
-        $purchases=\App\Models\PurchasModel::orderBy('id', 'desc')->first();
-
-        if($purchases){
-            $strint_t='Pur/Slope/';
-            $prev_purchase_id=$purchases->purchas_id;
-            $prev_purchase_id=str_replace($strint_t, '', $prev_purchase_id);
-            $prev_purchase_id=intval($prev_purchase_id);
-            $prev_purchase_id=str_pad($prev_purchase_id+1, 8, '0', STR_PAD_LEFT);
-            return 'Pur/Slope/'.$prev_purchase_id;
-        } else {
-            return 'Pur/Slope/00000001';
-        }
-    }
-}
-if (!function_exists('create_item_id')) {
-    function create_item_id()
-    {
-        $latestItem = \App\Models\Item::latest('id')->first(); // Fetch latest item by ID
-
-        $prefix = 'IT-';
-        $nextNumber = 1; // Default if no items exist
-
-        if ($latestItem && isset($latestItem->item_id)) {
-            $lastNumber = (int) substr($latestItem->item_id, strlen($prefix)); // Extract number part
+        if ($latestRecord && isset($latestRecord->$column)) {
+            $lastNumber = (int) substr($latestRecord->$column, strlen($prefix)); // Extract number part
             $nextNumber = $lastNumber + 1;
         }
 
-        return $prefix . str_pad($nextNumber, 7, '0', STR_PAD_LEFT);
+        return $prefix . str_pad($nextNumber, $length, '0', STR_PAD_LEFT);
+    }
+}
+
+// Specific Helper Functions Using the Generic Function
+if (!function_exists('create_reference_id_sales')) {
+    function create_reference_id_sales()
+    {
+        return generate_unique_id(\App\Models\SalesModel::class, 'reference_no', 'REF:Sale/Slope/');
+    }
+}
+
+if (!function_exists('create_reference_id_purchase')) {
+    function create_reference_id_purchase()
+    {
+        return generate_unique_id(\App\Models\PurchasModel::class, 'reference_no', 'REF:Pur/Slope/');
+    }
+}
+
+if (!function_exists('create_sale_id_sales')) {
+    function create_sale_id_sales()
+    {
+        return generate_unique_id(\App\Models\SalesModel::class, 'sales_id', 'Sale/Slope/');
+    }
+}
+
+if (!function_exists('create_purchase_id_purchases')) {
+    function create_purchase_id_purchases()
+    {
+        return generate_unique_id(\App\Models\PurchasModel::class, 'purchas_id', 'Pur/Slope/');
+    }
+}
+
+if (!function_exists('create_item_id')) {
+    function create_item_id()
+    {
+        return generate_unique_id(\App\Models\Item::class, 'item_id', 'IT-', 7);
     }
 }
 
 if (!function_exists('create_payment_id_sales')) {
     function create_payment_id_sales()
     {
-        $payment=\App\Models\SalesPaymentModel::orderBy('id', 'desc')->first();
-        if($payment){
-            $strint_t='Pay ID-';
-            $prev_payment_id=$payment->payment_id;
-            $prev_payment_id=str_replace($strint_t, '', $prev_payment_id);
-            $prev_payment_id=intval($prev_payment_id);
-            $prev_payment_id=str_pad($prev_payment_id+1, 8, '0', STR_PAD_LEFT);
-            return 'Pay ID-'.$prev_payment_id;
-
-        } else {
-            return 'Pay ID-0000001';
-        }
+        return generate_unique_id(\App\Models\SalesPaymentModel::class, 'payment_id', 'Pay ID-');
     }
 }
+
 if (!function_exists('create_emp_id')) {
     function create_emp_id()
     {
-        $user=\App\Models\User::orderBy('id', 'desc')->first();
-        //dd($user);
-
-        if($user){
-            $strint_t='EMP-';
-            $prev_emp_id=$user->emp_id;
-            $prev_emp_id=str_replace($strint_t, '', $prev_emp_id);
-            $prev_emp_id=intval($prev_emp_id);
-            $prev_emp_id=str_pad($prev_emp_id+1, 8, '0', STR_PAD_LEFT);
-            return 'EMP-'.$prev_emp_id;
-        } else {
-            return 'EMP-0000001';
-        }
+        return generate_unique_id(\App\Models\User::class, 'emp_id', 'EMP-');
     }
 }
 
