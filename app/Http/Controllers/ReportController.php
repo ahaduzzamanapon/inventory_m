@@ -7,104 +7,61 @@ use DB;
 
 class ReportController extends Controller
 {
-    public function showReportPage()
+    //sales
+    public function sales_report_page()
     {
         $customers = DB::table('customers')->get();
-        $suppliers = DB::table('suppliers')->get();
-        return view('report.reports', compact('customers', 'suppliers'));
+        return view('report.sales.sales_report_page', compact('customers'));
     }
-
-    public function generateReport(Request $request)
+    public function sales_report(Request $request)
     {
-
-        $fromDate = date('Y-m-d', strtotime($request->input('from_date')));
-        $toDate = date('Y-m-d', strtotime($request->input('to_date'))); 
-
-        $type = $request->input('type');
-        $supplier_id = $request->input('supplier_id');
-        $customer_id = $request->input('customer_id');
-        $query = null;
-        $headers = [];
-        $reportData = [];
-
-        switch ($type) {
-            case 'sales':
-                $report_title = 'Sales Report from ' . $fromDate . ' to ' . $toDate;
-                $query = DB::table('sales_models')
-                    ->select('sales_models.sales_id', 'customers.customer_name', 'sales_models.grand_total as total_amount', 'sales_models.due_amount', 'sales_models.created_at')
-                    ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
-                    ->whereBetween('sales_models.sale_date', [$fromDate, $toDate]);
-                if ($customer_id) $query->where('sales_models.customer_id', $customer_id);
-                $headers = ['ID', 'Customer Name', 'Total Amount', 'Due Amount', 'Date'];
-                $footer_data= DB::table('sales_models')
-                    ->select(DB::raw('SUM(grand_total) as total_amount'), DB::raw('SUM(due_amount) as due_amount'))
-                    ->whereBetween('sale_date', [$fromDate, $toDate])
-                    ->first();
-                $footers= ['Total', '', $footer_data->total_amount, $footer_data->due_amount, ''];
-
-                break;
-            case 'purchases':
-                $report_title = 'Purchases Report from ' . $fromDate . ' to ' . $toDate;
-                $query = DB::table('purchas_models')
-                    ->select('purchas_models.purchas_id', 'suppliers.supplier_name', 'purchas_models.grand_total as total_amount', 'purchas_models.due_amount', 'purchas_models.purchas_date')
-                    ->join('suppliers', 'purchas_models.supplier_id', '=', 'suppliers.id')
-                    ->whereBetween('purchas_models.purchas_date', [$fromDate, $toDate]);
-                if ($supplier_id) $query->where('purchas_models.supplier_id', $supplier_id);
-                $headers = ['ID', 'Supplier Name', 'Total Amount', 'Due Amount', 'Date'];
-                $footer_data= DB::table('purchas_models')
-                    ->select(DB::raw('SUM(grand_total) as total_amount'), DB::raw('SUM(due_amount) as due_amount'))
-                    ->whereBetween('purchas_date', [$fromDate, $toDate])
-                    ->first();
-                $footers= ['Total', '', $footer_data->total_amount, $footer_data->due_amount, ''];
-                break;
-
-
-            case 'stock':
-                $report_title = 'Stock Report';
-                $query = DB::table('items')
-                    ->select('item_id', 'item_name', 'item_qty');
-
-                $headers = ['ID', 'Item Name', 'Quantity'];
-                $footers = [];
-                break;
-
-            case 'customer_due':
-                $query = DB::table('sales_models')
-                    ->select('sales_models.sales_id', 'customers.customer_name', 'sales_models.grand_total as total_amount', 'sales_models.due_amount', 'sales_models.created_at')
-                    ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
-                    ->where('sales_models.due_amount', '>', 0);
-                $query->where('sales_models.customer_id', $customer_id);
-                $report_title = 'Customer Due Report';
-                $headers = ['ID', 'Customer Name', 'Total Amount', 'Due Amount', 'Date'];
-                $footer_data= DB::table('sales_models')
-                    ->select(DB::raw('SUM(grand_total) as total_amount'), DB::raw('SUM(due_amount) as due_amount'))
-                    ->where('due_amount', '>', 0)
-                    ->where('customer_id', $customer_id)
-                    ->first();
-                $footers= ['Total', '', $footer_data->total_amount, $footer_data->due_amount, ''];
-                break;
-
-            case 'supplier_due':
-                $query = DB::table('purchas_models')
-                    ->select('purchas_models.purchas_id', 'suppliers.supplier_name', 'purchas_models.grand_total as total_amount', 'purchas_models.due_amount', 'purchas_models.purchas_date')
-                    ->join('suppliers', 'purchas_models.supplier_id', '=', 'suppliers.id')
-                    ->where('purchas_models.due_amount', '>', 0);
-                $query->where('purchas_models.supplier_id', $supplier_id);
-                $report_title = 'Supplier Due Report';
-                $headers = ['ID', 'Supplier Name', 'Total Amount', 'Due Amount', 'Date'];
-                $footer_data= DB::table('purchas_models')
-                    ->select(DB::raw('SUM(grand_total) as total_amount'), DB::raw('SUM(due_amount) as due_amount'))
-                    ->where('due_amount', '>', 0)
-                    ->where('supplier_id', $supplier_id)
-                    ->first();
-                $footers= ['Total', '', $footer_data->total_amount, $footer_data->due_amount, ''];
-                break;
+        $customer = $request->customer_id;
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        if($to_date == null || $to_date == ''){
+            $to_date = $from_date;
         }
-
-        if ($query) {
-            $reportData = $query->get();
+        $from_date = date('Y-m-d', strtotime($from_date));
+        $to_date = date('Y-m-d', strtotime($to_date));
+        $report_title="Sales Report From $from_date to $to_date";
+        $sales = DB::table('sales_models')
+                    ->select('sales_models.*', 'customers.customer_name')
+                    ->join('customers', 'sales_models.customer_id', '=', 'customers.id');
+        if($customer != ''){
+            $sales = $sales->where('sales_models.customer_id', $customer);
         }
-
-        return view('report.report_view', compact('reportData', 'headers', 'footers','report_title'));
+        $sales = $sales->whereBetween('sales_models.sale_date', [$from_date, $to_date]);
+        $sales = $sales->get();
+        return view('report.sales.sales_report', compact('sales','report_title'));
     }
+
+
+    // purchase
+    public function purchase_report_page()
+    {
+        $suppliers = DB::table('suppliers')->get();
+        return view('report.purchase.purchase_report_page', compact('suppliers'));
+    }
+    public function purchase_report(Request $request)
+    {
+        $supplier_id = $request->supplier_id;
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        if($to_date == null || $to_date == ''){
+            $to_date = $from_date;
+        }
+        $from_date = date('Y-m-d', strtotime($from_date));
+        $to_date = date('Y-m-d', strtotime($to_date));
+        $report_title="Purchase Report From $from_date to $to_date";
+        $purchase = DB::table('purchas_models')
+                    ->select('purchas_models.*', 'suppliers.supplier_name')
+                    ->join('suppliers', 'purchas_models.supplier_id', '=', 'suppliers.id');
+        if($supplier_id != ''){
+            $purchase = $purchase->where('purchas_models.supplier_id', $supplier_id);
+        }
+        $purchase = $purchase->whereBetween('purchas_models.purchas_date', [$from_date, $to_date]);
+        $purchase = $purchase->get();
+        return view('report.purchase.purchase_report', compact('purchase','report_title'));
+    }
+
 }

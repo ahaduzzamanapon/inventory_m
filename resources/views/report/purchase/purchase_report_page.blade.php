@@ -13,8 +13,7 @@
             <h5 class="card-title">Filter Reports</h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('generate_report') }}" method="POST" id="report-form">
-                @csrf
+            
                 <div class="row">
                     <div class="col-md-3">
                         <label for="from_date">From Date</label>
@@ -24,55 +23,25 @@
                         <label for="to_date">To Date</label>
                         <input type="date" id="to_date" name="to_date" class="form-control" required>
                     </div>
-                    <div class="col-md-3">
-                        <label for="type">Report Type</label>
-                        <select id="type" name="type" class="form-control" required>
-                            <option value="">Select Report Type</option>
-                            <option value="sales">Sales Report</option>
-                            <option value="purchases">Purchase Report</option>
-                            <option value="stock">Stock Report</option>
-                            <option value="customer_due">Customer Due Report</option>
-                            <option value="supplier_due">Supplier Due Report</option>
-
-                            <option value="monthly_sales">Monthly Sales</option>
-                            <option value="monthly_expense">Monthly Expense</option>
-                            <option value="Liability">Total Liability</option>
-                            <option value="running_petty_cash">Running Petty cash</option>
-                            <option value="advance">Total Advance</option>
-                            <option value="Item">Total Item</option>
-                            <option value="product_value">Total Product Value</option>
-                            <option value="Due">Total Due</option>
-                            <option value="yearly_profit">Total Yearly Profit</option>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="company">Customer</label>
-                        <select id="customer_id" name="customer_id" class="form-control">
-                            <option value="">Select Customer</option>
-                            @foreach ($customers as $customer)
-                                <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    
                     <div class="col-md-3">
                         <label for="company">Supplier</label>
                         <select id="supplier_id" name="supplier_id" class="form-control">
-                            <option value="">Select Supplier</option>
+                            <option value="">Select suppliers</option>
                             @foreach ($suppliers as $supplier)
                                 <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
                             @endforeach
                         </select>
                     </div>
+                    
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12 text-center">
-                        <button type="submit" class="btn btn-primary">Generate Report</button>
+                        <button type="submit" id="generate-report" class="btn btn-primary">Generate Report</button>
                     </div>
                 </div>
-            </form>
         </div>
     </div>
-
         <div class="card mt-4">
             <div class="card-header">
                 <h5 class="card-title">Report Details</h5>
@@ -82,18 +51,23 @@
             </div>
         </div>
 </div>
-
-
     @section('scripts')
         <script>
             $(document).ready(function () {
-                $('#report-form').on('submit', function (e) {
+                $('#generate-report').on('click', function (e) {
                     e.preventDefault();
-                    var formData = $(this).serialize();
+                    var from_date = $('#from_date').val();
+                    var to_date = $('#to_date').val();
+                    var supplier_id = $('#supplier_id').val();
                     $.ajax({
-                        url: "{{ route('generate_report') }}",
+                        url: "{{ route('reports.purchase_report') }}",
                         method: 'POST',
-                        data: formData,
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            from_date: from_date,
+                            to_date: to_date,
+                            supplier_id: supplier_id
+                        },
                         success: function (response) {
                             $('#report-view').html(response);
                         },

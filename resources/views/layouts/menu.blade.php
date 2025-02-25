@@ -256,17 +256,33 @@
 
 
 @if(can('report'))
-<li {!! (Request::is('reports*') || Request::is('generate_report*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
+<li {!! (Request::is('sales_report_page*') || Request::is('purchase_report_page*') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
     <a href="#"  class="barr2">
         <span class="mm-text ">Reports</span>
         <span class="menu-icon "><i class="align-self-center fa-1x fas fa-diagnoses"></i></span>
         <span class="im im-icon-Arrow-Right imicon"></span>
     </a>
     <ul class="sub-menu list-unstyled barr3">
-        @if(can('report'))
-        <li class="barr4 {!! (Request::is('reports*') || Request::is('generate_report*') ? 'active' : '' ) !!}">
-            <a href="{{ route('reports.page') }}">
-                <span class="mm-text ">Reports</span>
+        @if(can('sales_report'))
+        <li class="barr4 {!! (Request::is('sales_report_page*') ? 'active' : '' ) !!}">
+            <a href="{{ route('reports.sales_report_page') }}">
+                <span class="mm-text ">Sales Reports</span>
+                <span class="menu-icon"><i class="im im-icon-Calendar"></i></span>
+            </a>
+        </li>
+        @endif
+        @if(can('purchase_report'))
+        <li class="barr4 {!! (Request::is('purchase_report_page*') ? 'active' : '' ) !!}">
+            <a href="{{ route('reports.purchase_report_page') }}">
+                <span class="mm-text ">Purchase Reports</span>
+                <span class="menu-icon"><i class="im im-icon-Calendar"></i></span>
+            </a>
+        </li>
+        @endif
+        @if(can('account_report'))
+        <li class="barr4 {!! (Request::is('account_report_page*') ? 'active' : '' ) !!}">
+            <a href="{{ route('reports.account_report_page') }}">
+                <span class="mm-text ">Account Reports</span>
                 <span class="menu-icon"><i class="im im-icon-Calendar"></i></span>
             </a>
         </li>

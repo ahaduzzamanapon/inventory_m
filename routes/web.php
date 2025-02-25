@@ -57,11 +57,11 @@ Route::group(['middleware' => 'auth'], function () {
     include 'sales.php';
     include 'purchas.php';
     include 'salary.php';
+    include 'report.php';
 
 
 
-Route::get('/reports', [ReportController::class, 'showReportPage'])->name('reports.page');
-Route::post('/generate-report', [ReportController::class, 'generateReport'])->name('generate_report');
+
 
 
 Route::get('/item_dashboard', [HomeController::class, 'items_dashboard'])->name('item.dashboard');
