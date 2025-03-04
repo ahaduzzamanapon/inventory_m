@@ -340,6 +340,9 @@ class SalesController extends Controller
                     'return_date' => date('Y-m-d'),
                     'payment_status' => 'Pending',
                 ]);
+                $item = Item::find($item_id);
+                $item->item_qty += $return_qty;
+                $item->save();
             }
             foreach ($request->sales_details_id as $key => $value) {
                 if (isset($request->return_serial[$value])) {

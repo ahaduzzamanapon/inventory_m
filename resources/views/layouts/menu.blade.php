@@ -281,7 +281,7 @@
         @endif
         @if(can('account_report'))
         <li class="barr4 {!! (Request::is('account_report_page*') ? 'active' : '' ) !!}">
-            <a href="#">
+            <a href="{{ route('reports.account_report_page') }}">
                 <span class="mm-text ">Account Reports</span>
                 <span class="menu-icon"><i class="im im-icon-Calendar"></i></span>
             </a>
