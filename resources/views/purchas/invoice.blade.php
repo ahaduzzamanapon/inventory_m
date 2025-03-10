@@ -221,6 +221,10 @@
             <p><strong>Paid Amount:</strong> <?= number_format($purchas['payment_amount'], 2) ?></p>
             <p><strong>Due Amount:</strong> <?= number_format($purchas['due_amount'], 2) ?></p>
         </div>
+        <div class="payment-summary">
+            <h3>Note</h3>
+            <p><?= $purchas['purchas_note'] ?></p>
+        </div>
 
         <div class="footer">
             <p>Thank you for your business!</p>

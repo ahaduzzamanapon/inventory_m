@@ -87,6 +87,7 @@ class PurchasController extends Controller
             'serial_number' => 'nullable|array',
             'total_payment' => 'required|numeric',
             'due' => 'required|numeric',
+            'purchas_note' => '',
         ]);
 
         DB::beginTransaction();
@@ -108,6 +109,7 @@ class PurchasController extends Controller
                 'payment_status' => $validated['due'] == 0 ? 'Paid' : ($validated['due'] < $validated['grand_total_input'] ? 'Partial' : 'Pending'),
                 'payment_amount' => $validated['total_payment'],
                 'due_amount' => $validated['due'],
+                'purchas_note' => $validated['purchas_note'],
             ]);
 
             // Insert into PurchasItemModel
@@ -280,6 +282,56 @@ class PurchasController extends Controller
 
 
         return view('purchas.invoice', compact('purchas', 'PurchasItem', 'PurchasPayment','supplier','siteSettings'));
+    }
+
+    public function edit($id)
+    {
+        $purchas = PurchasModel::find($id);
+        if (empty($purchas)) {
+            Flash::error('Purchas not found');
+            return redirect(route('purchas.purchas_list'));
+        }
+        $supplier = Supplier::find($purchas->supplier_id);
+        $PurchasItem = PurchasItemModel::where('purchas_id', $id)->get();
+        $PurchasPayment = PurchasPaymentModel::where('purchas_id', $id)->get();
+        return view('purchas.edit', compact('purchas', 'PurchasItem', 'PurchasPayment','supplier'));
+    }
+    public function update(Request $request, $id)
+    {
+
+        DB::beginTransaction();
+        try {
+            $purchases = PurchasModel::find($id);
+            if (empty($purchases)) {
+                Flash::error('Purchas not found');
+                return redirect(route('purchas.purchas_list'));
+            }
+            $purchases->sub_total = $request->sub_total;
+            $purchases->grand_total = $request->grand_total;
+            $purchases->due_amount = $request->grand_total-$purchases->payment_amount;
+            $purchases->save();
+            foreach ($request->item_id as $key => $value) {
+                $purchasesItem = PurchasItemModel::where('item_id', $value)->where('purchas_id', $id)->first();
+                if (!empty($purchasesItem)) {
+                    $purchasesItem->item_per_price = $request->item_per_price[$key];
+                    $purchasesItem->total_price = $request->total_price[$key];
+                    $purchasesItem->save();
+                }else{
+                    DB::rollBack();
+                    Flash::error('Something went wrong while updating Purchas');
+                    return redirect(route('purchas.purchas_list'));
+                }
+            }
+            DB::commit();
+            Flash::success('Purchas updated successfully.');
+            return redirect(route('purchas.purchas_list'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e->getMessage());
+            Flash::error('Something went wrong while updating Purchas');
+            return redirect(route('purchas.purchas_list'));
+        }
+          
     }
 
 }

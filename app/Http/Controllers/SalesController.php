@@ -81,6 +81,7 @@ class SalesController extends Controller
             'item_serial' => 'nullable|array',
             'total_payment' => 'required|numeric',
             'due' => 'required|numeric',
+            'sale_note' => '',
         ]);
 
         DB::beginTransaction();
@@ -102,6 +103,7 @@ class SalesController extends Controller
                 'payment_status' => 'Pending',
                 'payment_amount' =>0,
                 'due_amount' => $validated['grand_total_input'],
+                'sale_note' => $validated['sale_note'],
             ]);
 
             // Insert into SalesItemModel
@@ -375,5 +377,54 @@ class SalesController extends Controller
         }
 
         return view('sales.sales_return_payment', compact('sales'));
+    }
+
+
+    public function edit($id)
+    {
+        $sales = SalesModel::find($id);
+        if (empty($sales)) {
+            Flash::error('Sales not found');
+            return redirect(route('sales.sales_list'));
+        }
+        $customer = Customer::find($sales->customer_id);
+        $SalesItem = SalesItemModel::where('sale_id', $id)->get();
+        $SalesPayment = SalesPaymentModel::where('sale_id', $id)->get();
+        return view('sales.edit', compact('sales', 'SalesItem', 'SalesPayment','customer'));
+    }
+    public function update(Request $request, $id)
+    {
+        DB::beginTransaction();
+        try {
+            $sales = SalesModel::find($id);
+            if (empty($sales)) {
+                Flash::error('Sales not found');
+                return redirect(route('sales.sales_list'));
+            }
+            $sales->sub_total = $request->sub_total;
+            $sales->grand_total = $request->grand_total;
+            $sales->due_amount = $request->grand_total-$sales->payment_amount;
+            $sales->save();
+            foreach ($request->item_id as $key => $value) {
+                $salesItem = SalesItemModel::where('item_id', $value)->where('sale_id', $id)->first();
+                if (!empty($salesItem)) {
+                    $salesItem->item_per_price = $request->item_per_price[$key];
+                    $salesItem->total_price = $request->total_price[$key];
+                    $salesItem->save();
+                }else{
+                    DB::rollBack();
+                    Flash::error('Something went wrong while updating sales');
+                    return redirect(route('sales.sales_list'));
+                }
+            }
+            DB::commit();
+            Flash::success('Sales updated successfully.');
+            return redirect(route('sales.sales_list'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e->getMessage());
+            Flash::error('Something went wrong while updating sales');
+            return redirect(route('sales.sales_list'));
+        }
     }
 }

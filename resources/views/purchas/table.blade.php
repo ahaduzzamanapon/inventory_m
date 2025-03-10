@@ -45,7 +45,7 @@
                         </button>
                         <div class="data_drop dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item bg-info text-white" href="{{ route('purchas.show', [$purchas->id]) }}" style="border-radius: 10px;"><i class="im im-icon-Eye"></i> View</a>
-                            {{-- <a class="dropdown-item" href="{{ route('purchas.edit', [$purchas->id]) }}"><i class="im im-icon-Pen"></i> Edit</a> --}}
+                            <a class="dropdown-item" href="{{ route('purchas.edit', [$purchas->id]) }}"><i class="im im-icon-Pen"></i> Edit</a>
                             <a href="{{url('purchas/delete/'.$purchas->id.'')}}" class="dropdown-item bg-danger text-white" style="border-radius: 10px;"><i class="im im-icon-Remove"></i> Delete</a>
                             <a href="{{url('purchas/make_payment/'.$purchas->id.'')}}" class="dropdown-item bg-warning text-white" style="border-radius: 10px;"><i class="im im-icon-Add"></i> Make Payment</a>
                             <a href="{{url('purchas/make_payment/'.$purchas->id.'')}}" class="dropdown-item bg-info text-white" style="border-radius: 10px;"><i class="im im-icon-Eye-Invisible"></i> Payment History</a>

@@ -134,6 +134,7 @@
                 <h1>Invoice</h1>
                 <p><strong>Date:</strong> <?= date('d-m-Y', strtotime($sales['sale_date'])) ?></p>
                 <p><strong>Invoice #:</strong> <?= $sales['sales_id'] ?></p>
+                
             </div>
             <div class="company-details">
                 <h2><?= $siteSettings['name'] ?></h2>
@@ -243,6 +244,10 @@
 
 
 
+        </div>
+        <div class="payment-summary">
+            <h3>Note</h3>
+            <p><?= $sales['sale_note'] ?></p>
         </div>
         <div class="payment-summary">
             <h3>Term and Condition</h3>

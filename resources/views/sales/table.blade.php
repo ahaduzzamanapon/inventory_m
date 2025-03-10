@@ -45,7 +45,7 @@
                         </button>
                         <div class="data_drop dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item bg-info text-white" href="{{ route('sales.show', [$sale->id]) }}" style="border-radius: 10px;"><i class="im im-icon-Eye"></i> View</a>
-                            {{-- <a class="dropdown-item" href="{{ route('sales.edit', [$sale->id]) }}"><i class="im im-icon-Pen"></i> Edit</a> --}}
+                            <a class="dropdown-item" href="{{ route('sales.edit', [$sale->id]) }}"><i class="im im-icon-Pen"></i> Edit</a>
                             @if(can('delete_option'))
                             <a href="{{url('sales/delete/'.$sale->id.'')}}" onclick="return confirm('Are you sure?')" class="dropdown-item bg-danger text-white" style="border-radius: 10px;"><i class="im im-icon-Remove"></i> Delete</a>
                             @endif
