@@ -237,7 +237,7 @@ class PurchasController extends Controller
                 $payment->payment_id = $value;
                 $payment->supplier_id = $purchas->supplier_id;
                 $payment->payment_method = $request->payment_method_id[$key];
-                $payment->cheque_number = $request->cheque_number[$key];
+                $payment->cheque_number = isset($request->cheque_number[$key]) ? $request->cheque_number[$key] : 0;
                 $payment->payment_date = $request->payment_date[$key];
                 $payment->payment_amount = $request->payment_amount[$key];
                 $payment->purchas_id = $request->purchas_id;
