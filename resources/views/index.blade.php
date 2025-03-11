@@ -137,7 +137,7 @@
                         ->sum('amount'),
                     'Total Liability' => DB::table('purchas_models')
                         ->whereMonth('created_at', now()->month)
-                        ->sum('grand_total'),
+                        ->sum('due_amount'),
                     'Running Petty cash' => $totalCredit - $totalDebit,
                     'Total Advance' => DB::table('advanced_cash')
                         ->where('status', 'Approved')
