@@ -103,7 +103,7 @@ class SalesController extends Controller
                 'payment_status' => 'Pending',
                 'payment_amount' =>0,
                 'due_amount' => $validated['grand_total_input'],
-                'sale_note' => $validated['sale_note'],
+                'sale_note' =>$request->input('sale_note'),
             ]);
 
             // Insert into SalesItemModel

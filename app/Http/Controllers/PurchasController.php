@@ -109,7 +109,7 @@ class PurchasController extends Controller
                 'payment_status' => $validated['due'] == 0 ? 'Paid' : ($validated['due'] < $validated['grand_total_input'] ? 'Partial' : 'Pending'),
                 'payment_amount' => $validated['total_payment'],
                 'due_amount' => $validated['due'],
-                'purchas_note' => $validated['purchas_note'],
+                'purchas_note' => $request->input('purchas_note'),
             ]);
 
             // Insert into PurchasItemModel
