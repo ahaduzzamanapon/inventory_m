@@ -248,7 +248,7 @@ class PurchasController extends Controller
             return redirect(route('purchas.purchas_list'));
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e->getMessage());
+            dd($e);
             Flash::error('Something went wrong while adding payment');
             return redirect(route('purchas.purchas_list'));
         }
