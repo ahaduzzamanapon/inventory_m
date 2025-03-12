@@ -307,8 +307,8 @@ class PurchasController extends Controller
                 return redirect(route('purchas.purchas_list'));
             }
             $purchases->sub_total = $request->sub_total;
-            $purchases->grand_total = (float)$request->grand_total;
-            $purchases->due_amount = (float)$request->grand_total - (float)$purchases->payment_amount;
+            $purchases->grand_total = $request->grand_total;
+            $purchases->due_amount = (float)$request->grand_total- (int) $purchases->payment_amount;
             $purchases->save();
             foreach ($request->item_id as $key => $value) {
                 $purchasesItem = PurchasItemModel::where('item_id', $value)->where('purchas_id', $id)->first();
