@@ -306,6 +306,7 @@ class PurchasController extends Controller
                 Flash::error('Purchas not found');
                 return redirect(route('purchas.purchas_list'));
             }
+            dd($purchases->payment_amount);
             $purchases->sub_total = $request->sub_total;
             $purchases->grand_total = $request->grand_total;
             $purchases->due_amount = $request->grand_total-$purchases->payment_amount;
