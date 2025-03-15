@@ -157,10 +157,9 @@
                     'Total sales Due' => DB::table('sales_models')
                         ->sum('due_amount'),
 
-                    'Total Yearly Profit' => DB::table('sales_payment_models')
-                        ->whereYear('created_at', now()->year)
-                        ->where('payment_status', 'Completed')
-                        ->sum('payment_amount'),
+                    'Total Yearly Profit' => $totalSales - $totalPurchases,
+
+
                     'Total Yearly Sales' => DB::table('sales_models')
                         ->whereYear('sale_date', now()->year)
                         ->sum('grand_total'),
