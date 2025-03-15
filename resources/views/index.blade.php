@@ -151,7 +151,10 @@
                         ->sum('amount'),
                     'Total Item' => DB::table('items')
                         ->count(),
-                    'Total Product Value' => $totalPurchases-$totalSales,
+                        
+                    'Total Product Value' => DB::table('items')
+                        ->sum(DB::raw('item_qty * item_purchase_price')),
+
                     'Total Due' => DB::table('sales_models')
                         ->sum('due_amount'),
                     'Total Yearly Profit' => DB::table('sales_payment_models')
