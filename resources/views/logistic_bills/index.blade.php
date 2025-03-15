@@ -32,10 +32,6 @@ Logistic Bills @parent
             @include('logistic_bills.table')
         </div>
     </div>
-    <div class="text-center">
-
-        @include('adminlte-templates::common.paginate', ['records' => $logisticBills])
-
-    </div>
+   
 </div>
 @endsection

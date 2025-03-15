@@ -26,7 +26,7 @@ class LogisticBillController extends AppBaseController
         $logisticBills = LogisticBill::leftJoin('customers', 'logistic_bills.customer', '=', 'customers.id')
             ->select('logistic_bills.*', 'customers.customer_name')
             ->orderBy('logistic_bills.id', 'desc')
-            ->paginate(10);
+            ->get();
 
         return view('logistic_bills.index')
             ->with('logisticBills', $logisticBills);
