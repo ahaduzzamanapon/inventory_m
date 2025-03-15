@@ -38,7 +38,7 @@
                     @php
                         if ($sale->payment_status != 'Paid') {
                             $get_pending_payment = DB::table('sales_payment_models')
-                                ->where('sales_id', $sale->id)
+                                ->where('sale_id', $sale->id)
                                 ->where('payment_status', 'Pending')
                                 ->first();
                             if ($get_pending_payment) {
