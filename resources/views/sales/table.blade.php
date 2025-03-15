@@ -4,7 +4,7 @@
         padding: 10px;
     }
 </style>
-<div class="table-responsive" style="width: 100%;">
+<div class="table-responsive" >
     <table class="table data_t">
         <thead>
             <tr>
