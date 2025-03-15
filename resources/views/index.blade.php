@@ -154,8 +154,9 @@
                     'Total Product Value' => DB::table('items')
                         ->sum(DB::raw('item_qty * item_purchase_price')),
 
-                    'Total Due' => DB::table('sales_models')
+                    'Total sales Due' => DB::table('sales_models')
                         ->sum('due_amount'),
+
                     'Total Yearly Profit' => DB::table('sales_payment_models')
                         ->whereYear('created_at', now()->year)
                         ->where('payment_status', 'Completed')
@@ -168,7 +169,7 @@
                 $icons = [
                     'Monthly Sales' => 'fas fa-dollar-sign',
                     'Monthly Expense' => 'fas fa-money-bill',
-                    'Total Due' => 'fas fa-credit-card',
+                    'Total sales Due' => 'fas fa-credit-card',
                     'Total Advance' => 'fas fa-forward',
                     'Total Product Value' => 'fas fa-boxes',
                     'Total Yearly Profit' => 'fas fa-chart-line',
@@ -184,7 +185,7 @@
                 $subtitles = [
                     'Monthly Sales' => 'Sales made this month',
                     'Monthly Expense' => 'Expenses this month',
-                    'Total Due' => 'Outstanding dues',
+                    'Total sales Due' => 'Outstanding dues',
                     'Total Advance' => 'Total advanced payments',
                     'Total Product Value' => 'Value of all products in stock',
                     'Total Yearly Profit' => 'Profit made this year',
