@@ -161,6 +161,9 @@
                         ->whereYear('created_at', now()->year)
                         ->where('payment_status', 'Completed')
                         ->sum('payment_amount'),
+                    'Total Yearly Sales' => DB::table('sales_payment_models')
+                        ->whereYear('sale_date', now()->year)
+                        ->sum('grand_total'),
                 ];
 
                 $icons = [
@@ -173,6 +176,8 @@
                     'Total Liability' => 'fas fa-credit-card',
                     'Total Item' => 'fas fa-boxes',
                     'Running Petty cash' => 'fas fa-money-bill',
+                    'Total Yearly Sales' => 'fas fa-chart-line',
+                    
 
 
                 ];
@@ -187,6 +192,7 @@
                     'Total Liability' => 'Total liabilities',
                     'Total Item' => 'Total items in stock',
                     'Running Petty cash' => 'Running petty cash',
+                    'Total Yearly Sales' => 'Total sales this year',
                 ];
                 $permissions=[
                     'Monthly Sales' => 'monthly_sales',
@@ -198,6 +204,7 @@
                     'Total Liability' => 'total_liability',
                     'Total Item' => 'total_item',
                     'Running Petty cash' => 'running_petty_cash',
+                    'Total Yearly Sales' => 'total_yearly_sales',
                 ];
                 ?>
 
