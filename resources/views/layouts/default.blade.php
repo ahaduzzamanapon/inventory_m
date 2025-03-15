@@ -453,16 +453,7 @@
     </script>
     <script>
         $(document).ready(function() {
-            var table = new DataTable('.data_t', {
-                "pageLength": 10,
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                dom: 'Bfrtip', // This will place the buttons in the top of the table
-                buttons: [{
-                    extend: 'collection',
-                    text: 'Export',
-                    buttons: ['copy', 'excel', 'print']
-                }],
-            });
+            var table = new DataTable('.data_t');
         });
     </script>
     <script>
