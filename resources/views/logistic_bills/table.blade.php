@@ -24,7 +24,9 @@
             <td>{{ $logisticBill->amount }}</td>
             <td>{{ $logisticBill->attachment }}</td>
             <td>{{ $logisticBill->note }}</td>
-            <td>{{ $logisticBill->status }}</td>
+            <td>
+                <span class="badge {{ $logisticBill->status == 'Pending' ? 'badge-danger' : ($logisticBill->status == 'Approved' ? 'badge-success' : 'badge-warning') }}">{{ $logisticBill->status }}</span>
+            </td>
 
                 <td>
                     <div class='btn-group'>
