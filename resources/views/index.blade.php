@@ -161,7 +161,7 @@
                         ->whereYear('created_at', now()->year)
                         ->where('payment_status', 'Completed')
                         ->sum('payment_amount'),
-                    'Total Yearly Sales' => DB::table('sales_payment_models')
+                    'Total Yearly Sales' => DB::table('sales_models')
                         ->whereYear('sale_date', now()->year)
                         ->sum('grand_total'),
                 ];
