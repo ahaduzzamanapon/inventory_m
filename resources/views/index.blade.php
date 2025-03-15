@@ -197,7 +197,7 @@
                 $permissions=[
                     'Monthly Sales' => 'monthly_sales',
                     'Monthly Expense' => 'monthly_expense',
-                    'Total Due' => 'total_due',
+                    'Total sales Due' => 'total_due',
                     'Total Advance' => 'total_advance',
                     'Total Product Value' => 'total_product_value',
                     'Total Yearly Profit' => 'total_yearly_profit',
