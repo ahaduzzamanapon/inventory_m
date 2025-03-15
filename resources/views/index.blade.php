@@ -124,6 +124,13 @@
     //     });
 
 
+    $totalSales = DB::table('sales_models')
+                        ->sum('grand_total');
+
+    $totalPurchases = DB::table('purchas_models')
+                        ->sum('grand_total');
+
+
 
 
 
@@ -144,8 +151,7 @@
                         ->sum('amount'),
                     'Total Item' => DB::table('items')
                         ->count(),
-                    'Total Product Value' => DB::table('items')
-                        ->sum(DB::raw('item_qty * item_purchase_price')),
+                    'Total Product Value' => $totalPurchases-$totalSales,
                     'Total Due' => DB::table('sales_models')
                         ->sum('due_amount'),
                     'Total Yearly Profit' => DB::table('sales_payment_models')
