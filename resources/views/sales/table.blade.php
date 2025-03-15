@@ -43,7 +43,7 @@
                                 ->first();
                             if ($get_pending_payment) {
                                 echo '<br>';
-                                echo '<span class="badge badge-warning">Waiting for payment</span>';
+                                echo '<span class="badge badge-primary">Waiting</span>';
                             }
                         }
                     @endphp
