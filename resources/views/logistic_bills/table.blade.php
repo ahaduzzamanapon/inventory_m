@@ -2,7 +2,7 @@
     <table class="table data_t" id="logisticBills-table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>SL</th>
         <th>Date</th>
         <th>Location</th>
         <th>Customer</th>
@@ -17,7 +17,7 @@
         <tbody>
         @foreach($logisticBills as $key => $logisticBill)
             <tr>
-                <td>{{ $logisticBill->id }}</td>
+                <td>{{ $key + 1 }}</td>
             <td>{{ date('d-m-Y', strtotime($logisticBill->date)) }}</td>
             <td>{{ $logisticBill->location }}</td>
             <td>{{ $logisticBill->customer_name }}</td>
