@@ -89,8 +89,8 @@
                             <th>Payment ID</th>
                             <th>Payment Method</th>
                             <th>Chaque No</th>
-                            <th>Amount</th>
                             <th>Payment Date</th>
+                            <th>Amount</th>
                             <th>Action <a class="btn btn-primary" onclick="addPaymentRow()"><i class="fa fa-plus"></i></a>
                             </th>
                         </tr>
