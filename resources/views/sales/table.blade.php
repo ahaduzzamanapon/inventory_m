@@ -35,6 +35,19 @@
                 <td>{{ $sale->grand_total }}</td>
                 <td>
                     <span class="badge {{ $sale->payment_status == 'Pending' ? 'badge-danger' : ($sale->payment_status == 'Paid' ? 'badge-success' : 'badge-warning') }}">{{ $sale->payment_status }}</span>
+                    @php
+                        if ($sale->payment_status != 'Paid') {
+                            $get_pending_payment = DB::table('sales_payment_models')
+                                ->where('sales_id', $sale->id)
+                                ->where('payment_status', 'Pending')
+                                ->first();
+                            if ($get_pending_payment) {
+                                echo '<br>';
+                                echo '<span class="badge badge-warning">Waiting for payment</span>';
+                            }
+                        }
+                    @endphp
+
                 </td>
                 <td>{{ $sale->payment_amount }}</td>
                 <td>{{ $sale->due_amount }}</td>
