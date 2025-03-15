@@ -136,7 +136,7 @@
 
                 $metrics = [
                     'Monthly Sales' => DB::table('sales_models')
-                        ->whereMonth('created_at', now()->month)
+                        ->whereMonth('sale_date', now()->month)
                         ->sum('grand_total'),
                     'Monthly Expense' => DB::table('logistic_bills')
                         ->whereMonth('created_at', now()->month)
