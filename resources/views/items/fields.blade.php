@@ -2,7 +2,7 @@
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('item_id', 'Item Id:', ['class' => 'control-label']) !!}
-        {!! Form::text('item_id', create_item_id(), ['class' => 'form-control', 'readonly']) !!}
+        {!! Form::text('item_id', (isset($item) ? $item->item_id : create_item_id()), ['class' => 'form-control', 'readonly']) !!}
     </div>
 </div>
 
