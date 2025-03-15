@@ -139,7 +139,7 @@
                         ->whereMonth('sale_date', now()->month)
                         ->sum('grand_total'),
                     'Monthly Expense' => DB::table('logistic_bills')
-                        ->whereMonth('created_at', now()->month)
+                        ->whereMonth('date', now()->month)
                         ->where('status', 'Approved')
                         ->sum('amount'),
                     'Total Liability' => DB::table('purchas_models')
