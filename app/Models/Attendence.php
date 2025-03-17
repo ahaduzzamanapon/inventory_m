@@ -77,20 +77,20 @@ class Attendence extends Model
         parent::setAttribute($key, $value);
     }
 
-    // public function getAttribute($key)
-    // {
-    //     $value = parent::getAttribute($key);
+    public function getAttribute($key)
+    {
+        $value = parent::getAttribute($key);
 
-    //     if ($this->isDateColumn($key) && !empty($value)) {
-    //         try {
-    //             return Carbon::parse($value)->format('d-m-Y');
-    //         } catch (\Exception $e) {
-    //             return $value; // Return original value if parsing fails
-    //         }
-    //     }
+        if ($this->isDateColumn($key) && !empty($value)) {
+            try {
+                return Carbon::parse($value)->format('d-m-Y');
+            } catch (\Exception $e) {
+                return $value; // Return original value if parsing fails
+            }
+        }
 
-    //     return $value;
-    // }
+        return $value;
+    }
 
     private function isDateColumn($key)
     {
