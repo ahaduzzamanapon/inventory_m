@@ -65,7 +65,13 @@
                                 <td>{{ $payment->cheque_number }}</td>
                                 <td>{{ number_format($payment->payment_amount, 2) }}</td>
                                 <td><span
-                                        class="badge badge-{{ $payment->payment_status == 'Paid' ? 'success' : 'warning' }}">{{ $payment->payment_status }}</span>
+                                        class="badge badge-{{ $payment->payment_status == 'Approved' ? 'success' : 'warning' }}">{{ $payment->payment_status }}</span>
+                                        @if($payment->payment_status == 'Pending')
+                                            @if(can('approve_payment'))
+                                            <a href="{{ url('approve_payment_p/' . $payment->id) }}" class="btn btn-primary btn-sm">Approve</a>
+                                            @endif
+                                        @endif
+                                        
                                 </td>
                             </tr>
                         @endforeach

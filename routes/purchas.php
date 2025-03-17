@@ -7,5 +7,6 @@ Route::get('purchas/make_payment/{id}', 'PurchasController@make_payment')->name(
 Route::get('purchas/invoice/{id}', 'PurchasController@invoice')->name('purchas.invoice');
 Route::resource('purchas', 'PurchasController');
 Route::post('purchas/payment/store', 'PurchasController@make_payment_store')->name('purchas.payment.store');
+Route::post('approve_payment_p/{id}', 'PurchasController@approve_payment_p');
 
 

@@ -333,5 +333,11 @@ class PurchasController extends Controller
         }
           
     }
+    public function approve_payment_p($id){
+        PurchasPaymentModel::where('id', $id)->update(['payment_status' => 'Approved']);
+        Flash::success('Payment approved successfully.');
+        return redirect()->back();
+
+    }
 
 }
