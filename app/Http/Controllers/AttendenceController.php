@@ -54,17 +54,21 @@ class AttendenceController extends AppBaseController
     public function store(CreateAttendenceRequest $request)
     {
         $input = $request->all();
-        $attendences = [];
         foreach ($input['emp_id'] as $key => $emp_id) {
-            $attendences[] = [
+            $attendences= [
                 'date' => $input['date'],
                 'emp_id' => $emp_id,
                 'status' => $input['status'][$key],
                 'late_status' => $input['late_status'][$key],
                 'late_time' => $input['late_time'][$key]
             ];
+            $prev_attendences=Attendence::where('emp_id', $emp_id)->where('date', $input['date'])->get();    
+            if(empty($prev_attendences)){
+                Attendence::insert($attendences);
+            }else{
+                Attendence::where('emp_id', $emp_id)->where('date', $input['date'])->update($attendences);
+            }
         }
-        Attendence::insert($attendences);
         Flash::success('Attendence saved successfully.');
         return redirect(route('attendences.index'));
     }
@@ -149,17 +153,22 @@ class AttendenceController extends AppBaseController
         $input = $request->all();
         $attendences = [];
         foreach ($input['emp_id'] as $key => $emp_id) {
-            $attendences[] = [
+            
+            $attendences= [
                 'date' => $input['date'],
                 'emp_id' => $emp_id,
                 'status' => $input['status'][$key],
                 'late_status' => $input['late_status'][$key],
                 'late_time' => $input['late_time'][$key]
             ];
+            $prev_attendences=Attendence::where('emp_id', $emp_id)->where('date', $input['date'])->get();    
+            if(empty($prev_attendences)){
+                Attendence::insert($attendences);
+            }else{
+                Attendence::where('emp_id', $emp_id)->where('date', $input['date'])->update($attendences);
+            }
         }
-        //dd($attendences);
-        Attendence::where('date', $date)->delete();
-        Attendence::insert($attendences);
+       
         Flash::success('Attendence updated successfully.');
 
         return redirect(route('attendences.index'));
