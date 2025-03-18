@@ -80,6 +80,8 @@ class AttendenceController extends AppBaseController
      */
     public function show($date)
     {
+                        $date=date('Y-m-d', strtotime($date));
+
        /** @var Attendence $attendence */
             $attendence = Attendence::selectRaw('
             attendences.*,
