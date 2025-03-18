@@ -110,6 +110,8 @@ class AttendenceController extends AppBaseController
      */
     public function edit($date)
     {
+                $date=date('Y-m-d', strtotime($date));
+
         /** @var Attendence $attendence */
         $attendence = Attendence::selectRaw('
         attendences.*,
@@ -121,6 +123,7 @@ class AttendenceController extends AppBaseController
         ->join('users', 'users.id', '=', 'attendences.emp_id')
         ->where('attendences.date', $date)
         ->get();
+        // dd( $attendence);
         if (empty($attendence)) {
             Flash::error('Attendence not found');
             return redirect(route('attendences.index'));
@@ -139,36 +142,21 @@ class AttendenceController extends AppBaseController
      */
     public function update($date, UpdateAttendenceRequest $request)
     {
-
-        /** @var Attendence $attendence */
-        $attendence = Attendence::where('date', $date)->get();
-
-        if (empty($attendence)) {
-            Flash::error('Attendence not found');
-            return redirect(route('attendences.index'));
-        }
-
         $input = $request->all();
-        $attendences = [];
         foreach ($input['emp_id'] as $key => $emp_id) {
-            
             $attendences= [
-                'date' => $input['date'],
+                'date' => $date,
                 'emp_id' => $emp_id,
                 'status' => $input['status'][$key],
                 'late_status' => $input['late_status'][$key],
                 'late_time' => $input['late_time'][$key]
             ];
-            $prev_attendences=Attendence::where('emp_id', $emp_id)->where('date', $input['date'])->get();    
-            if(empty($prev_attendences)){
-                Attendence::insert($attendences);
-            }else{
-                Attendence::where('emp_id', $emp_id)->where('date', $input['date'])->update($attendences);
-            }
+            Attendence::updateOrCreate(
+                ['emp_id' => $emp_id, 'date' => $date],
+                $attendences
+            );
         }
-       
-        Flash::success('Attendence updated successfully.');
-
+        Flash::success('Attendence saved successfully.');
         return redirect(route('attendences.index'));
     }
 
