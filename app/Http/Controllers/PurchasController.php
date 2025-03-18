@@ -232,16 +232,18 @@ class PurchasController extends Controller
             $purchas->due_amount = $request->due;
             $purchas->payment_status = $request->due == 0 ? 'Paid' : 'Partial';
             $purchas->save();
-            foreach ($request->payment_id as $key => $value) {
-                $payment = new PurchasPaymentModel();
-                $payment->payment_id = $value;
-                $payment->supplier_id = $purchas->supplier_id;
-                $payment->payment_method = $request->payment_method_id[$key];
-                $payment->cheque_number = isset($request->cheque_number[$key]) ? $request->cheque_number[$key] : 0;
-                $payment->payment_date = $request->payment_date[$key];
-                $payment->payment_amount = $request->payment_amount[$key];
-                $payment->purchas_id = $request->purchas_id;
-                $payment->save();
+            if (isset($request->payment_id)) {
+                foreach ($request->payment_id as $key => $value) {
+                    $payment = new PurchasPaymentModel();
+                    $payment->payment_id = $value;
+                    $payment->supplier_id = $purchas->supplier_id;
+                    $payment->payment_method = $request->payment_method_id[$key];
+                    $payment->cheque_number = isset($request->cheque_number[$key]) ? $request->cheque_number[$key] : 0;
+                    $payment->payment_date = $request->payment_date[$key];
+                    $payment->payment_amount = $request->payment_amount[$key];
+                    $payment->purchas_id = $request->purchas_id;
+                    $payment->save();
+                }
             }
             DB::commit();
             Flash::success('Payment added successfully.');
