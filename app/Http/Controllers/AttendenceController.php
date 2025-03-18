@@ -62,12 +62,10 @@ class AttendenceController extends AppBaseController
                 'late_status' => $input['late_status'][$key],
                 'late_time' => $input['late_time'][$key]
             ];
-            $prev_attendences=Attendence::where('emp_id', $emp_id)->where('date', $input['date'])->get();    
-            if(empty($prev_attendences)){
-                Attendence::insert($attendences);
-            }else{
-                Attendence::where('emp_id', $emp_id)->where('date', $input['date'])->update($attendences);
-            }
+            Attendence::updateOrCreate(
+                ['emp_id' => $emp_id, 'date' => $input['date']],
+                $attendences
+            );
         }
         Flash::success('Attendence saved successfully.');
         return redirect(route('attendences.index'));
