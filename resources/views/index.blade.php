@@ -131,7 +131,6 @@
                         ->sum('grand_total');
     $totalDue = DB::table('purchas_models')
                         ->sum('due_amount');
-    dd($totalDue);
 
 
 
@@ -145,8 +144,7 @@
                         ->whereMonth('date', now()->month)
                         ->where('status', 'Approved')
                         ->sum('amount'),
-                    'Total Liability' => DB::table('purchas_models')
-                        ->sum('due_amount'),
+                    'Total Liability' =>$totalDue ,
                     'Running Petty cash' => $totalCredit - $totalDebit,
                     'Total Advance' => DB::table('advanced_cash')
                         ->where('status', 'Approved')
