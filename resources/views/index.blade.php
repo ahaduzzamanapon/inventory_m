@@ -129,6 +129,9 @@
 
     $totalPurchases = DB::table('purchas_models')
                         ->sum('grand_total');
+    $totalDue = DB::table('purchas_models')
+                        ->sum('due_amount')
+    dd($totalDue);
 
 
 
