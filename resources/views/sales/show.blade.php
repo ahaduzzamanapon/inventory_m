@@ -26,6 +26,8 @@ Sales Details @parent
                     <li class="list-group-item"><strong>Sale Date:</strong> {{ $sales->sale_date }}</li>
                     <li class="list-group-item"><strong>Reference No:</strong> {{ $sales->reference_no }}</li>
                     <li class="list-group-item"><strong>Payment Status:</strong> <span class="badge badge-{{ $sales->payment_status == 'Paid' ? 'success' : 'warning' }}">{{ $sales->payment_status }}</span></li>
+                    <li class="list-group-item"><strong>Note:</strong> {{ $sales->sale_note }}</li>
+
                 </ul>
             </div>
             <div class="col-md-6">

@@ -81,7 +81,6 @@ class SalesController extends Controller
             'item_serial' => 'nullable|array',
             'total_payment' => 'required|numeric',
             'due' => 'required|numeric',
-            'sale_note' => '',
         ]);
 
         DB::beginTransaction();
@@ -160,7 +159,7 @@ class SalesController extends Controller
 
     static function salesList()
     {
-        $sales = SalesModel::all();
+        $sales = SalesModel::orderByDesc('sales_id')->get();
         return view('sales.sales_list', compact('sales'));
     }
 

@@ -27,6 +27,7 @@ class SalesModel extends Model
         'payment_status',
         'payment_amount',
         'due_amount',
+        'sale_note',
     ];
     protected $dates = []; // Laravel will automatically cast 'updated_at'
 

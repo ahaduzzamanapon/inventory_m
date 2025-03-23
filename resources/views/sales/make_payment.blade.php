@@ -29,6 +29,7 @@
                                 class="badge badge-{{ $sales->payment_status == 'Paid' ? 'success' : 'warning' }}">{{ $sales->payment_status }}</span>
                         </li>
                         <li class="list-group-item"><strong>Total ammount:</strong> {{ $sales->grand_total }}</li>
+                        <li class="list-group-item"><strong>Note:</strong> {{ $sales->sale_note }}</li>
                     </ul>
                 </div>
                 <div class="col-md-6">
@@ -40,6 +41,50 @@
                         <li class="list-group-item"><strong>Address:</strong> {{ $customer->customer_address }}</li>
                     </ul>
                 </div>
+            </div>
+
+
+            <div class="mb-4">
+                <h3 class="text-primary">Items Sold</h3>
+                <table class="table table-hover table-striped">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Item Name</th>
+                            <th>Unit Price</th>
+                            <th>Quantity</th>
+                            <th>Total Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($SalesItem as $item)
+                        <tr>
+                            <td>
+                                <?= get_item_name_by_id($item['item_id']) ?>
+                                @if($item['item_serial'] !=null)
+                                @php
+                                    $serials =  json_decode($item['item_serial']);
+                                    //dd($serials);
+                                    $item_serials=DB::table('item_serials')->whereIn('id', $serials)->get();
+                                    //dd($item_serials);
+                                    foreach ($item_serials as $serial) {
+                                        echo $serial->item_serial_number.',';
+                                    }
+                                @endphp
+                                @endif
+                            </td>
+                            <td>{{ number_format($item->item_per_price, 2) }}</td>
+                            <td>{{ $item->sales_qty }}</td>
+                            <td>{{ number_format($item->total_price, 2) }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Sub Total:</strong> {{ number_format($sales->sub_total, 2) }}</li>
+                    <li class="list-group-item"><strong>Discount:</strong> {{ number_format($sales->discount_amount, 2) }} ({{ $sales->discount_per }}{{ $sales->discount_status=='Percentage' ? '%' : '' }})</li>
+                    <li class="list-group-item"><strong>Tax:</strong> {{ number_format($sales->tax_amount, 2) }} ({{ $sales->tax_per }}{{ $sales->tax_status=='Percentage' ? '%' : '' }})</li>
+                    <li class="list-group-item"><strong>Grand Total:</strong> {{ number_format($sales->grand_total, 2) }}</li>
+                </ul>
             </div>
 
 
