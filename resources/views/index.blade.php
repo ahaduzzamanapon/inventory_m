@@ -159,11 +159,19 @@
                         ->sum('due_amount'),
 
                     'Total Yearly Profit' => $totalSales - $totalPurchases,
-
-
                     'Total Yearly Sales' => DB::table('sales_models')
                         ->whereYear('sale_date', now()->year)
                         ->sum('grand_total'),
+                    'Total Yearly Expenses' => DB::table('logistic_bills')
+                        ->whereYear('date', now()->year)
+                        ->where('status', 'Approved')
+                        ->sum('amount'),
+                    'Total Net Profit' => DB::table('sales_models')
+                        ->whereYear('sale_date', now()->year)
+                        ->sum('grand_total') - DB::table('logistic_bills')
+                        ->whereYear('date', now()->year)
+                        ->where('status', 'Approved')
+                        ->sum('amount'),
                 ];
 
                 $icons = [
@@ -177,6 +185,8 @@
                     'Total Item' => 'fas fa-boxes',
                     'Running Petty cash' => 'fas fa-money-bill',
                     'Total Yearly Sales' => 'fas fa-chart-line',
+                    'Total Yearly Expenses' => 'fas fa-money-bill',
+                    'Total Net Profit' => 'fas fa-chart-line',
                     
 
 
@@ -193,6 +203,8 @@
                     'Total Item' => 'Total items in stock',
                     'Running Petty cash' => 'Running petty cash',
                     'Total Yearly Sales' => 'Total sales this year',
+                    'Total Yearly Expenses' => 'Total expenses this year',
+                    'Total Net Profit' => 'Net Profit',
                 ];
                 $permissions=[
                     'Monthly Sales' => 'monthly_sales',
@@ -205,6 +217,8 @@
                     'Total Item' => 'total_item',
                     'Running Petty cash' => 'running_petty_cash',
                     'Total Yearly Sales' => 'total_yearly_sales',
+                    'Total Yearly Expenses' => 'total_yearly_expenses',
+                    'Total Net Profit' => 'total_net_profit',
                 ];
                 ?>
 
