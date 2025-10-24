@@ -75,6 +75,9 @@ Route::post('/check_item_serial', [SalesController::class, 'check_item_serial'])
 });
 Route::get('empty_table', 'JoshController@emptyTable');
 Route::get('remove_all_files', 'JoshController@remove_all_files');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/report/generate', 'App\Http\Controllers\ReportController@generate')->name('report.generate');
+Route::get('/report/download-pdf', 'App\Http\Controllers\ReportController@downloadPdf')->name('report.downloadPdf');
+
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('{name?}', 'JoshController@showView');
 

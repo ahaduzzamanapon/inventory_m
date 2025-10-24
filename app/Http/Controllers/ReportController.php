@@ -4,9 +4,309 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use PDF;
 
 class ReportController extends Controller
 {
+    public function generate(Request $request)
+    {
+        $title = $request->get('title');
+        $data = [];
+        $headers = [];
+        $view = '';
+
+        switch ($title) {
+            case 'Monthly Sales':
+                $data = DB::table('sales_models')
+                    ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
+                    ->whereMonth('sale_date', now()->month)
+                    ->select('customers.customer_name', 'sales_models.sale_date', 'sales_models.sub_total', 'sales_models.discount_amount', 'sales_models.tax_amount', 'sales_models.grand_total', 'sales_models.payment_status')
+                    ->get();
+                $headers = ['Customer Name', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'];
+                $view = 'report.pdf';
+                break;
+            case 'Monthly Expense':
+                $data = DB::table('logistic_bills')
+                    ->leftJoin('customers', 'logistic_bills.customer', '=', 'customers.id')
+                    ->whereMonth('logistic_bills.date', now()->month)
+                    ->where('logistic_bills.status', 'Approved')
+                    ->select('logistic_bills.date', 'logistic_bills.Sale', 'logistic_bills.location', 'customers.customer_name', 'logistic_bills.amount', 'logistic_bills.note', 'logistic_bills.status')
+                    ->get();
+                $headers = ['Date', 'Sale', 'Location', 'Customer', 'Amount', 'Note', 'Status'];
+                $view = 'report.pdf';
+                break;
+            case 'Total Liability':
+                $data = DB::table('purchas_models')
+                    ->join('suppliers', 'purchas_models.supplier_id', '=', 'suppliers.id')
+                    ->where('purchas_models.due_amount', '>', 0)
+                    ->select('purchas_models.purchas_id', 'suppliers.supplier_name', 'purchas_models.purchas_date', 'purchas_models.grand_total', 'purchas_models.payment_amount', 'purchas_models.due_amount')
+                    ->get();
+                $headers = ['Purchas ID', 'Supplier Name', 'Purchas Date', 'Grand Total', 'Payment Amount', 'Due Amount'];
+                $view = 'report.pdf';
+                break;
+            case 'Running Petty cash':
+                $credit = DB::table('pettycash')
+                    ->join('accountledgers', 'pettycash.account_ledgers', '=', 'accountledgers.id')
+                    ->where('pettycash.account_description', 'Credit')
+                    ->where('pettycash.status', 'Approved')
+                    ->select('pettycash.date', 'accountledgers.name', 'pettycash.amount', 'pettycash.status')
+                    ->get();
+                $debit = DB::table('pettycash')
+                    ->join('accountledgers', 'pettycash.account_ledgers', '=', 'accountledgers.id')
+                    ->where('pettycash.account_description', 'Debit')
+                    ->where('pettycash.status', 'Approved')
+                    ->select('pettycash.date', 'accountledgers.name', 'pettycash.amount', 'pettycash.status')
+                    ->get();
+                $totalCredit = $credit->sum('amount');
+                $totalDebit = $debit->sum('amount');
+                $runningPettyCash = $totalCredit - $totalDebit;
+                $headers = ['Date', 'Account Ledger', 'Amount', 'Status'];
+                $view = 'report.petty_cash_ledger';
+                $data = [
+                    'credit' => $credit,
+                    'debit' => $debit,
+                    'totalCredit' => $totalCredit,
+                    'totalDebit' => $totalDebit,
+                    'runningPettyCash' => $runningPettyCash,
+                ];
+                break;
+            case 'Total Advance':
+                $data = DB::table('advanced_cash')
+                    ->join('users', 'advanced_cash.member_id', '=', 'users.id')
+                    ->where('advanced_cash.status', 'Approved')
+                    ->select('users.name', 'advanced_cash.purpose', 'advanced_cash.amount', 'advanced_cash.status')
+                    ->get();
+                $headers = ['Member Name', 'Purpose', 'Amount', 'Status'];
+                $view = 'report.pdf';
+                break;
+            case 'Total Item':
+                $data = DB::table('items')
+                    ->join('categories', 'items.item_category', '=', 'categories.id')
+                    ->join('subcategorys', 'items.item_sub_category', '=', 'subcategorys.id')
+                    ->select('items.item_id', 'items.item_name', 'categories.Name as category_name', 'subcategorys.SubCategoryName as subcategory_name', 'items.item_qty', 'items.item_purchase_price', 'items.item_sale_price')
+                    ->get();
+                $headers = ['Item ID', 'Item Name', 'Category', 'Sub Category', 'Qty', 'Purchase Price', 'Sale Price'];
+                $view = 'report.pdf';
+                break;
+            case 'Total Product Value':
+                $data = DB::table('items')->select('item_name', 'item_qty', 'item_purchase_price')->get();
+                $headers = ['Item Name', 'Qty', 'Purchase Price', 'Total Value'];
+                $view = 'report.product_value';
+                break;
+            case 'Total sales Due':
+                $data = DB::table('sales_models')
+                    ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
+                    ->where('sales_models.due_amount', '>', 0)
+                    ->select('sales_models.sales_id', 'customers.customer_name', 'sales_models.sale_date', 'sales_models.grand_total', 'sales_models.payment_amount', 'sales_models.due_amount')
+                    ->get();
+                $headers = ['Sales ID', 'Customer Name', 'Sale Date', 'Grand Total', 'Payment Amount', 'Due Amount'];
+                $view = 'report.pdf';
+                break;
+            case 'Total Yearly Profit':
+                $sales = DB::table('sales_models')->whereYear('sale_date', now()->year)->get();
+                $purchases = DB::table('purchas_models')->whereYear('purchas_date', now()->year)->get();
+                $totalSales = $sales->sum('grand_total');
+                $totalPurchases = $purchases->sum('grand_total');
+                $data = [
+                    'sales' => $sales,
+                    'purchases' => $purchases,
+                    'totalSales' => $totalSales,
+                    'totalPurchases' => $totalPurchases,
+                    'totalProfit' => $totalSales - $totalPurchases,
+                ];
+                $headers = [
+                    'sales' => ['ID', 'Customer ID', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'],
+                    'purchases' => ['ID', 'Purchas ID', 'Supplier ID', 'Purchas Date', 'Grand Total', 'Payment Amount', 'Due Amount'],
+                ];
+                $view = 'report.yearly_profit';
+                break;
+            case 'Total Yearly Sales':
+                $data = DB::table('sales_models')
+                    ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
+                    ->whereYear('sale_date', now()->year)
+                    ->select('customers.customer_name', 'sales_models.sale_date', 'sales_models.sub_total', 'sales_models.discount_amount', 'sales_models.tax_amount', 'sales_models.grand_total', 'sales_models.payment_status')
+                    ->get();
+                $headers = ['Customer Name', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'];
+                $view = 'report.pdf';
+                break;
+            case 'Total Yearly Expenses':
+                $data = DB::table('logistic_bills')
+                    ->join('customers', 'logistic_bills.customer', '=', 'customers.id')
+                    ->whereYear('date', now()->year)
+                    ->where('status', 'Approved')
+                    ->select('logistic_bills.date', 'logistic_bills.Sale', 'logistic_bills.location', 'customers.customer_name', 'logistic_bills.amount', 'logistic_bills.note', 'logistic_bills.status')
+                    ->get();
+                $headers = ['Date', 'Sale', 'Location', 'Customer', 'Amount', 'Note', 'Status'];
+                $view = 'report.pdf';
+                break;
+            case 'Total Net Profit':
+                $totalSales = DB::table('sales_models')->whereYear('sale_date', now()->year)->sum('grand_total');
+                $totalExpenses = DB::table('logistic_bills')->whereYear('date', now()->year)->where('status', 'Approved')->sum('amount');
+                $data = [
+                    'totalSales' => $totalSales,
+                    'totalExpenses' => $totalExpenses,
+                    'netProfit' => $totalSales - $totalExpenses,
+                ];
+                $headers = ['Total Sales', 'Total Expenses', 'Net Profit'];
+                $view = 'report.net_profit';
+                break;
+            default:
+                return response('Report not found', 404);
+        }
+
+        return view($view, compact('title', 'data', 'headers'));
+    }
+
+    public function downloadPdf(Request $request)
+    {
+        $title = $request->get('title');
+        $data = [];
+        $headers = [];
+        $view = '';
+
+        switch ($title) {
+            case 'Monthly Sales':
+                $data = DB::table('sales_models')
+                    ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
+                    ->whereMonth('sale_date', now()->month)
+                    ->select('customers.customer_name', 'sales_models.sale_date', 'sales_models.sub_total', 'sales_models.discount_amount', 'sales_models.tax_amount', 'sales_models.grand_total', 'sales_models.payment_status')
+                    ->get();
+                $headers = ['Customer Name', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'];
+                $view = 'report.pdf';
+                break;
+            case 'Monthly Expense':
+                $data = DB::table('logistic_bills')
+                    ->leftJoin('customers', 'logistic_bills.customer', '=', 'customers.id')
+                    ->whereMonth('logistic_bills.date', now()->month)
+                    ->where('logistic_bills.status', 'Approved')
+                    ->select('logistic_bills.date', 'logistic_bills.Sale', 'logistic_bills.location', 'customers.customer_name', 'logistic_bills.amount', 'logistic_bills.note', 'logistic_bills.status')
+                    ->get();
+                $headers = ['Date', 'Sale', 'Location', 'Customer', 'Amount', 'Note', 'Status'];
+                $view = 'report.pdf';
+                break;
+            case 'Total Liability':
+                $data = DB::table('purchas_models')
+                    ->join('suppliers', 'purchas_models.supplier_id', '=', 'suppliers.id')
+                    ->where('purchas_models.due_amount', '>', 0)
+                    ->select('purchas_models.purchas_id', 'suppliers.supplier_name', 'purchas_models.purchas_date', 'purchas_models.grand_total', 'purchas_models.payment_amount', 'purchas_models.due_amount')
+                    ->get();
+                $headers = ['Purchas ID', 'Supplier Name', 'Purchas Date', 'Grand Total', 'Payment Amount', 'Due Amount'];
+                $view = 'report.pdf';
+                break;
+            case 'Running Petty cash':
+                $credit = DB::table('pettycash')
+                    ->join('accountledgers', 'pettycash.account_ledgers', '=', 'accountledgers.id')
+                    ->where('pettycash.account_description', 'Credit')
+                    ->where('pettycash.status', 'Approved')
+                    ->select('pettycash.date', 'accountledgers.name', 'pettycash.amount', 'pettycash.status')
+                    ->get();
+                $debit = DB::table('pettycash')
+                    ->join('accountledgers', 'pettycash.account_ledgers', '=', 'accountledgers.id')
+                    ->where('pettycash.account_description', 'Debit')
+                    ->where('pettycash.status', 'Approved')
+                    ->select('pettycash.date', 'accountledgers.name', 'pettycash.amount', 'pettycash.status')
+                    ->get();
+                $totalCredit = $credit->sum('amount');
+                $totalDebit = $debit->sum('amount');
+                $runningPettyCash = $totalCredit - $totalDebit;
+                $headers = ['Date', 'Account Ledger', 'Amount', 'Status'];
+                $view = 'report.petty_cash_ledger';
+                $data = [
+                    'credit' => $credit,
+                    'debit' => $debit,
+                    'totalCredit' => $totalCredit,
+                    'totalDebit' => $totalDebit,
+                    'runningPettyCash' => $runningPettyCash,
+                ];
+                break;
+            case 'Total Advance':
+                $data = DB::table('advanced_cash')
+                    ->join('users', 'advanced_cash.member_id', '=', 'users.id')
+                    ->where('advanced_cash.status', 'Approved')
+                    ->select('users.name', 'advanced_cash.purpose', 'advanced_cash.amount', 'advanced_cash.status')
+                    ->get();
+                $headers = ['Member Name', 'Purpose', 'Amount', 'Status'];
+                $view = 'report.pdf';
+                break;
+            case 'Total Item':
+                $data = DB::table('items')
+                    ->join('categories', 'items.item_category', '=', 'categories.id')
+                    ->join('subcategorys', 'items.item_sub_category', '=', 'subcategorys.id')
+                    ->select('items.item_id', 'items.item_name', 'categories.Name as category_name', 'subcategorys.SubCategoryName as subcategory_name', 'items.item_qty', 'items.item_purchase_price', 'items.item_sale_price')
+                    ->get();
+                $headers = ['Item ID', 'Item Name', 'Category', 'Sub Category', 'Qty', 'Purchase Price', 'Sale Price'];
+                $view = 'report.pdf';
+                break;
+            case 'Total Product Value':
+                $data = DB::table('items')->select('item_name', 'item_qty', 'item_purchase_price')->get();
+                $headers = ['Item Name', 'Qty', 'Purchase Price', 'Total Value'];
+                $view = 'report.product_value';
+                break;
+            case 'Total sales Due':
+                $data = DB::table('sales_models')
+                    ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
+                    ->where('sales_models.due_amount', '>', 0)
+                    ->select('sales_models.sales_id', 'customers.customer_name', 'sales_models.sale_date', 'sales_models.grand_total', 'sales_models.payment_amount', 'sales_models.due_amount')
+                    ->get();
+                $headers = ['Sales ID', 'Customer Name', 'Sale Date', 'Grand Total', 'Payment Amount', 'Due Amount'];
+                $view = 'report.pdf';
+                break;
+            case 'Total Yearly Profit':
+                $sales = DB::table('sales_models')->whereYear('sale_date', now()->year)->get();
+                $purchases = DB::table('purchas_models')->whereYear('purchas_date', now()->year)->get();
+                $totalSales = $sales->sum('grand_total');
+                $totalPurchases = $purchases->sum('grand_total');
+                $data = [
+                    'sales' => $sales,
+                    'purchases' => $purchases,
+                    'totalSales' => $totalSales,
+                    'totalPurchases' => $totalPurchases,
+                    'totalProfit' => $totalSales - $totalPurchases,
+                ];
+                $headers = [
+                    'sales' => ['ID', 'Customer ID', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'],
+                    'purchases' => ['ID', 'Purchas ID', 'Supplier ID', 'Purchas Date', 'Grand Total', 'Payment Amount', 'Due Amount'],
+                ];
+                $view = 'report.yearly_profit';
+                break;
+            case 'Total Yearly Sales':
+                $data = DB::table('sales_models')
+                    ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
+                    ->whereYear('sale_date', now()->year)
+                    ->select('customers.customer_name', 'sales_models.sale_date', 'sales_models.sub_total', 'sales_models.discount_amount', 'sales_models.tax_amount', 'sales_models.grand_total', 'sales_models.payment_status')
+                    ->get();
+                $headers = ['Customer Name', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'];
+                $view = 'report.pdf';
+                break;
+            case 'Total Yearly Expenses':
+                $data = DB::table('logistic_bills')
+                    ->join('customers', 'logistic_bills.customer', '=', 'customers.id')
+                    ->whereYear('date', now()->year)
+                    ->where('status', 'Approved')
+                    ->select('logistic_bills.date', 'logistic_bills.Sale', 'logistic_bills.location', 'customers.customer_name', 'logistic_bills.amount', 'logistic_bills.note', 'logistic_bills.status')
+                    ->get();
+                $headers = ['Date', 'Sale', 'Location', 'Customer', 'Amount', 'Note', 'Status'];
+                $view = 'report.pdf';
+                break;
+            case 'Total Net Profit':
+                $totalSales = DB::table('sales_models')->whereYear('sale_date', now()->year)->sum('grand_total');
+                $totalExpenses = DB::table('logistic_bills')->whereYear('date', now()->year)->where('status', 'Approved')->sum('amount');
+                $data = [
+                    'totalSales' => $totalSales,
+                    'totalExpenses' => $totalExpenses,
+                    'netProfit' => $totalSales - $totalExpenses,
+                ];
+                $headers = ['Total Sales', 'Total Expenses', 'Net Profit'];
+                $view = 'report.net_profit';
+                break;
+            default:
+                return response('Report not found', 404);
+        }
+
+        $pdf = \PDF::loadView($view, compact('title', 'data', 'headers'));
+        return $pdf->download($title . '.pdf');
+    }
+
     //sales
     public function sales_report_page()
     {

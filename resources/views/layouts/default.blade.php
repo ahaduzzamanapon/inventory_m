@@ -392,15 +392,16 @@
         </aside>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
 
 
 
 
-    <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
+    
     <!-- end of page level js -->
     <!-- Start of vendor js -->
     @yield('footer_scripts')
+    <script src="{{ asset('js/app.js') }}" type="text/javascript"></script>
     @yield('scripts')
 
     <script src="{{ asset('vendors/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>

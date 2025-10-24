@@ -12,6 +12,48 @@
 
 
 <style>
+.custom-modal {
+    display: none; 
+    position: fixed; 
+    z-index: 9999; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.custom-modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 1200px;
+    border-radius: 10px;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+.custom-modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.custom-modal-close:hover,
+.custom-modal-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.custom-modal-footer {
+    padding: 15px;
+    text-align: right;
+    border-top: 1px solid #e5e5e5;
+}
 .custom-card {
     background: linear-gradient(135deg, #13007D, #3819e7);
     border-radius: 15px;
@@ -227,21 +269,21 @@
                     @continue
                     @endif
                     <div class="col-12 col-md-4 col-xxl-3 mb-10">
-                        <div class="custom-card">
-                            <div class="card-body">
-                                <div class="card-content d-flex align-items-center">
-                                    <div>
-                                        <h5 class="card-title">{{ $title }}</h5>
-                                        <h3 class="card-value">{{ number_format($value, 2) }}</h3>
-                                    </div>
-                                    <div class="icon-container">
-                                        <i class="{{ $icons[$title] }}"></i>
-                                    </div>
-                                </div>
-                                <p class="card-subtitle">{{ $subtitles[$title] }}</p>
-                            </div>
-                        </div>
-                    </div>
+                                            <div class="custom-card" style="position: relative;">
+                                                <button class="btn btn-primary btn-sm get-report-btn" data-title="{{ $title }}" style="position: absolute; top: 10px; right: 10px;">Get Report</button>
+                                                <div class="card-body">
+                                                    <div class="card-content d-flex align-items-center">
+                                                        <div>
+                                                            <h5 class="card-title">{{ $title }}</h5>
+                                                            <h3 class="card-value">{{ number_format($value, 2) }}</h3>
+                                                        </div>
+                                                        <div class="icon-container">
+                                                            <i class="{{ $icons[$title] }}"></i>
+                                                        </div>
+                                                    </div>
+                                                    <p class="card-subtitle">{{ $subtitles[$title] }}</p>
+                                                </div>
+                                            </div>                    </div>
                     @endforeach
 
         </div>
@@ -254,5 +296,61 @@
     <script language="javascript" type="text/javascript" src="{{ asset('vendors/chartjs/js/Chart.js') }}"></script>
     <script src="{{ asset('js/pages/dashboard.js') }}"></script>
 
+    <div id="customReportModal" class="custom-modal">
+  <div class="custom-modal-content">
+    <span class="custom-modal-close">&times;</span>
+    <div id="custom-report-content"></div>
+    <div class="custom-modal-footer">
+        <button type="button" class="btn btn-secondary custom-modal-close-btn">Close</button>
+        <button type="button" class="btn btn-primary" id="export-pdf-btn">Export to PDF</button>
+    </div>
+  </div>
+</div>
+
+    <script>
+    // Get the modal
+    var modal = document.getElementById("customReportModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("custom-modal-close")[0];
+    var closeBtn = document.getElementsByClassName("custom-modal-close-btn")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    $(document).on('click', '.get-report-btn', function() {
+        var title = $(this).data('title');
+        var url = '{{ route("report.generate") }}?title=' + title;
+        
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function(response) {
+                $('#custom-report-content').html(response);
+                $('#export-pdf-btn').data('title', title);
+                modal.style.display = "block";
+            }
+        });
+    });
+
+    $(document).on('click', '#export-pdf-btn', function() {
+        var title = $(this).data('title');
+        var url = '{{ route("report.downloadPdf") }}?title=' + title;
+        window.location.href = url;
+    });
+    </script>
     <!-- end of page level js -->
 @stop
