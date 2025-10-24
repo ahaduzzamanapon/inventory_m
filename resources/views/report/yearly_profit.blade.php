@@ -43,9 +43,14 @@
             @foreach($data['sales'] as $key => $row)
                 <tr>
                     <td>{{ $key + 1 }}</td>
-                    @foreach($row as $cell)
-                        <td>{{ $cell }}</td>
-                    @endforeach
+                    <td>{{ $row->id }}</td>
+                    <td>{{ $row->customer_name }}</td>
+                    <td>{{ $row->sale_date }}</td>
+                    <td>{{ $row->sub_total }}</td>
+                    <td>{{ $row->discount_amount }}</td>
+                    <td>{{ $row->tax_amount }}</td>
+                    <td>{{ $row->grand_total }}</td>
+                    <td>{{ $row->payment_status }}</td>
                 </tr>
             @endforeach
         </tbody>
@@ -65,9 +70,13 @@
             @foreach($data['purchases'] as $key => $row)
                 <tr>
                     <td>{{ $key + 1 }}</td>
-                    @foreach($row as $cell)
-                        <td>{{ $cell }}</td>
-                    @endforeach
+                    <td>{{ $row->id }}</td>
+                    <td>{{ $row->purchas_id }}</td>
+                    <td>{{ $row->supplier_name }}</td>
+                    <td>{{ $row->purchas_date }}</td>
+                    <td>{{ $row->grand_total }}</td>
+                    <td>{{ $row->payment_amount }}</td>
+                    <td>{{ $row->due_amount }}</td>
                 </tr>
             @endforeach
         </tbody>

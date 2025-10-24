@@ -103,8 +103,16 @@ class ReportController extends Controller
                 $view = 'report.pdf';
                 break;
             case 'Total Yearly Profit':
-                $sales = DB::table('sales_models')->whereYear('sale_date', now()->year)->get();
-                $purchases = DB::table('purchas_models')->whereYear('purchas_date', now()->year)->get();
+                $sales = DB::table('sales_models')
+                    ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
+                    ->whereYear('sale_date', now()->year)
+                    ->select('sales_models.id', 'customers.customer_name', 'sales_models.sale_date', 'sales_models.sub_total', 'sales_models.discount_amount', 'sales_models.tax_amount', 'sales_models.grand_total', 'sales_models.payment_status')
+                    ->get();
+                $purchases = DB::table('purchas_models')
+                    ->join('suppliers', 'purchas_models.supplier_id', '=', 'suppliers.id')
+                    ->whereYear('purchas_date', now()->year)
+                    ->select('purchas_models.id', 'purchas_models.purchas_id', 'suppliers.supplier_name', 'purchas_models.purchas_date', 'purchas_models.grand_total', 'purchas_models.payment_amount', 'purchas_models.due_amount')
+                    ->get();
                 $totalSales = $sales->sum('grand_total');
                 $totalPurchases = $purchases->sum('grand_total');
                 $data = [
@@ -115,8 +123,8 @@ class ReportController extends Controller
                     'totalProfit' => $totalSales - $totalPurchases,
                 ];
                 $headers = [
-                    'sales' => ['ID', 'Customer ID', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'],
-                    'purchases' => ['ID', 'Purchas ID', 'Supplier ID', 'Purchas Date', 'Grand Total', 'Payment Amount', 'Due Amount'],
+                    'sales' => ['ID', 'Customer Name', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'],
+                    'purchases' => ['ID', 'Purchas ID', 'Supplier Name', 'Purchas Date', 'Grand Total', 'Payment Amount', 'Due Amount'],
                 ];
                 $view = 'report.yearly_profit';
                 break;
