@@ -6,6 +6,18 @@
         body {
             font-family: sans-serif;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
         .summary {
             margin-top: 20px;
             padding: 10px;
@@ -17,11 +29,63 @@
 <body>
     <h1>{{ $title }}</h1>
 
+    <h2>Sales</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>SL</th>
+                @foreach($headers['sales'] as $header)
+                    <th>{{ $header }}</th>
+                @endforeach
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($data['sales'] as $key => $row)
+                <tr>
+                    <td>{{ $key + 1 }}</td>
+                    <td>{{ $row->customer->customer_name }}</td>
+                    <td>{{ $row->sale_date }}</td>
+                    <td>{{ $row->sub_total }}</td>
+                    <td>{{ $row->discount_amount }}</td>
+                    <td>{{ $row->tax_amount }}</td>
+                    <td>{{ $row->grand_total }}</td>
+                    <td>{{ $row->payment_status }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <h2>Expenses</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>SL</th>
+                @foreach($headers['expenses'] as $header)
+                    <th>{{ $header }}</th>
+                @endforeach
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($data['expenses'] as $key => $row)
+                <tr>
+                    <td>{{ $key + 1 }}</td>
+                    <td>{{ $row->date }}</td>
+                    <td>{{ $row->Sale }}</td>
+                    <td>{{ $row->location }}</td>
+                    <td>{{ $row->customer_name }}</td>
+                    <td>{{ $row->amount }}</td>
+                    <td>{{ $row->note }}</td>
+                    <td>{{ $row->status }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
     <div class="summary">
         <h3>Summary</h3>
         <p>Total Sales: {{ $data['totalSales'] }}</p>
-        <p>Total Expenses: {{ $data['totalExpenses'] }}</p>
-        <p>Net Profit: {{ $data['netProfit'] }}</p>
+        <p>Total Purchases: {{ $data['totalPurchases'] }}</p>
+        <p>Total Profit: {{ $data['totalProfit'] }}</p>
     </div>
 </body>
 </html>

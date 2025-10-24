@@ -43,8 +43,7 @@
             @foreach($data['sales'] as $key => $row)
                 <tr>
                     <td>{{ $key + 1 }}</td>
-                    <td>{{ $row->id }}</td>
-                    <td>{{ $row->customer_name }}</td>
+                    <td>{{ $row->customer->customer_name }}</td>
                     <td>{{ $row->sale_date }}</td>
                     <td>{{ $row->sub_total }}</td>
                     <td>{{ $row->discount_amount }}</td>
@@ -70,9 +69,8 @@
             @foreach($data['purchases'] as $key => $row)
                 <tr>
                     <td>{{ $key + 1 }}</td>
-                    <td>{{ $row->id }}</td>
                     <td>{{ $row->purchas_id }}</td>
-                    <td>{{ $row->supplier_name }}</td>
+                    <td>{{ $row->supplier->supplier_name }}</td>
                     <td>{{ $row->purchas_date }}</td>
                     <td>{{ $row->grand_total }}</td>
                     <td>{{ $row->payment_amount }}</td>

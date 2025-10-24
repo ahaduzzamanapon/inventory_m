@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Customer;
 
 class SalesModel extends Model
 {
@@ -30,6 +31,11 @@ class SalesModel extends Model
         'sale_note',
     ];
     protected $dates = []; // Laravel will automatically cast 'updated_at'
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 
     // Auto-detect and convert date fields when setting attributes
     public function setAttribute($key, $value)

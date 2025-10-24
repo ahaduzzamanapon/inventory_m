@@ -6,6 +6,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Customer;
 
 /**
  * Class LogisticBill
@@ -56,7 +57,7 @@ class LogisticBill extends Model
         'Sale' => 'integer',
         'location' => 'string',
         'customer' => 'integer',
-        'amount' => 'string',
+        'amount' => 'decimal:2',
         'attachment' => 'string',
         'note' => 'string',
         'status' => 'string'
@@ -73,6 +74,11 @@ class LogisticBill extends Model
         'status' => 'required'
     ];
     protected $dates = []; // Laravel will automatically cast 'updated_at'
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer');
+    }
 
     // Auto-detect and convert date fields when setting attributes
     public function setAttribute($key, $value)

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use PDF;
+use App\Models\SalesModel;
+use App\Models\PurchasModel;
+use App\Models\LogisticBill;
 
 class ReportController extends Controller
 {
@@ -103,8 +106,8 @@ class ReportController extends Controller
                 $view = 'report.pdf';
                 break;
             case 'Total Yearly Profit':
-                $sales = DB::table('sales_models')->whereYear('sale_date', now()->year)->get();
-                $purchases = DB::table('purchas_models')->whereYear('purchas_date', now()->year)->get();
+                $sales = SalesModel::with('customer')->whereYear('sale_date', now()->year)->get();
+                $purchases = PurchasModel::with('supplier')->whereYear('purchas_date', now()->year)->get();
                 $totalSales = $sales->sum('grand_total');
                 $totalPurchases = $purchases->sum('grand_total');
                 $data = [
@@ -115,8 +118,8 @@ class ReportController extends Controller
                     'totalProfit' => $totalSales - $totalPurchases,
                 ];
                 $headers = [
-                    'sales' => ['ID', 'Customer ID', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'],
-                    'purchases' => ['ID', 'Purchas ID', 'Supplier ID', 'Purchas Date', 'Grand Total', 'Payment Amount', 'Due Amount'],
+                    'sales' => ['ID', 'Customer Name', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'],
+                    'purchases' => ['ID', 'Purchas ID', 'Supplier Name', 'Purchas Date', 'Grand Total', 'Payment Amount', 'Due Amount'],
                 ];
                 $view = 'report.yearly_profit';
                 break;
@@ -140,14 +143,21 @@ class ReportController extends Controller
                 $view = 'report.pdf';
                 break;
             case 'Total Net Profit':
-                $totalSales = DB::table('sales_models')->whereYear('sale_date', now()->year)->sum('grand_total');
-                $totalExpenses = DB::table('logistic_bills')->whereYear('date', now()->year)->where('status', 'Approved')->sum('amount');
+                $sales = SalesModel::with('customer')->get();
+                $expenses = LogisticBill::with('customer')->where('status', 'Approved')->get();
+                $totalSales = $sales->sum('grand_total');
+                $totalExpenses = $expenses->sum('amount');
                 $data = [
+                    'sales' => $sales,
+                    'expenses' => $expenses,
                     'totalSales' => $totalSales,
                     'totalExpenses' => $totalExpenses,
                     'netProfit' => $totalSales - $totalExpenses,
                 ];
-                $headers = ['Total Sales', 'Total Expenses', 'Net Profit'];
+                $headers = [
+                    'sales' => ['ID', 'Customer Name', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'],
+                    'expenses' => ['ID', 'Date', 'Sale', 'Location', 'Customer', 'Amount', 'Note', 'Status'],
+                ];
                 $view = 'report.net_profit';
                 break;
             default:
@@ -252,8 +262,8 @@ class ReportController extends Controller
                 $view = 'report.pdf';
                 break;
             case 'Total Yearly Profit':
-                $sales = DB::table('sales_models')->whereYear('sale_date', now()->year)->get();
-                $purchases = DB::table('purchas_models')->whereYear('purchas_date', now()->year)->get();
+                $sales = SalesModel::with('customer')->whereYear('sale_date', now()->year)->get();
+                $purchases = PurchasModel::with('supplier')->whereYear('purchas_date', now()->year)->get();
                 $totalSales = $sales->sum('grand_total');
                 $totalPurchases = $purchases->sum('grand_total');
                 $data = [
@@ -264,8 +274,8 @@ class ReportController extends Controller
                     'totalProfit' => $totalSales - $totalPurchases,
                 ];
                 $headers = [
-                    'sales' => ['ID', 'Customer ID', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'],
-                    'purchases' => ['ID', 'Purchas ID', 'Supplier ID', 'Purchas Date', 'Grand Total', 'Payment Amount', 'Due Amount'],
+                    'sales' => ['ID', 'Customer Name', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'],
+                    'purchases' => ['ID', 'Purchas ID', 'Supplier Name', 'Purchas Date', 'Grand Total', 'Payment Amount', 'Due Amount'],
                 ];
                 $view = 'report.yearly_profit';
                 break;
@@ -289,14 +299,21 @@ class ReportController extends Controller
                 $view = 'report.pdf';
                 break;
             case 'Total Net Profit':
-                $totalSales = DB::table('sales_models')->whereYear('sale_date', now()->year)->sum('grand_total');
-                $totalExpenses = DB::table('logistic_bills')->whereYear('date', now()->year)->where('status', 'Approved')->sum('amount');
+                $sales = SalesModel::with('customer')->get();
+                $expenses = LogisticBill::with('customer')->where('status', 'Approved')->get();
+                $totalSales = $sales->sum('grand_total');
+                $totalExpenses = $expenses->sum('amount');
                 $data = [
+                    'sales' => $sales,
+                    'expenses' => $expenses,
                     'totalSales' => $totalSales,
                     'totalExpenses' => $totalExpenses,
                     'netProfit' => $totalSales - $totalExpenses,
                 ];
-                $headers = ['Total Sales', 'Total Expenses', 'Net Profit'];
+                $headers = [
+                    'sales' => ['ID', 'Customer Name', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'],
+                    'expenses' => ['ID', 'Date', 'Sale', 'Location', 'Customer', 'Amount', 'Note', 'Status'],
+                ];
                 $view = 'report.net_profit';
                 break;
             default:

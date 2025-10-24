@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Supplier;
 
 class PurchasModel extends Model
 {
@@ -28,6 +29,11 @@ class PurchasModel extends Model
         'payment_amount',
         'due_amount',
     ];
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
 
     protected $dates = []; // Laravel will automatically cast 'updated_at'
 
