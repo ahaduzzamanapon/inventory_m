@@ -81,8 +81,8 @@ class ReportController extends Controller
                 break;
             case 'Total Item':
                 $data = DB::table('items')
-                    ->join('categories', 'items.item_category', '=', 'categories.id')
-                    ->join('subcategorys', 'items.item_sub_category', '=', 'subcategorys.id')
+                    ->leftJoin('categories', 'items.item_category', '=', 'categories.id')
+                    ->leftJoin('subcategorys', 'items.item_sub_category', '=', 'subcategorys.id')
                     ->select('items.item_id', 'items.item_name', 'categories.Name as category_name', 'subcategorys.SubCategoryName as subcategory_name', 'items.item_qty', 'items.item_purchase_price', 'items.item_sale_price')
                     ->get();
                 $headers = ['Item ID', 'Item Name', 'Category', 'Sub Category', 'Qty', 'Purchase Price', 'Sale Price'];
@@ -230,8 +230,8 @@ class ReportController extends Controller
                 break;
             case 'Total Item':
                 $data = DB::table('items')
-                    ->join('categories', 'items.item_category', '=', 'categories.id')
-                    ->join('subcategorys', 'items.item_sub_category', '=', 'subcategorys.id')
+                    ->leftJoin('categories', 'items.item_category', '=', 'categories.id')
+                    ->leftJoin('subcategorys', 'items.item_sub_category', '=', 'subcategorys.id')
                     ->select('items.item_id', 'items.item_name', 'categories.Name as category_name', 'subcategorys.SubCategoryName as subcategory_name', 'items.item_qty', 'items.item_purchase_price', 'items.item_sale_price')
                     ->get();
                 $headers = ['Item ID', 'Item Name', 'Category', 'Sub Category', 'Qty', 'Purchase Price', 'Sale Price'];
