@@ -5,7 +5,30 @@
 
 
 
+@if(can('ledger'))
 
+<li {!! (Request::is('ledger*') ? 'class="menu-dropdown mm-active active"' : "class='menu-dropdown'") !!}>
+    <a href="#"  class="barr2">
+        <span class="mm-text ">Ledger</span>
+        <span class="menu-icon "><i class="im im-icon-File-Chart"></i></span>
+        <span class="im im-icon-Arrow-Right imicon"></span>
+    </a>
+    <ul class="sub-menu list-unstyled barr3">
+        <li class="barr4 {!! (Request::is('ledger/parties*') ? 'active' : '' ) !!}">
+            <a href="{{ route('parties.index') }}">
+                <span class="mm-text ">Parties</span>
+                <span class="menu-icon"><i class="im im-icon-User"></i></span>
+            </a>
+        </li>
+        <li class="barr4 {!! (Request::is('ledger/transactions*') ? 'active' : '' ) !!}">
+            <a href="{{ route('transactions.index') }}">
+                <span class="mm-text ">Transactions</span>
+                <span class="menu-icon"><i class="im im-icon-File-HorizontalText"></i></span>
+            </a>
+        </li>
+    </ul>
+</li>
+@endif
 {{-- Sales Management --}}
 @if(can('sales_management'))
 <li {!! (Request::is('new_sales')|| Request::is('sales*') || Request::is('sales_list') ? 'class="menu-dropdown mm-active active"': "class='menu-dropdown'" ) !!}>
