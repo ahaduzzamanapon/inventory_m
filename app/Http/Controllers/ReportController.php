@@ -409,7 +409,7 @@ class ReportController extends Controller
             $pettyCashes = $pettyCashes->whereBetween('pettycash.date', [$from_date, $to_date]);
             $pettyCashes = $pettyCashes->get();
             $report_title="Petty Cash Report From $from_date to $to_date";
-            dd($pettyCashes);
+            //dd($pettyCashes);
             return view('report.account.petty_cash_report', compact('pettyCashes','report_title'));
           }
           if ($report_type == 'advance_cash') {

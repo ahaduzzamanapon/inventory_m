@@ -270,7 +270,7 @@
                     @endif
                     <div class="col-12 col-md-4 col-xxl-3 mb-10">
                                             <div class="custom-card" style="position: relative;">
-                                                <button class="btn btn-primary btn-sm get-report-btn" data-title="{{ $title }}" style="position: absolute; top: 10px; right: 10px;">Get Report</button>
+                                                <button class="btn btn-secondary btn-sm get-report-btn" data-title="{{ $title }}" style="position: absolute; top: 10px; right: 10px;">Get Report</button>
                                                 <div class="card-body">
                                                     <div class="card-content d-flex align-items-center">
                                                         <div>

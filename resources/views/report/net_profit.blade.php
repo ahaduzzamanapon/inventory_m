@@ -72,7 +72,7 @@
                     <td>{{ $row->date }}</td>
                     <td>{{ $row->Sale }}</td>
                     <td>{{ $row->location }}</td>
-                    <td>{{ $row->customer_name }}</td>
+                    <td>{{ $row->customer->customer_name }}</td>
                     <td>{{ $row->amount }}</td>
                     <td>{{ $row->note }}</td>
                     <td>{{ $row->status }}</td>
