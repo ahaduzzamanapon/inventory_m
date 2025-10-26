@@ -388,6 +388,79 @@ class ReportController extends Controller
           $users = DB::table('users')->get();
           return view('report.account.account_report_page', compact('users'));
       }
+
+      public function account_report(Request $request)
+    {
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        if($to_date == null || $to_date == ''){
+            $to_date = $from_date;
+        }
+        $from_date = date('Y-m-d', strtotime($from_date));
+        $to_date = date('Y-m-d', strtotime($to_date));
+        $user_id = $request->user_id;
+        $report_type = $request->report_type;
+        $report_title = ucwords(str_replace('_', ' ', $report_type)). " Report From $from_date to $to_date";
+
+        $data = [];
+
+        switch ($report_type) {
+            case 'petty_cash':
+                $query = DB::table('pettycash')
+                    ->join('accountledgers', 'pettycash.account_ledgers', '=', 'accountledgers.id')
+                    ->select('pettycash.*', 'accountledgers.name as ledger_name');
+                $data = $query->whereBetween('pettycash.date', [$from_date, $to_date])->get();
+                break;
+            case 'advance_cash':
+                $query = DB::table('advanced_cash')
+                    ->join('users', 'advanced_cash.member_id', '=', 'users.id')
+                    ->select('advanced_cash.*', 'users.name as user_name', 'advanced_cash.created_at as date');
+                if($user_id != ''){
+                    $query = $query->where('advanced_cash.member_id', $user_id);
+                }
+                $data = $query->whereBetween('advanced_cash.created_at', [$from_date, $to_date])->get();
+                break;
+            case 'logistics_bill':
+                $query = DB::table('logistic_bills')
+                    ->join('users', 'logistic_bills.member_id', '=', 'users.id')
+                    ->select('logistic_bills.*', 'users.name as user_name');
+                if($user_id != ''){
+                    $query = $query->where('logistic_bills.member_id', $user_id);
+                }
+                $data = $query->whereBetween('logistic_bills.date', [$from_date, $to_date])->get();
+                break;
+            case 'salary':
+                $query = DB::table('salaries')
+                    ->join('users', 'salaries.user_id', '=', 'users.id')
+                    ->select('salaries.*', 'users.name as user_name', 'salaries.created_at as date');
+                if($user_id != ''){
+                    $query = $query->where('salaries.user_id', $user_id);
+                }
+                $data = $query->whereBetween('salaries.created_at', [$from_date, $to_date])->get();
+                break;
+            case 'bonuses':
+                $query = DB::table('bonuses')
+                    ->join('users', 'bonuses.user_id', '=', 'users.id')
+                    ->select('bonuses.*', 'users.name as user_name', 'bonuses.created_at as date');
+                if($user_id != ''){
+                    $query = $query->where('bonuses.user_id', $user_id);
+                }
+                $data = $query->whereBetween('bonuses.created_at', [$from_date, $to_date])->get();
+                break;
+            case 'commission':
+                $query = DB::table('comissions')
+                    ->join('users', 'comissions.employee', '=', 'users.id')
+                    ->select('comissions.*', 'users.name as user_name');
+                if($user_id != ''){
+                    $query = $query->where('comissions.employee', $user_id);
+                }
+                $data = $query->whereBetween('comissions.date', [$from_date, $to_date])->get();
+                break;
+        }
+
+        return view('report.account.'.$report_type, compact('data', 'report_title'));
+    }
+
     
 
 }
