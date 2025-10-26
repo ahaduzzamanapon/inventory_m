@@ -40,6 +40,9 @@
                             <option value="petty_cash">Petty Cash</option>
                             <option value="advance_cash">Advance Cash</option>
                             <option value="logistics_bill">Logistics Bill</option>
+                            <option value="salary">Salary</option>
+                            <option value="bonuses">Bonuses</option>
+                            <option value="commission">Commission</option>
                         </select>
                     </div>
                     

@@ -10,4 +10,4 @@ Route::post('purchase_report', 'ReportController@purchase_report')->name('report
 
 //account_report_page
 Route::get('account_report_page', 'ReportController@account_report_page')->name('reports.account_report_page');
-Route::get('account_report', 'ReportController@account_report')->name('reports.account_report');
+Route::post('account_report', 'ReportController@account_report')->name('reports.account_report');

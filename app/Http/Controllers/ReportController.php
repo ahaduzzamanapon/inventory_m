@@ -388,55 +388,6 @@ class ReportController extends Controller
           $users = DB::table('users')->get();
           return view('report.account.account_report_page', compact('users'));
       }
-      public function account_report(Request $request){
-          $user_id = $request->user_id;
-          $from_date = $request->from_date;
-          $to_date = $request->to_date;
-          $report_type = $request->report_type;
-          if($to_date == null || $to_date == ''){
-              $to_date = $from_date;
-          }
-          $from_date = date('Y-m-d', strtotime($from_date));
-          $to_date = date('Y-m-d', strtotime($to_date));
-
-          if ($report_type == 'petty_cash') {
-            $pettyCashes = DB::table('pettycash')
-                            ->select('pettycash.*', 'users.name as user_name')
-                            ->join('users', 'pettycash.user_id', '=', 'users.id');
-            if($user_id != ''){
-                $pettyCashes = $pettyCashes->where('pettycash.user_id', $user_id);
-            }
-            $pettyCashes = $pettyCashes->whereBetween('pettycash.date', [$from_date, $to_date]);
-            $pettyCashes = $pettyCashes->get();
-            $report_title="Petty Cash Report From $from_date to $to_date";
-            //dd($pettyCashes);
-            return view('report.account.petty_cash_report', compact('pettyCashes','report_title'));
-          }
-          if ($report_type == 'advance_cash') {
-            $advanceCashes = DB::table('advanced_cash')
-                            ->select('advanced_cash.*', 'users.name as user_name', 'members.member_name')
-                            ->join('users', 'advanced_cash.user_id', '=', 'users.id')
-                            ->join('members', 'advanced_cash.member_id', '=', 'members.id');
-            if($user_id != ''){
-                $advanceCashes = $advanceCashes->where('advanced_cash.user_id', $user_id);
-            }
-            $advanceCashes = $advanceCashes->whereBetween('advanced_cash.date', [$from_date, $to_date]);
-            $advanceCashes = $advanceCashes->get();
-            $report_title="Advance Cash Report From $from_date to $to_date";
-            return view('report.account.advance_cash_report', compact('advanceCashes','report_title'));
-          }
-          if ($report_type == 'logistics_bill') {
-            $logisticsBills = DB::table('logistic_bills')
-                            ->select('logistic_bills.*', 'users.name as user_name')
-                            ->join('users', 'logistic_bills.user_id', '=', 'users.id');
-            if($user_id != ''){
-                $logisticsBills = $logisticsBills->where('logistic_bills.user_id', $user_id);
-            }
-            $logisticsBills = $logisticsBills->whereBetween('logistic_bills.date', [$from_date, $to_date]);
-            $logisticsBills = $logisticsBills->get();
-            $report_title="Logistics Bill Report From $from_date to $to_date";
-            return view('report.account.logistics_bill_report', compact('logisticsBills','report_title'));
-          }
-      }
+    
 
 }
