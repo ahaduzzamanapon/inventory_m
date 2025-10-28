@@ -39,9 +39,19 @@
                         <li class="list-group-item"><strong>Phone:</strong> {{ $customer->customer_phone }}</li>
                         <li class="list-group-item"><strong>Address:</strong> {{ $customer->customer_address }}</li>
                     </ul>
+                                {!! Form::model($sales, ['route' => ['sales.update', $sales->id], 'method' => 'patch','class' => 'form-horizontal col-md-12', 'id' => 'sales-edit-form']) !!}
+
+                    @if(can('update_sales_customer'))
+                    <div class="form-group">
+                        <label for="customer_id">Change Customer</label>
+                        {!! Form::select('customer_id', $customers, $sales->customer_id, ['class' => 'form-control'])
+ !!}
+                    </div>
+                    @else
+                    <input type="hidden" name="customer_id" value="{{ $sales->customer_id }}">
+                    @endif
                 </div>
             </div>
-            {!! Form::model($sales, ['route' => ['sales.update', $sales->id], 'method' => 'patch','class' => 'form-horizontal col-md-12']) !!}
             <h3>Items Sold</h3>
         <table class="table table-hover table-striped">
             <thead>
@@ -54,9 +64,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($SalesItem as $index => $item):
-
-                ?>
+                <?php foreach ($SalesItem as $index => $item): ?>
                     <tr>
                         <td><?= $index + 1 ?></td>
                         <td>
@@ -92,25 +100,25 @@
                 <tr>
                     <td colspan="4" class="text-right">Sub Total</td>
                     <td class="text-right">
-                        <input type="text" class="form-control text-right" name="sub_total" id="sub_total" value="<?= number_format($sales['sub_total'], 2) ?>" readonly>
+                        <input type="text" class="form-control text-right" name="sub_total" id="sub_total" value="{{ $sales['sub_total'] }}" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="4" class="text-right">Discount</td>
                     <td class="text-right">
-                        <input type="text" class="form-control text-right" name="discount_amount" id="discount_amount" value="<?= number_format($sales['discount_amount'], 2) ?>" readonly>
+                        <input type="text" class="form-control text-right" name="discount_amount" id="discount_amount" value="{{ $sales['discount_amount'] }}" readonly>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="4" class="text-right">Tax</td>
                     <td class="text-right">
-                        <input type="text" class="form-control text-right" name="tax_amount" id="tax_amount" value="<?= number_format($sales['tax_amount'], 2) ?>" readonly>
+                        <input type="text" class="form-control text-right" name="tax_amount" id="tax_amount" value="{{ $sales['tax_amount'] }}" readonly>
                     </td>
                 </tr>
                 <tr class="">
                     <td colspan="4" class="text-right">Grand Total</td>
                     <td class="text-right">
-                        <input type="text" class="form-control text-right" name="grand_total" id="grand_total" value="<?= number_format($sales['grand_total'], 2) ?>" readonly>
+                        <input type="text" class="form-control text-right" name="grand_total" id="grand_total" value="{{ $sales['grand_total'] }}" readonly>
                     </td>
                 </tr>
             </tfoot>
@@ -151,7 +159,34 @@
                     document.getElementById('grand_total').value = grand_total.toFixed(2);
                 }
             </script>
-           
+            {{-- <script>
+                $(document).ready(function() {
+                    $('#sales-edit-form').on('submit', function(e) {
+                        e.preventDefault();
+                        var form = $(this);
+                        var url = form.attr('action');
+                        var data = form.serialize();
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: data,
+                            success: function(response) {
+                                window.location.href = "{{ route('sales.sales_list') }}";
+                            },
+                            error: function(xhr, status, error) {
+                                var errors = xhr.responseJSON.errors;
+                                for (var key in errors) {
+                                    if (errors.hasOwnProperty(key)) {
+                                        var error_message = errors[key][0];
+                                        alert(error_message);
+                                    }
+                                }
+                            }
+                        });
+                    });
+                });
+            </script>
+            --}}
             @endsection
 
 

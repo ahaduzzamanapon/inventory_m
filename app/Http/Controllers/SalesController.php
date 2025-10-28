@@ -344,6 +344,16 @@ class SalesController extends Controller
                 $item = Item::find($item_id);
                 $item->item_qty += $return_qty;
                 $item->save();
+
+                SalesPaymentModel::create([
+                    'payment_id' => 'RETURN-' . $salesItem->id,
+                    'customer_id' => $sales->customer_id,
+                    'payment_date' => date('Y-m-d'),
+                    'sale_id' => $sales->id,
+                    'payment_method' => 'return',
+                    'payment_amount' => -$return_amount,
+                    'payment_status' => 'Completed',
+                ]);
             }
             foreach ($request->sales_details_id as $key => $value) {
                 if (isset($request->return_serial[$value])) {
@@ -386,10 +396,11 @@ class SalesController extends Controller
             Flash::error('Sales not found');
             return redirect(route('sales.sales_list'));
         }
+        $customers = Customer::all()->pluck('customer_name', 'id');
         $customer = Customer::find($sales->customer_id);
         $SalesItem = SalesItemModel::where('sale_id', $id)->get();
         $SalesPayment = SalesPaymentModel::where('sale_id', $id)->get();
-        return view('sales.edit', compact('sales', 'SalesItem', 'SalesPayment','customer'));
+        return view('sales.edit', compact('sales', 'SalesItem', 'SalesPayment','customer', 'customers'));
     }
     public function update(Request $request, $id)
     {
@@ -402,7 +413,8 @@ class SalesController extends Controller
             }
             $sales->sub_total = $request->sub_total;
             $sales->grand_total = $request->grand_total;
-            $sales->due_amount = $request->grand_total-$sales->payment_amount;
+            $sales->due_amount = (float)$request->grand_total - (float)$sales->payment_amount;
+            $sales->customer_id = $request->customer_id;
             $sales->save();
             foreach ($request->item_id as $key => $value) {
                 $salesItem = SalesItemModel::where('item_id', $value)->where('sale_id', $id)->first();
