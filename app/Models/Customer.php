@@ -19,7 +19,10 @@ class Customer extends Model
 
     public $table = 'customers';
 
-
+    public function ledger_transactions()
+    {
+        return $this->hasMany(LedgerTransaction::class);
+    }
 
 
     public $fillable = [
@@ -28,6 +31,7 @@ class Customer extends Model
         'customer_phone',
         'customer_address',
         'owner_name',
+        'opening_balance',
     ];
 
     /**

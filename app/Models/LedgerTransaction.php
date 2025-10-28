@@ -9,8 +9,10 @@ class LedgerTransaction extends Model
 {
     use HasFactory;
 
+    protected $table = 'new_ledger_transactions';
+
     protected $fillable = [
-        'party_id',
+        'customer_id',
         'date',
         'transaction_type',
         'description',
@@ -21,9 +23,4 @@ class LedgerTransaction extends Model
         'returned_amount',
         'balance',
     ];
-
-    public function party()
-    {
-        return $this->belongsTo(Party::class);
-    }
 }
