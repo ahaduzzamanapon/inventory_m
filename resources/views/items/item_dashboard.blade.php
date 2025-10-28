@@ -96,8 +96,8 @@ Item Dashboard @parent
             <div class="row">
                 @foreach($items as $item)
                 <div class="col-12 col-md-3 col-xxl-3 mb-10" >
-                    <div class="custom-card" style="background: {{($item->item_qty < $item->item_stock_alert_level) ? '#ff0000' : ''}}">
-
+                    <div class="custom-card" style="background: {{($item->item_qty < $item->item_stock_alert_level) ? '#ff0000' : ''}}; position: relative;">
+                        <a href="{{ route('item.report', $item->id) }}" class="btn btn-primary btn-sm" style="position: absolute; top: 10px; right: 10px;" target="_blank">Get Report</a>
                         <div class="card-body" style="width: 100%;justify-items: center;padding: 0.55rem;">
                             <div class="card-content d-flex align-items-center flex-column">
                                     {{-- <h5 class="card-title">{{ $title }}</h5> --}}

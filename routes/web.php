@@ -79,6 +79,8 @@ Route::get('remove_all_files', 'JoshController@remove_all_files');
 Route::get('/report/generate', 'App\Http\Controllers\ReportController@generate')->name('report.generate');
 Route::get('/report/download-pdf', 'App\Http\Controllers\ReportController@downloadPdf')->name('report.downloadPdf');
 
+Route::get('/item/report/{id}', 'App\Http\Controllers\ReportController@itemReport')->name('item.report');
+
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('{name?}', 'JoshController@showView');
 

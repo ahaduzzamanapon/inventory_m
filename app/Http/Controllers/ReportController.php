@@ -324,6 +324,26 @@ class ReportController extends Controller
         return $pdf->download($title . '.pdf');
     }
 
+    public function itemReport($id)
+    {
+        $item = DB::table('items')->find($id);
+        $sales = DB::table('sales_item_models')
+            ->join('sales_models', 'sales_item_models.sale_id', '=', 'sales_models.id')
+            ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
+            ->where('sales_item_models.item_id', $id)
+            ->select('sales_models.sale_date', 'customers.customer_name', 'sales_item_models.sales_qty', 'sales_item_models.item_per_price', 'sales_item_models.total_price')
+            ->get();
+
+        $purchases = DB::table('purchas_item_models')
+            ->join('purchas_models', 'purchas_item_models.purchas_id', '=', 'purchas_models.id')
+            ->join('suppliers', 'purchas_models.supplier_id', '=', 'suppliers.id')
+            ->where('purchas_item_models.item_id', $id)
+            ->select('purchas_models.purchas_date', 'suppliers.supplier_name', 'purchas_item_models.purchas_qty', 'purchas_item_models.item_per_price', 'purchas_item_models.total_price')
+            ->get();
+
+        return view('report.item_report', compact('item', 'sales', 'purchases'));
+    }
+
     //sales
     public function sales_report_page()
     {
