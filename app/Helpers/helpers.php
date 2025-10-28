@@ -88,7 +88,7 @@ if (!function_exists('generate_unique_id')) {
      * @param int $length - The number length (excluding prefix)
      * @return string
      */
-    function generate_unique_id($modelClass, $column, $prefix, $length = 8)
+    function generate_unique_id($modelClass, $column, $prefix=null, $length = 8)
     {
         $latestRecord = $modelClass::latest('id')->first();
         $nextNumber = 1; // Default if no records exist

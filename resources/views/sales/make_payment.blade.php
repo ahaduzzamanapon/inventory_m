@@ -177,16 +177,31 @@
             @section('footer_scripts')
             <script>
                 var paymentMethods = @json($paymentMethods);
-                var create_payment_id_sales = '{{ create_payment_id_sales() }}';
+                var create_payment_id_sales = '{{ create_payment_id_sales() }}'; //Pay ID-00000287
                 function addPaymentRow() {
                     var paymentMethodOptions = paymentMethods.map(function(paymentMethod) {
                         return '<option value="' + paymentMethod.id + '">' + paymentMethod.method_name + '</option>';
                     }).join('');
                     var paymentTableBody = document.getElementById('payment_table_body');
-                    var uniq_id = create_payment_id_sales;
+                    var lastRow = paymentTableBody.lastChild;
+                    var lastRowPaymentId = lastRow ? lastRow.querySelector('.payment_id') ? lastRow.querySelector('.payment_id').value : null : null;
+                    if (!lastRowPaymentId) {
+                        newId = create_payment_id_sales;
+                    } else {
+                        var regex = /^Pay ID-\d+/;
+                        var match = lastRowPaymentId.match(regex);
+                        var newId;
+                        if (match) {
+                            var newNumber = parseInt(match[0].replace(/^Pay ID-/, '')) + 1;
+                            newId = 'Pay ID-' + newNumber.toString().padStart(8, '0');
+                        } else {
+                            newId = 'Pay ID-' + '00000001';
+                        }
+                    }
+                  
                     var newRow = document.createElement('tr');
-                    newRow.innerHTML = '<td><input type="text" name="payment_id[]" value="' + uniq_id +
-                        '" class="form-control"></td>' +
+                    newRow.innerHTML = '<td><input type="text"  name="payment_id[]" value="' + newId +
+                        '" class="form-control payment_id"></td>' +
                         '<td><select name="payment_method_id[]" required class="form-control">' + paymentMethodOptions + '</select></td>' +
                         '<td><input type="text" name="Cheque_number[]" class="form-control" required></td>' +
 
