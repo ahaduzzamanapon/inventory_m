@@ -50,7 +50,7 @@
                             @endphp
                             @foreach ($itemSerials as $serial)
                                 <div class="form-check">
-                                    <input class="form-check-input" onchange="checkItemSerial(event, this)" type="checkbox" name="return_serial[{{ $item->id }}][]" value="{{ $serial->id }}">
+                                    <input class="form-check-input" onchange="checkItemSerial(event, this), calculate_total_return_amount(this)" type="checkbox" name="return_serial[{{ $item->id }}][]" value="{{ $serial->id }}">
                                     <label class="form-check-label">{{ $serial->item_serial_number }}</label>
                                 </div>
                             @endforeach
@@ -58,7 +58,7 @@
                     </div>
                 </td>
                 <td>
-                    <input type="number" name="return_amount[]" onkeyup="checkItemSerial(event, this)" class="form-control" value="0" min="0" step="0.01" required>
+                    <input type="number" name="return_amount[]" onkeyup="checkItemSerial(event, this),calculate_total_return_amount(this)" class="form-control" value="0" min="0" step="0.01" required>
                 </td>
             </tr>
             @endforeach
@@ -69,7 +69,7 @@
                 <td>{{ $total_qty }}</td>
                 <td>{{ number_format($total_price, 2) }}</td>
                 <td></td>
-                <td ><input id="total_return_amount" onkeyup="calculate_return_amount(this)" type="text" name="total_return_amount" class="form-control text-right" readonly value="0"></td>
+                <td ><input id="total_return_amount" type="text" name="total_return_amount" class="form-control text-right" readonly value="0"></td>
             </tr>
         </tfoot>
     </table>
@@ -93,25 +93,35 @@
                 serialInput.value = checkedSerials.length;
             }
             calculate_return_amount(el);
-        } else {
-            console.error('Serial div not found');
         }
     }
-    function calculate_return_amount(el){
-        let returnQty = el.value;
-        let itemRow = el.closest('tr');
-        let unitPrice = itemRow.querySelector('td:nth-child(2)').innerText;
-        let returnAmountInput = itemRow.querySelector('input[name="return_amount[]"]');
-        returnAmountInput.value = (returnQty * unitPrice).toFixed(2);
-        calculate_total_return_amount();
-    }
-    function calculate_total_return_amount(){
-        let returnAmountInputs = document.querySelectorAll('input[name="return_amount[]"]');
-        let totalReturnAmount = 0;
-        returnAmountInputs.forEach(input => {
-            totalReturnAmount += parseFloat(input.value);
-        });
-        document.getElementById('total_return_amount').value = totalReturnAmount.toFixed(2);
-    }
+   function calculate_return_amount(el){
+    let returnQty = parseFloat(el.value) || 0;
+    let itemRow = el.closest('tr');
+
+    // Get unit price text & convert to number
+    let unitPriceText = itemRow.querySelector('td:nth-child(2)').innerText;
+    let unitPrice = parseFloat(unitPriceText.replace(/,/g, '')) || 0;
+
+    let returnAmountInput = itemRow.querySelector('input[name="return_amount[]"]');
+
+    let total = returnQty * unitPrice;
+    returnAmountInput.value = total.toFixed(2);
+
+    calculate_total_return_amount();
+}
+
+function calculate_total_return_amount(){
+    let returnAmountInputs = document.querySelectorAll('input[name="return_amount[]"]');
+    let totalReturnAmount = 0;
+
+    returnAmountInputs.forEach(input => {
+        totalReturnAmount += parseFloat(input.value) || 0;
+    });
+
+    document.getElementById('total_return_amount').value = totalReturnAmount.toFixed(2);
+}
+
 </script>
+
 

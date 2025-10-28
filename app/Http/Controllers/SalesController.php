@@ -344,7 +344,7 @@ class SalesController extends Controller
                 $item = Item::find($item_id);
                 $item->item_qty += $return_qty;
                 $item->save();
-
+$sales = SalesModel::where('sales_id', $request->sales_id)->first();                // $sales = SalesModel::find($request->sales_id);
                 SalesPaymentModel::create([
                     'payment_id' => 'RETURN-' . $salesItem->id,
                     'customer_id' => $sales->customer_id,
