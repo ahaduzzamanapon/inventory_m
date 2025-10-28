@@ -412,8 +412,14 @@ class SalesController extends Controller
                 return redirect(route('sales.sales_list'));
             }
             $sales->sub_total = $request->sub_total;
-            $sales->grand_total = $request->grand_total;
-            $sales->due_amount = (float)$request->grand_total - (float)$sales->payment_amount;
+            $sales->discount_status = $request->discount_type;
+            $sales->discount_per = $request->discount_per;
+            $sales->discount_amount = $request->discount_amount;
+            $sales->tax_status = $request->tax_type;
+            $sales->tax_per = $request->tax_per;
+            $sales->tax_amount = $request->tax_amount;
+            $sales->grand_total = (float)$request->sub_total - (float)$request->discount_amount + (float)$request->tax_amount;
+            $sales->due_amount = (float)$sales->grand_total - (float)$sales->payment_amount;
             $sales->customer_id = $request->customer_id;
             $sales->save();
             foreach ($request->item_id as $key => $value) {

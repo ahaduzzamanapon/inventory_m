@@ -104,15 +104,29 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="text-right">Discount</td>
+                    <td colspan="3" class="text-right">Discount</td>
+                    <td>
+                        <select name="discount_type" id="discount_type" onchange="calculate_dis_tax()">
+                            <option value="Fixed" {{ $sales->discount_status == 'Fixed' ? 'selected' : '' }}>Fixed</option>
+                            <option value="Percentage" {{ $sales->discount_status == 'Percentage' ? 'selected' : '' }}>Percentage</option>
+                        </select>
+                    </td>
                     <td class="text-right">
-                        <input type="text" class="form-control text-right" name="discount_amount" id="discount_amount" value="{{ $sales['discount_amount'] }}" readonly>
+                        <input type="text" name="discount_per" id="discount_per" onkeyup="calculate_dis_tax()" class="form-control text-right" value="{{ $sales->discount_per ?? 0 }}">
+                        <input type="hidden" name="discount_amount" id="discount_amount" value="{{ $sales->discount_amount ?? 0 }}">
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4" class="text-right">Tax</td>
+                    <td colspan="3" class="text-right">Tax</td>
+                    <td>
+                        <select name="tax_type" id="tax_type" onchange="calculate_dis_tax()">
+                            <option value="Fixed" {{ $sales->tax_status == 'Fixed' ? 'selected' : '' }}>Fixed</option>
+                            <option value="Percentage" {{ $sales->tax_status == 'Percentage' ? 'selected' : '' }}>Percentage</option>
+                        </select>
+                    </td>
                     <td class="text-right">
-                        <input type="text" class="form-control text-right" name="tax_amount" id="tax_amount" value="{{ $sales['tax_amount'] }}" readonly>
+                        <input type="text" name="tax_per" id="tax_per" onkeyup="calculate_dis_tax()" class="form-control text-right" value="{{ $sales->tax_per ?? 0 }}">
+                        <input type="hidden" name="tax_amount" id="tax_amount" value="{{ $sales->tax_amount ?? 0 }}">
                     </td>
                 </tr>
                 <tr class="">
@@ -147,46 +161,48 @@
                         subTotal += parseFloat($(this).val());
                     });
                     document.getElementById('sub_total').value = subTotal.toFixed(2);
-                    calculate_grand_total();
+                    calculate_dis_tax();
                 }
             </script>
             <script>
+                function calculate_dis_tax() {
+                    calculate_tax()
+                    calculate_discount()
+                    calculate_grand_total()
+                }
+
+                function calculate_tax() {
+                    var subTotal = parseFloat(document.getElementById('sub_total').value);
+                    var taxType = document.getElementById('tax_type').value;
+                    var taxPer = parseFloat(document.getElementById('tax_per').value);
+                    if (taxType == 'Fixed') {
+                        var tax = taxPer;
+                    } else {
+                        var tax = subTotal * (taxPer / 100);
+                    }
+                    document.getElementById('tax_amount').value = tax.toFixed(2);
+                }
+
+                function calculate_discount() {
+                    var subTotal = parseFloat(document.getElementById('sub_total').value);
+                    var discountType = document.getElementById('discount_type').value;
+                    var discountPer = parseFloat(document.getElementById('discount_per').value);
+                    if (discountType == 'Fixed') {
+                        var discount = discountPer;
+                    } else {
+                        var discount = subTotal * (discountPer / 100);
+                    }
+                    document.getElementById('discount_amount').value = discount.toFixed(2);
+                }
+
                 function calculate_grand_total() {
                     var sub_total = parseFloat(document.getElementById('sub_total').value);
-                    var discount_amount = parseFloat(document.getElementById('discount_amount').value);
                     var tax_amount = parseFloat(document.getElementById('tax_amount').value);
+                    var discount_amount = parseFloat(document.getElementById('discount_amount').value);
                     var grand_total = sub_total - discount_amount + tax_amount;
                     document.getElementById('grand_total').value = grand_total.toFixed(2);
                 }
             </script>
-            {{-- <script>
-                $(document).ready(function() {
-                    $('#sales-edit-form').on('submit', function(e) {
-                        e.preventDefault();
-                        var form = $(this);
-                        var url = form.attr('action');
-                        var data = form.serialize();
-                        $.ajax({
-                            type: "POST",
-                            url: url,
-                            data: data,
-                            success: function(response) {
-                                window.location.href = "{{ route('sales.sales_list') }}";
-                            },
-                            error: function(xhr, status, error) {
-                                var errors = xhr.responseJSON.errors;
-                                for (var key in errors) {
-                                    if (errors.hasOwnProperty(key)) {
-                                        var error_message = errors[key][0];
-                                        alert(error_message);
-                                    }
-                                }
-                            }
-                        });
-                    });
-                });
-            </script>
-            --}}
             @endsection
 
 
