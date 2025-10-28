@@ -90,6 +90,14 @@
             </a>
         </li>
         @endif
+        @if(can('purchase_return'))
+        <li class="barr4 {!! (Request::is('purchas_return') ? 'active' : '' ) !!}">
+            <a href="{{route('purchas.purchas_return')}}">
+                <span class="mm-text ">Purchase Return</span>
+                <span class="menu-icon"><i class="im im-icon-Receipt"></i></span>
+            </a>
+        </li>
+        @endif
     </ul>
 </li>
 @endif

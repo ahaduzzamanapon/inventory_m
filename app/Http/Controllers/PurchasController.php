@@ -342,4 +342,91 @@ class PurchasController extends Controller
 
     }
 
+    public function purchas_return()
+    {
+        $purchases = PurchasModel::all()->pluck('purchas_id', 'purchas_id')->prepend('Select Purchase ID', '');
+        return view('purchas.purchas_return', compact('purchases'));
+    }
+
+    public function get_return_purchas_data(Request $request)
+    {
+        $purchas = PurchasModel::where('purchas_id', $request->purchas_id)->first();
+        $supplier = Supplier::find($purchas->supplier_id);
+        $PurchasItem = PurchasItemModel::where('purchas_id', $purchas->id)->get();
+        return view('purchas.purchas_item_data', compact('purchas', 'PurchasItem'));
+    }
+
+    public function return_store_p(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $purchas = PurchasModel::where('purchas_id', $request->purchas_id)->first();
+            foreach ($request->purchas_details_id as $key => $value) {
+                if ( $request->return_qty[$key] == 0 || $request->return_qty[$key] == '' ) {
+                    continue;
+                }
+                $PurchasItem = PurchasItemModel::where('id', $value)->first();
+
+                $item_id = $PurchasItem->item_id;
+                $return_qty = $request->return_qty[$key] ?? 0;
+                $return_amount = $request->return_amount[$key] ?? 0;
+                $purchasItem = \App\Models\ReturnPurchase::create([
+                    'purchas_id' => $request->purchas_id,
+                    'item_id' => $item_id,
+                    'return_qty' => $return_qty,
+                    'return_serial' => isset($request->return_serial[$value]) ? json_encode($request->return_serial[$value]) : null,
+                    'return_amount' => $return_amount,
+                    'return_date' => date('Y-m-d'),
+                    'payment_status' => 'Pending',
+                ]);
+                $item = Item::find($item_id);
+                $item->item_qty -= $return_qty;
+                $item->save();
+
+                PurchasPaymentModel::create([
+                    'payment_id' => 'RETURN-' . $purchasItem->id,
+                    'supplier_id' => $purchas->supplier_id,
+                    'payment_date' => date('Y-m-d'),
+                    'purchas_id' => $purchas->id,
+                    'payment_method' => 'return',
+                    'payment_amount' => -$return_amount,
+                    'payment_status' => 'Completed',
+                ]);
+            }
+            foreach ($request->purchas_details_id as $key => $value) {
+                if (isset($request->return_serial[$value])) {
+                    foreach ($request->return_serial[$value] as $serial) {
+                        DB::table('item_serials')->where('id', $serial)->update(['sale_status' => 1]);
+                    }
+                }
+            }
+            DB::commit();
+            Flash::success('Purchase returned successfully.');
+            return redirect(route('purchas.purchas_list'));
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e->getMessage());
+            Flash::error('Something went wrong while returning purchase');
+            return redirect(route('purchas.purchas_list'));
+        }
+
+    }
+
+    public function purchas_return_payment($id)
+    {
+        $purchas = \App\Models\ReturnPurchase::find($id);
+        if (empty($purchas)) {
+            Flash::error('Return not found');
+            return redirect(route('purchas.purchas_list'));
+        }else{
+            $purchas->payment_status = 'Completed';
+            $purchas->save();
+            Flash::success('Payment approved successfully.');
+            return redirect()->back();
+        }
+
+        return view('purchas.purchas_return_payment', compact('purchas'));
+    }
 }
+
+

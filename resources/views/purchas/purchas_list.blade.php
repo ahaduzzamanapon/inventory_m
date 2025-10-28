@@ -26,6 +26,7 @@ Purchas List @parent
             <h5 class="card-title d-inline">Purchas List</h5>
             <span class="float-right">
                 <a class="btn btn-primary pull-right" href="{{ route('purchas.new_purchas') }}">New Purchas</a>
+                <a class="btn btn-info pull-right" href="{{ route('purchas.purchas_return') }}" style="margin-right: 5px;">Purchase Return</a>
             </span>
         </section>
         <div class="card-body table-responsive" >
