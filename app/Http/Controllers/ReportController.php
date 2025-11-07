@@ -18,11 +18,14 @@ class ReportController extends Controller
         $headers = [];
         $view = '';
 
+        $from_date = $request->get('from_date');
+        $to_date = $request->get('to_date');
+
         switch ($title) {
             case 'Monthly Sales':
                 $data = DB::table('sales_models')
                     ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
-                    ->whereMonth('sale_date', now()->month)
+                    ->whereBetween('sale_date', [$from_date, $to_date])
                     ->select('customers.customer_name', 'sales_models.sale_date', 'sales_models.sub_total', 'sales_models.discount_amount', 'sales_models.tax_amount', 'sales_models.grand_total', 'sales_models.payment_status')
                     ->get();
                 $headers = ['Customer Name', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'];
@@ -31,7 +34,7 @@ class ReportController extends Controller
             case 'Monthly Expense':
                 $data = DB::table('logistic_bills')
                     ->leftJoin('customers', 'logistic_bills.customer', '=', 'customers.id')
-                    ->whereMonth('logistic_bills.date', now()->month)
+                    ->whereBetween('logistic_bills.date', [$from_date, $to_date])
                     ->where('logistic_bills.status', 'Approved')
                     ->select('logistic_bills.date', 'logistic_bills.Sale', 'logistic_bills.location', 'customers.customer_name', 'logistic_bills.amount', 'logistic_bills.note', 'logistic_bills.status')
                     ->get();
@@ -42,6 +45,7 @@ class ReportController extends Controller
                 $data = DB::table('purchas_models')
                     ->join('suppliers', 'purchas_models.supplier_id', '=', 'suppliers.id')
                     ->where('purchas_models.due_amount', '>', 0)
+                    ->whereBetween('purchas_models.purchas_date', [$from_date, $to_date])
                     ->select('purchas_models.purchas_id', 'suppliers.supplier_name', 'purchas_models.purchas_date', 'purchas_models.grand_total', 'purchas_models.payment_amount', 'purchas_models.due_amount')
                     ->get();
                 $headers = ['Purchas ID', 'Supplier Name', 'Purchas Date', 'Grand Total', 'Payment Amount', 'Due Amount'];
@@ -51,12 +55,14 @@ class ReportController extends Controller
                 $credit = DB::table('pettycash')
                     ->join('accountledgers', 'pettycash.account_ledgers', '=', 'accountledgers.id')
                     ->where('pettycash.account_description', 'Credit')
+                    ->whereBetween('pettycash.date', [$from_date, $to_date])
                     ->where('pettycash.status', 'Approved')
                     ->select('pettycash.date', 'accountledgers.name', 'pettycash.amount', 'pettycash.status')
                     ->get();
                 $debit = DB::table('pettycash')
                     ->join('accountledgers', 'pettycash.account_ledgers', '=', 'accountledgers.id')
                     ->where('pettycash.account_description', 'Debit')
+                    ->whereBetween('pettycash.date', [$from_date, $to_date])
                     ->where('pettycash.status', 'Approved')
                     ->select('pettycash.date', 'accountledgers.name', 'pettycash.amount', 'pettycash.status')
                     ->get();
@@ -77,6 +83,7 @@ class ReportController extends Controller
                 $data = DB::table('advanced_cash')
                     ->join('users', 'advanced_cash.member_id', '=', 'users.id')
                     ->where('advanced_cash.status', 'Approved')
+                    ->whereBetween('advanced_cash.created_at', [$from_date, $to_date])
                     ->select('users.name', 'advanced_cash.purpose', 'advanced_cash.amount', 'advanced_cash.status')
                     ->get();
                 $headers = ['Member Name', 'Purpose', 'Amount', 'Status'];
@@ -85,7 +92,7 @@ class ReportController extends Controller
             case 'Total Item':
                 $data = DB::table('items')
                     ->leftJoin('categories', 'items.item_category', '=', 'categories.id')
-                    ->leftJoin('subcategorys', 'items.item_sub_category', '=', 'subcategorys.id')
+                    ->leftJoin('subcategorys', 'items.item_sub_category', '=', 'subcategorys.id')                    
                     ->select('items.item_id', 'items.item_name', 'categories.Name as category_name', 'subcategorys.SubCategoryName as subcategory_name', 'items.item_qty', 'items.item_purchase_price', 'items.item_sale_price')
                     ->get();
                 $headers = ['Item ID', 'Item Name', 'Category', 'Sub Category', 'Qty', 'Purchase Price', 'Sale Price'];
@@ -100,14 +107,15 @@ class ReportController extends Controller
                 $data = DB::table('sales_models')
                     ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
                     ->where('sales_models.due_amount', '>', 0)
+                    ->whereBetween('sales_models.sale_date', [$from_date, $to_date])
                     ->select('sales_models.sales_id', 'customers.customer_name', 'sales_models.sale_date', 'sales_models.grand_total', 'sales_models.payment_amount', 'sales_models.due_amount')
                     ->get();
                 $headers = ['Sales ID', 'Customer Name', 'Sale Date', 'Grand Total', 'Payment Amount', 'Due Amount'];
                 $view = 'report.pdf';
                 break;
             case 'Total Yearly Profit':
-                $sales = SalesModel::with('customer')->whereYear('sale_date', now()->year)->get();
-                $purchases = PurchasModel::with('supplier')->whereYear('purchas_date', now()->year)->get();
+                $sales = SalesModel::with('customer')->whereBetween('sale_date', [$from_date, $to_date])->get();
+                $purchases = PurchasModel::with('supplier')->whereBetween('purchas_date', [$from_date, $to_date])->get();
                 $totalSales = $sales->sum('grand_total');
                 $totalPurchases = $purchases->sum('grand_total');
                 $data = [
@@ -126,7 +134,7 @@ class ReportController extends Controller
             case 'Total Yearly Sales':
                 $data = DB::table('sales_models')
                     ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
-                    ->whereYear('sale_date', now()->year)
+                    ->whereBetween('sale_date', [$from_date, $to_date])
                     ->select('customers.customer_name', 'sales_models.sale_date', 'sales_models.sub_total', 'sales_models.discount_amount', 'sales_models.tax_amount', 'sales_models.grand_total', 'sales_models.payment_status')
                     ->get();
                 $headers = ['Customer Name', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'];
@@ -135,7 +143,7 @@ class ReportController extends Controller
             case 'Total Yearly Expenses':
                 $data = DB::table('logistic_bills')
                     ->leftJoin('customers', 'logistic_bills.customer', '=', 'customers.id')
-                    ->whereYear('logistic_bills.date', now()->year)
+                    ->whereBetween('logistic_bills.date', [$from_date, $to_date])
                     ->where('logistic_bills.status', 'Approved')
                     ->select('logistic_bills.date', 'logistic_bills.Sale', 'logistic_bills.location', 'customers.customer_name', 'logistic_bills.amount', 'logistic_bills.note', 'logistic_bills.status')
                     ->get();

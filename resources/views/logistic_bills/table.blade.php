@@ -21,7 +21,8 @@
             <td>{{ date('d-m-Y', strtotime($logisticBill->date)) }}</td>
             <td>{{ $logisticBill->location }}</td>
             <td>{{ $logisticBill->customer_name }}</td>
-            <td>{{ $logisticBill->amount }}</td>
+            <td>{{ number_format($logisticBill->amount, 2) }}</td>
+
             <td>{{ $logisticBill->attachment }}</td>
             <td>{{ $logisticBill->note }}</td>
             <td>

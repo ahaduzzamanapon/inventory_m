@@ -80,7 +80,7 @@ $customers = DB::table('customers')->get();
 <div class="col-md-3">
     <div class="form-group">
         {!! Form::label('amount', 'Amount:',['class'=>'control-label']) !!}
-        {!! Form::text('amount', null, ['class' => 'form-control']) !!}
+        {!! Form::number('amount', null, ['class' => 'form-control']) !!}
     </div>
 </div>
 

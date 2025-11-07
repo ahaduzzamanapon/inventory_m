@@ -307,33 +307,74 @@
   </div>
 </div>
 
+<div id="dateFilterModal" class="custom-modal">
+    <div class="custom-modal-content">
+        <span class="custom-modal-close">&times;</span>
+        <h5>Select Date Range or Month</h5>
+        <div class="form-group">
+            <label for="from_date">From Date</label>
+            <input type="date" id="from_date" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="to_date">To Date</label>
+            <input type="date" id="to_date" class="form-control">
+        </div>
+      
+        <div class="custom-modal-footer">
+            <button type="button" class="btn btn-secondary custom-modal-close-btn">Close</button>
+            <button type="button" class="btn btn-primary" id="generate-report-with-date">Generate</button>
+        </div>
+    </div>
+</div>
+
     <script>
-    // Get the modal
     var modal = document.getElementById("customReportModal");
+    // Get the modal
+    var customReportModal = document.getElementById("customReportModal");
+    var dateFilterModal = document.getElementById("dateFilterModal");
 
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("custom-modal-close")[0];
-    var closeBtn = document.getElementsByClassName("custom-modal-close-btn")[0];
+    var customReportSpan = customReportModal.getElementsByClassName("custom-modal-close")[0];
+    var dateFilterSpan = dateFilterModal.getElementsByClassName("custom-modal-close")[0];
+    var customReportCloseBtn = customReportModal.getElementsByClassName("custom-modal-close-btn")[0];
+    var dateFilterCloseBtn = dateFilterModal.getElementsByClassName("custom-modal-close-btn")[0];
 
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-      modal.style.display = "none";
+    customReportSpan.onclick = function() {
+      customReportModal.style.display = "none";
+    }
+    dateFilterSpan.onclick = function() {
+      dateFilterModal.style.display = "none";
     }
 
-    closeBtn.onclick = function() {
-        modal.style.display = "none";
+    customReportCloseBtn.onclick = function() {
+        customReportModal.style.display = "none";
+    }
+    dateFilterCloseBtn.onclick = function() {
+        dateFilterModal.style.display = "none";
     }
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
+      if (event.target == customReportModal) {
+        customReportModal.style.display = "none";
+      }
+      if (event.target == dateFilterModal) {
+        dateFilterModal.style.display = "none";
       }
     }
 
     $(document).on('click', '.get-report-btn', function() {
         var title = $(this).data('title');
-        var url = '{{ route("report.generate") }}?title=' + title;
+        $('#dateFilterModal').data('title', title);
+        $('#dateFilterModal').show();
+    });
+
+    $(document).on('click', '#generate-report-with-date', function() {
+        var title = $('#dateFilterModal').data('title');
+        var from_date = $('#from_date').val();
+        var to_date = $('#to_date').val();
+        var url = '{{ route("report.generate") }}?title=' + title + '&from_date=' + from_date + '&to_date=' + to_date;
         
         $.ajax({
             url: url,
@@ -341,6 +382,7 @@
             success: function(response) {
                 $('#custom-report-content').html(response);
                 $('#export-pdf-btn').data('title', title);
+                $('#dateFilterModal').hide();
                 modal.style.display = "block";
             }
         });
