@@ -239,6 +239,12 @@ class ItemController extends AppBaseController
 
         }
 
+        public function getAllItems()
+        {
+            $items = Item::all();
+            return response()->json($items);
+        }
+
     }
 
     

@@ -1,0 +1,47 @@
+@media print {
+    /* Hide the header, left sidebar, and print button */
+    .header,
+    .left-aside,
+    .card-tools .btn-primary,
+    .content-header {
+        display: none !important;
+    }
+
+    /* Make the right-aside (main content) take up the full width */
+    .right-aside {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Ensure the card and its body take up the full width */
+    .card {
+        width: 100% !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Ensure tables are styled for printing */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table th,
+    .table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    /* Remove any transformations or transitions */
+    .wrapper,
+    .right-aside {
+        transform: none !important;
+        transition: none !important;
+    }
+
+    /* Ensure the body has a white background */
+    body {
+        background-color: #fff !important;
+    }
+}

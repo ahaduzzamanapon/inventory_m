@@ -126,6 +126,14 @@
     </div>
 </div>
 
+<!-- Status Field -->
+<div class="col-md-3">
+    <div class="form-group">
+        {!! Form::label('status', 'Status:',['class'=>'control-label']) !!}
+        {!! Form::select('status', [1 => 'Active', 0 => 'Inactive'], null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+
 
 <!-- Education Field -->
 <div class="col-md-3">

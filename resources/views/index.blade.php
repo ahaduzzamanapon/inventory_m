@@ -34,6 +34,17 @@
     max-height: 90vh;
     overflow: auto;
 }
+.custom-modal-content2 {
+    background-color: #fefefe;
+    margin: 5% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 450px;
+    border-radius: 10px;
+    max-height: 90vh;
+    overflow: auto;
+}
 
 .custom-modal-close {
     color: #aaa;
@@ -308,16 +319,22 @@
 </div>
 
 <div id="dateFilterModal" class="custom-modal">
-    <div class="custom-modal-content">
+    <div class="custom-modal-content2">
         <span class="custom-modal-close">&times;</span>
         <h5>Select Date Range or Month</h5>
-        <div class="form-group">
-            <label for="from_date">From Date</label>
-            <input type="date" id="from_date" class="form-control">
-        </div>
-        <div class="form-group">
-            <label for="to_date">To Date</label>
-            <input type="date" id="to_date" class="form-control">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="from_date">From Date</label>
+                    <input type="date" id="from_date" class="form-control">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="to_date">To Date</label>
+                    <input type="date" id="to_date" class="form-control">
+                </div>
+            </div>
         </div>
       
         <div class="custom-modal-footer">

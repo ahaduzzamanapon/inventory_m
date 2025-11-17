@@ -43,7 +43,8 @@ class User extends Authenticatable
         'experience',
         'email_verified_at',
         'password',
-        'remember_token'
+        'remember_token',
+        'status'
     ];
 
     protected $dates = []; // Laravel will automatically cast 'updated_at'

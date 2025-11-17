@@ -26,7 +26,7 @@
                     
                     <div class="col-md-3">
                         <label for="company">User</label>
-                        <select id="user_id" name="user_id" class="form-control">
+                        <select id="user_id" name="user_id" class="form-control chosen-select">
                             <option value="">Select user</option>
                             @foreach ($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-md-3">
                         <label for="company">Report Type</label>
-                        <select id="report_type" name="report_type" class="form-control">
+                        <select id="report_type" name="report_type" class="form-control chosen-select">
                             <option value="">Select report type</option>
                             <option value="petty_cash">Petty Cash</option>
                             <option value="advance_cash">Advance Cash</option>

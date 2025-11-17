@@ -9,6 +9,7 @@ use Blueprint;
 use App\Models\SalesModel;
 use App\Models\SalesItemModel;
 use App\Models\SalesPaymentModel;
+use App\Models\LedgerTransaction;
 use App\Models\Customer;
 use App\Models\ReturnSale;
 use App\Models\Item;
@@ -143,7 +144,22 @@ class SalesController extends Controller
                 }
             }
 
+            $last_transaction = LedgerTransaction::where('customer_id', $validated['customer_id'])->latest()->first();
 
+
+            $new_balance = $last_transaction->balance + $validated['grand_total_input'];
+
+
+            $ledger_data=[
+                'customer_id'=>$validated['customer_id'],
+                'date'=>date('Y-m-d', strtotime($validated['sale_date'])),
+                'amount'=>$validated['grand_total_input'],
+                'description'=>$validated['sales_id'],
+                'transaction_type'=>'sales',
+                'balance'=>$new_balance,
+            ];
+
+            LedgerTransaction::create($ledger_data);
 
             DB::commit();
             session()->flash('success', 'Sales created successfully.');
@@ -152,7 +168,7 @@ class SalesController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             session()->flash('error', $e->getMessage());
-            //dd($e->getMessage());
+            dd($e->getMessage());
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -346,20 +362,9 @@ class SalesController extends Controller
                 $item->save();
 
                 $sales = SalesModel::where('sales_id',$request->sales_id)->first();
-                $sales->payment_amount -= $return_amount;
                 $sales->grand_total -= $return_amount;
                 $sales->due_amount -= $return_amount;
                 $sales->save();
-
-                SalesPaymentModel::create([
-                    'payment_id' => 'RETURN-' . $salesItem->id,
-                    'customer_id' => $sales->customer_id,
-                    'payment_date' => date('Y-m-d'),
-                    'sale_id' => $sales->id,
-                    'payment_method' => 'return',
-                    'payment_amount' => -$return_amount,
-                    'payment_status' => 'Completed',
-                ]);
             }
             foreach ($request->sales_details_id as $key => $value) {
                 if (isset($request->return_serial[$value])) {

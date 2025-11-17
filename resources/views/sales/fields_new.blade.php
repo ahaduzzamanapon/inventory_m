@@ -169,25 +169,39 @@
         <script>
             var paymentMethods = @json($paymentMethods);
             var create_payment_id_sales = '{{ create_payment_id_sales() }}';
-            function addPaymentRow() {
-                console.log(paymentMethods);
+             function addPaymentRow() {
+                    var paymentMethodOptions = paymentMethods.map(function(paymentMethod) {
+                        return '<option value="' + paymentMethod.id + '">' + paymentMethod.method_name + '</option>';
+                    }).join('');
+                    var paymentTableBody = document.getElementById('payment_table_body');
+                    var lastRow = paymentTableBody.lastChild;
+                    var lastRowPaymentId = lastRow ? lastRow.querySelector('.payment_id') ? lastRow.querySelector('.payment_id').value : null : null;
+                    if (!lastRowPaymentId) {
+                        newId = create_payment_id_sales;
+                    } else {
+                        var regex = /^Pay ID-\d+/;
+                        var match = lastRowPaymentId.match(regex);
+                        var newId;
+                        if (match) {
+                            var newNumber = parseInt(match[0].replace(/^Pay ID-/, '')) + 1;
+                            newId = 'Pay ID-' + newNumber.toString().padStart(8, '0');
+                        } else {
+                            newId = 'Pay ID-' + '00000001';
+                        }
+                    }
+                  
+                    var newRow = document.createElement('tr');
+                    newRow.innerHTML = '<td><input type="text"  name="payment_id[]" value="' + newId +
+                        '" class="form-control payment_id"></td>' +
+                        '<td><select name="payment_method_id[]" required class="form-control">' + paymentMethodOptions + '</select></td>' +
+                        '<td><input type="text" name="Cheque_number[]" class="form-control" required></td>' +
 
-                var paymentMethodOptions = paymentMethods.map(function(paymentMethod) {
-                    return '<option value="' + paymentMethod.id + '">' + paymentMethod.method_name + '</option>';
-                }).join('');
+                        '<td><input type="date" name="payment_date[]" value="{{ date('Y-m-d') }}" class="form-control" required></td>' +
+                        '<td><input type="text" name="payment_amount[]" required value="0" class="form-control text-right payment_amount" onkeyup="calculatePaymentTotal()"></td>' +
+                        '<td><a class="btn btn-danger" onclick="removePaymentRow(this)"><i class="fa fa-trash"></i></a></td>';
+                    paymentTableBody.appendChild(newRow);
 
-                var paymentTableBody = document.getElementById('payment_table_body');
-                var uniq_id = create_payment_id_sales;
-                var newRow = document.createElement('tr');
-                newRow.innerHTML = '<td><input type="text" name="payment_id[]" value="' + uniq_id +
-                    '" class="form-control"></td>' +
-                    '<td><select name="payment_method_id[]" required class="form-control">' + paymentMethodOptions + '</select></td>' +
-                    '<td><input type="text" name="cheque_number[]" class="form-control" required></td>' +
-                    '<td><input type="date" name="payment_date[]" value="{{ date('Y-m-d') }}" class="form-control" required></td>' +
-                    '<td><input type="text" name="payment_amount[]" required value="0" class="form-control text-right payment_amount" onkeyup="calculatePaymentTotal()"></td>' +
-                    '<td><a class="btn btn-danger" onclick="removePaymentRow(this)"><i class="fa fa-trash"></i></a></td>';
-                paymentTableBody.appendChild(newRow);
-            }
+                }
             function removePaymentRow(button) {
                 var row = button.parentNode.parentNode;
                 row.parentNode.removeChild(row);

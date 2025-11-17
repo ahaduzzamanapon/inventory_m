@@ -93,7 +93,7 @@ Item Dashboard @parent
     @if(can('dashboard'))
     <section class="content">
         <div class="container-lg col-md-12">
-            <button id="toggle_hidden_items" class="btn btn-info mb-3" data-toggle="modal" data-target="#hiddenItemsModal">Manage Hidden Items</button>
+            <button id="" class="btn btn-info mb-3" data-toggle="modal" data-target="#hiddenItemsModal">Manage Hidden Items</button>
             <div class="row">
                 @foreach($items as $item)
                 <div class="col-12 col-md-3 col-xxl-3 mb-10 item-card" data-item-id="{{ $item->id }}" @if($item->is_hidden) style="display: none;" @endif>
@@ -125,13 +125,13 @@ Item Dashboard @parent
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="hiddenItemsModalLabel">Manage Hidden Items</h5>
+                    <h5 class="modal-title" id="hiddenItemsModalLabel">Manage Item Visibility</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <ul id="hidden-items-list" class="list-group"></ul>
+                    <ul id="all-items-list" class="list-group"></ul>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -170,77 +170,41 @@ Item Dashboard @parent
                                 itemCard.show();
                                 button.text('Hide');
                             }
-                            updateGlobalToggleButton();
                         }
                     }
                 });
             });
 
-            // Global toggle for all hidden items
-            $(document).on('click', '#toggle_hidden_items', function() {
-                var button = $(this);
-                if (button.text() === 'Show All Items') {
-                    $('.item-card').show();
-                    $('.toggle-item-visibility').text('Hide');
-                    button.text('Hide All Items');
-                } else {
-                    $('.item-card').each(function() {
-                        var itemId = $(this).data('item-id');
-                        var isHidden = $(this).is(':hidden');
-                        if (!isHidden) {
-                            // Only hide if not already hidden
-                            $('.toggle-item-visibility[data-item-id="' + itemId + '"]').click();
-                        }
-                    });
-                    button.text('Show All Items');
-                }
-            });
-
-            function updateGlobalToggleButton() {
-                var hiddenCount = $('.item-card:hidden').length;
-                if (hiddenCount > 0) {
-                    $('#toggle_hidden_items').text('Show All Items');
-                } else {
-                    $('#toggle_hidden_items').text('Hide All Items');
-                }
-            }
-
-            updateGlobalToggleButton(); // Initial state
-
             // Handle modal show event
             $('#hiddenItemsModal').on('show.bs.modal', function (e) {
-                $('#hidden-items-list').empty(); // Clear previous list
+                $('#all-items-list').empty(); // Clear previous list
                 $.ajax({
-                    url: '/item/hidden-items',
+                    url: '/item/all-items',
                     type: 'GET',
                     success: function(response) {
                         if (response.length > 0) {
                             response.forEach(function(item) {
-                                $('#hidden-items-list').append(
+                                var isChecked = !item.is_hidden ? 'checked' : '';
+                                $('#all-items-list').append(
                                     '<li class="list-group-item d-flex justify-content-between align-items-center">' +
                                         item.item_name +
-                                        '<button class="btn btn-success btn-sm show-item-from-modal" data-item-id="' + item.id + '">Show</button>' +
+                                        '<input type="checkbox" class="toggle-item-visibility-modal" data-item-id="' + item.id + '" ' + isChecked + '>' +
                                     '</li>'
                                 );
                             });
                         } else {
-                            $('#hidden-items-list').append('<li class="list-group-item">No hidden items.</li>');
+                            $('#all-items-list').append('<li class="list-group-item">No items found.</li>');
                         }
                     }
                 });
             });
 
-            // Handle click on "Show" button inside the modal
-            $(document).on('click', '.show-item-from-modal', function() {
+            // Handle change on checkbox inside the modal
+            $(document).on('change', '.toggle-item-visibility-modal', function() {
                 var itemId = $(this).data('item-id');
-                // Trigger the existing toggle visibility function
-                $('.toggle-item-visibility[data-item-id="' + itemId + '"]').click();
-                // Remove item from modal list
-                $(this).closest('li').remove();
-                // If no more items in modal, update message
-                if ($('#hidden-items-list li').length === 0) {
-                    $('#hidden-items-list').append('<li class="list-group-item">No hidden items.</li>');
-                }
+                var mainButton = $('.toggle-item-visibility[data-item-id="' + itemId + '"]');
+                // Simulate a click on the main button to trigger the toggle
+                mainButton.click();
             });
         });
     </script>

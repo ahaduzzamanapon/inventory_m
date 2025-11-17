@@ -26,7 +26,7 @@
                     
                     <div class="col-md-3">
                         <label for="company">Customer</label>
-                        <select id="customer_id" name="customer_id" class="form-control">
+                        <select id="customer_id" name="customer_id" class="form-control chosen-select">
                             <option value="">Select Customer</option>
                             @foreach ($customers as $customer)
                                 <option value="{{ $customer->id }}">{{ $customer->customer_name }}</option>

@@ -81,6 +81,7 @@ Route::get('/report/generate', 'App\Http\Controllers\ReportController@generate')
 Route::get('/report/download-pdf', 'App\Http\Controllers\ReportController@downloadPdf')->name('report.downloadPdf');
 
 Route::get('/item/hidden-items', 'App\Http\Controllers\ItemController@getHiddenItems')->name('item.get_hidden_items');
+Route::get('/item/all-items', 'App\Http\Controllers\ItemController@getAllItems')->name('item.get_all_items');
 Route::post('/item/toggle-visibility/{id}', 'App\Http\Controllers\ItemController@toggleVisibility')->name('item.toggle_visibility');
 
 Route::get('/item/report/{id}', 'App\Http\Controllers\ReportController@itemReport')->name('item.report');

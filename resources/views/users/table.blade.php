@@ -15,6 +15,7 @@
                 <th>Designation</th>
                 <th>Email</th>
                 <th>Salary</th>
+                <th>Status</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -29,6 +30,13 @@
             <td>{{ $users->designation }}</td>
             <td>{{ $users->email }}</td>
             <td>{{ $users->salary }}</td>
+            <td>
+                @if($users->status == 1)
+                    <span class="badge badge-success">Active</span>
+                @else
+                    <span class="badge badge-danger">Inactive</span>
+                @endif
+            </td>
                 <td>
                     <div class='btn-group'>
                         <a href="{{ route('users.show', [$users->id]) }}" class='btn btn-outline-primary btn-xs'><i class="im im-icon-Eye" data-placement="top" title="View"></i></a>

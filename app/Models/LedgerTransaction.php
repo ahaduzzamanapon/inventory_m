@@ -15,12 +15,8 @@ class LedgerTransaction extends Model
         'customer_id',
         'date',
         'transaction_type',
-        'description',
-        'bill_amount',
-        'paid_amount',
-        'discount',
-        'invoice_due',
-        'returned_amount',
+        'amount',
         'balance',
+        'description',
     ];
 }
