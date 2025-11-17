@@ -36,6 +36,7 @@ class Item extends Model
         'item_sub_category',
         'item_model',
         'item_qty',
+        'is_hidden',
         'item_unit',
         'item_purchase_price',
         'item_sale_price',

@@ -201,4 +201,44 @@ class ItemController extends AppBaseController
         return redirect(route('items.index'));
     }
 
-}
+        public function toggleVisibility($id)
+
+        {
+
+            $item = Item::find($id);
+
+    
+
+            if (empty($item)) {
+
+                return response()->json(['success' => false, 'message' => 'Item not found'], 404);
+
+            }
+
+    
+
+            $item->is_hidden = !$item->is_hidden;
+
+            $item->save();
+
+    
+
+            return response()->json(['success' => true, 'is_hidden' => $item->is_hidden]);
+
+        }
+
+    
+
+        public function getHiddenItems()
+
+        {
+
+            $hiddenItems = Item::where('is_hidden', true)->get();
+
+            return response()->json($hiddenItems);
+
+        }
+
+    }
+
+    

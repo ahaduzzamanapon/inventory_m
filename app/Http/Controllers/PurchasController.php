@@ -383,15 +383,7 @@ class PurchasController extends Controller
                 $item->item_qty -= $return_qty;
                 $item->save();
 
-                PurchasPaymentModel::create([
-                    'payment_id' => 'RETURN-' . $purchasItem->id,
-                    'supplier_id' => $purchas->supplier_id,
-                    'payment_date' => date('Y-m-d'),
-                    'purchas_id' => $purchas->id,
-                    'payment_method' => 'return',
-                    'payment_amount' => -$return_amount,
-                    'payment_status' => 'Completed',
-                ]);
+               
             }
             foreach ($request->purchas_details_id as $key => $value) {
                 if (isset($request->return_serial[$value])) {

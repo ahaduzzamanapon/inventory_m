@@ -344,7 +344,13 @@ class SalesController extends Controller
                 $item = Item::find($item_id);
                 $item->item_qty += $return_qty;
                 $item->save();
-$sales = SalesModel::where('sales_id', $request->sales_id)->first();                // $sales = SalesModel::find($request->sales_id);
+
+                $sales = SalesModel::where('sales_id',$request->sales_id)->first();
+                $sales->payment_amount -= $return_amount;
+                $sales->grand_total -= $return_amount;
+                $sales->due_amount -= $return_amount;
+                $sales->save();
+
                 SalesPaymentModel::create([
                     'payment_id' => 'RETURN-' . $salesItem->id,
                     'customer_id' => $sales->customer_id,
@@ -404,6 +410,21 @@ $sales = SalesModel::where('sales_id', $request->sales_id)->first();            
     }
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'sale_date' => 'required|date',
+            'reference_no' => 'nullable|string',
+            'item_per_price.*' => 'required|numeric',
+            'discount_type' => 'required|string',
+            'discount_per' => 'nullable|numeric',
+            'discount_amount' => 'nullable|numeric',
+            'tax_type' => 'required|string',
+            'tax_per' => 'nullable|numeric',
+            'tax_amount' => 'nullable|numeric',
+            'sub_total' => 'required|numeric',
+            'grand_total' => 'required|numeric',
+            'customer_id' => 'required|integer',
+        ]);
+
         DB::beginTransaction();
         try {
             $sales = SalesModel::find($id);
@@ -411,6 +432,8 @@ $sales = SalesModel::where('sales_id', $request->sales_id)->first();            
                 Flash::error('Sales not found');
                 return redirect(route('sales.sales_list'));
             }
+            $sales->sale_date = $request->sale_date;
+            $sales->reference_no = $request->reference_no;
             $sales->sub_total = $request->sub_total;
             $sales->discount_status = $request->discount_type;
             $sales->discount_per = $request->discount_per;

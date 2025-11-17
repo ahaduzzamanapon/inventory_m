@@ -17,14 +17,28 @@
 
     <div class="content">
         <div class="card shadow-lg p-4">
+                                            {!! Form::model($sales, ['route' => ['sales.update', $sales->id], 'method' => 'patch','class' => 'form-horizontal col-md-12', 'id' => 'sales-edit-form']) !!}
+
             <!-- Sales and Customer Information -->
             <div class="row mb-4">
                 <div class="col-md-6">
                     <h3 class="text-primary">Sales Information</h3>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item"><strong>Sale ID:</strong> {{ $sales->sales_id }}</li>
-                        <li class="list-group-item"><strong>Sale Date:</strong> {{ $sales->sale_date }}</li>
-                        <li class="list-group-item"><strong>Reference No:</strong> {{ $sales->reference_no }}</li>
+                        <li class="list-group-item"><strong>Sale Date:</strong> 
+                            @if(can('update_sales_customer'))
+                                <input type="date" name="sale_date" class="form-control" value="{{ $sales->sale_date }}">
+                            @else
+                                {{ $sales->sale_date }}
+                            @endif
+                        </li>
+                        <li class="list-group-item"><strong>Reference No:</strong> 
+                            @if(can('update_sales_customer'))
+                                <input type="text" name="reference_no" class="form-control" value="{{ $sales->reference_no }}">
+                            @else
+                                {{ $sales->reference_no }}
+                            @endif
+                        </li>
                         <li class="list-group-item"><strong>Payment Status:</strong> <span
                                 class="badge badge-{{ $sales->payment_status == 'Paid' ? 'success' : 'warning' }}">{{ $sales->payment_status }}</span>
                         </li>
@@ -39,7 +53,6 @@
                         <li class="list-group-item"><strong>Phone:</strong> {{ $customer->customer_phone }}</li>
                         <li class="list-group-item"><strong>Address:</strong> {{ $customer->customer_address }}</li>
                     </ul>
-                                {!! Form::model($sales, ['route' => ['sales.update', $sales->id], 'method' => 'patch','class' => 'form-horizontal col-md-12', 'id' => 'sales-edit-form']) !!}
 
                     @if(can('update_sales_customer'))
                     <div class="form-group">
@@ -85,7 +98,11 @@
                             @endif
                         </td>
                         <td class="text-right">
-                            <input type="text" class="form-control text-right" name="item_per_price[]" onkeyup="calculate_total_price(this)" id="item_per_price" value="<?= $item['item_per_price'] ?>">
+                            @if(can('update_sales_customer'))
+                                <input type="text" class="form-control text-right" name="item_per_price[]" onkeyup="calculate_total_price(this)" id="item_per_price" value="<?= $item['item_per_price'] ?>">
+                            @else
+                                <?= $item['item_per_price'] ?>
+                            @endif
                         </td>
                         <td class="text-right">
                             <?= $item['sales_qty'] ?>
@@ -106,26 +123,42 @@
                 <tr>
                     <td colspan="3" class="text-right">Discount</td>
                     <td>
-                        <select name="discount_type" id="discount_type" onchange="calculate_dis_tax()">
-                            <option value="Fixed" {{ $sales->discount_status == 'Fixed' ? 'selected' : '' }}>Fixed</option>
-                            <option value="Percentage" {{ $sales->discount_status == 'Percentage' ? 'selected' : '' }}>Percentage</option>
-                        </select>
+                        @if(can('update_sales_customer'))
+                            <select name="discount_type" id="discount_type" onchange="calculate_dis_tax()">
+                                <option value="Fixed" {{ $sales->discount_status == 'Fixed' ? 'selected' : '' }}>Fixed</option>
+                                <option value="Percentage" {{ $sales->discount_status == 'Percentage' ? 'selected' : '' }}>Percentage</option>
+                            </select>
+                        @else
+                            {{ $sales->discount_status }}
+                        @endif
                     </td>
                     <td class="text-right">
-                        <input type="text" name="discount_per" id="discount_per" onkeyup="calculate_dis_tax()" class="form-control text-right" value="{{ $sales->discount_per ?? 0 }}">
+                        @if(can('update_sales_customer'))
+                            <input type="text" name="discount_per" id="discount_per" onkeyup="calculate_dis_tax()" class="form-control text-right" value="{{ $sales->discount_per ?? 0 }}">
+                        @else
+                            {{ $sales->discount_per ?? 0 }}
+                        @endif
                         <input type="hidden" name="discount_amount" id="discount_amount" value="{{ $sales->discount_amount ?? 0 }}">
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3" class="text-right">Tax</td>
                     <td>
-                        <select name="tax_type" id="tax_type" onchange="calculate_dis_tax()">
-                            <option value="Fixed" {{ $sales->tax_status == 'Fixed' ? 'selected' : '' }}>Fixed</option>
-                            <option value="Percentage" {{ $sales->tax_status == 'Percentage' ? 'selected' : '' }}>Percentage</option>
-                        </select>
+                        @if(can('update_sales_customer'))
+                            <select name="tax_type" id="tax_type" onchange="calculate_dis_tax()">
+                                <option value="Fixed" {{ $sales->tax_status == 'Fixed' ? 'selected' : '' }}>Fixed</option>
+                                <option value="Percentage" {{ $sales->tax_status == 'Percentage' ? 'selected' : '' }}>Percentage</option>
+                            </select>
+                        @else
+                            {{ $sales->tax_status }}
+                        @endif
                     </td>
                     <td class="text-right">
-                        <input type="text" name="tax_per" id="tax_per" onkeyup="calculate_dis_tax()" class="form-control text-right" value="{{ $sales->tax_per ?? 0 }}">
+                        @if(can('update_sales_customer'))
+                            <input type="text" name="tax_per" id="tax_per" onkeyup="calculate_dis_tax()" class="form-control text-right" value="{{ $sales->tax_per ?? 0 }}">
+                        @else
+                            {{ $sales->tax_per ?? 0 }}
+                        @endif
                         <input type="hidden" name="tax_amount" id="tax_amount" value="{{ $sales->tax_amount ?? 0 }}">
                     </td>
                 </tr>
@@ -141,7 +174,9 @@
 
            
             <div class="form-group col-sm-12" style="text-align-last: right;">
-                {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+                @if(can('update_sales_customer'))
+                    {!! Form::submit('Save', ['class' => 'btn btn-primary']) !!}
+                @endif
             </div>
             {!! Form::close() !!}
             @section('footer_scripts')

@@ -18,16 +18,17 @@ class ReportController extends Controller
         $headers = [];
         $view = '';
 
-        $from_date = $request->get('from_date');
-        $to_date = $request->get('to_date');
+        $from_date = date('Y-m-d', strtotime($request->get('from_date')));
+        $to_date = date('Y-m-d', strtotime($request->get('to_date')));
 
         switch ($title) {
             case 'Monthly Sales':
                 $data = DB::table('sales_models')
                     ->join('customers', 'sales_models.customer_id', '=', 'customers.id')
-                    ->whereBetween('sale_date', [$from_date, $to_date])
+                    ->whereBetween('sales_models.sale_date', [$from_date, $to_date])
                     ->select('customers.customer_name', 'sales_models.sale_date', 'sales_models.sub_total', 'sales_models.discount_amount', 'sales_models.tax_amount', 'sales_models.grand_total', 'sales_models.payment_status')
                     ->get();
+                    //dd($data);
                 $headers = ['Customer Name', 'Sale Date', 'Sub Total', 'Discount', 'Tax', 'Grand Total', 'Payment Status'];
                 $view = 'report.pdf';
                 break;
