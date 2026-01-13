@@ -1,62 +1,38 @@
 @extends('layouts.default')
 
-@section('title', 'Reports')
+@section('title', 'Attendance Report')
 
 @section('content')
 <section class="content-header">
-    <h1>Generate Reports</h1>
+    <h1>Attendance Report</h1>
 </section>
 
 <div class="content">
     <div class="card">
         <div class="card-header">
-            <h5 class="card-title">Filter Reports</h5>
+            <h5 class="card-title">Filter Report</h5>
         </div>
         <div class="card-body">
             
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="from_date">From Date</label>
                         <input type="date" id="from_date" name="from_date" class="form-control" required>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="to_date">To Date</label>
                         <input type="date" id="to_date" name="to_date" class="form-control" required>
                     </div>
                     
-                    <div class="col-md-2">
-                        <label for="company">User</label>
-                        <select id="user_id" name="user_id" class="form-control chosen-select">
+                    <div class="col-md-4">
+                        <label for="user_id">User</label>
+                        <select id="user_id" name="user_id[]" class="form-control chosen-select" multiple>
                             <option value="">Select user</option>
                             @foreach ($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-md-2">
-                        <label for="company">Report Type</label>
-                        <select id="report_type" name="report_type" class="form-control chosen-select">
-                            <option value="">Select report type</option>
-                            <option value="petty_cash">Petty Cash</option>
-                            <option value="advance_cash">Advance Cash</option>
-                            <option value="logistics_bill">Logistics Bill</option>
-                            <option value="salary">Salary</option>
-                            <option value="bonuses">Bonuses</option>
-                            <option value="commission">Commission</option>
-                        </select>
-                    </div>
-                
-                    <div class="col-md-2" id="ledger_div" style="display: none;">
-                        <label for="ledger_id">Ledger</label>
-                        <select id="ledger_id" name="ledger_id" class="form-control">
-                             <option value="">Select ledger</option>
-                            @foreach ($ledgers as $ledger)
-                                <option value="{{ $ledger->id }}">{{ $ledger->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                   
-                    
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12 text-center">
@@ -77,35 +53,23 @@
     @section('scripts')
         <script>
             $(document).ready(function () {
-                $('#report_type').on('change', function () {
-                    if ($(this).val() == 'petty_cash') {
-                        $('#ledger_div').show();
-                    } else {
-                        $('#ledger_div').hide();
-                    }
-                });
-
                 $('#generate-report').on('click', function (e) {
                     e.preventDefault();
                     var from_date = $('#from_date').val();
                     var to_date = $('#to_date').val();
                     var user_id = $('#user_id').val();
-                    var report_type = $('#report_type').val();
-                    var ledger_id = $('#ledger_id').val();
-                    if(report_type == ''){
-                        alert('Please select report type');
+                    if(user_id.length == 0){
+                        alert('Please select at least one user');
                         return;
                     }
                     $.ajax({
-                        url: "{{ route('reports.account_report') }}",
+                        url: "{{ route('reports.attendance_report') }}",
                         method: 'POST',
                         data: {
                             "_token": "{{ csrf_token() }}",
                             from_date: from_date,
                             to_date: to_date,
-                            user_id: user_id,
-                            report_type: report_type,
-                            ledger_id: ledger_id
+                            user_id: user_id
                         },
                         success: function (response) {
                             $('#report-view').html(response);

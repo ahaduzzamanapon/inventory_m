@@ -415,7 +415,8 @@ class ReportController extends Controller
       public function account_report_page()
       {
           $users = DB::table('users')->get();
-          return view('report.account.account_report_page', compact('users'));
+          $ledgers = DB::table('accountledgers')->get();
+          return view('report.account.account_report_page', compact('users', 'ledgers'));
       }
 
       public function account_report(Request $request)
@@ -438,6 +439,9 @@ class ReportController extends Controller
                 $query = DB::table('pettycash')
                     ->join('accountledgers', 'pettycash.account_ledgers', '=', 'accountledgers.id')
                     ->select('pettycash.*', 'accountledgers.name as ledger_name');
+                if($request->ledger_id != ''){
+                    $query = $query->where('pettycash.account_ledgers', $request->ledger_id);
+                }
                 $data = $query->whereBetween('pettycash.date', [$from_date, $to_date])->get();
                 break;
             case 'advance_cash':
@@ -488,6 +492,35 @@ class ReportController extends Controller
         }
 
         return view('report.account.'.$report_type, compact('data', 'report_title'));
+    }
+
+    public function attendance_report_page()
+    {
+        $users = DB::table('users')->get();
+        return view('report.hrm.attendance_report_page', compact('users'));
+    }
+
+    public function attendance_report(Request $request)
+    {
+        $from_date = $request->from_date;
+        $to_date = $request->to_date;
+        if($to_date == null || $to_date == ''){
+            $to_date = $from_date;
+        }
+        $from_date = date('Y-m-d', strtotime($from_date));
+        $to_date = date('Y-m-d', strtotime($to_date));
+        $user_ids = $request->user_id; // This will now be an array
+        $report_title = "Attendance Report From $from_date to $to_date";
+
+        $query = DB::table('attendences')
+            ->join('users', 'attendences.emp_id', '=', 'users.id')
+            ->select('attendences.*', 'users.name as user_name');
+        if(!empty($user_ids)){
+            $query = $query->whereIn('attendences.emp_id', $user_ids);
+        }
+        $data = $query->whereBetween('attendences.date', [$from_date, $to_date])->get()->groupBy('user_name');
+
+        return view('report.hrm.attendance_report', compact('data', 'report_title'));
     }
 
     

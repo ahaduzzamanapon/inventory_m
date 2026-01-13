@@ -275,6 +275,12 @@
                 <span class="menu-icon"><i class="im im-icon-Calendar"></i></span>
             </a>
         </li>
+        <li class="barr4 {!! (Request::is('hrm/attendance_report_page*') ? 'active' : '' ) !!}">
+            <a href="{{ route('reports.attendance_report_page') }}">
+                <span class="mm-text ">Attendance Report</span>
+                <span class="menu-icon"><i class="im im-icon-Calendar"></i></span>
+            </a>
+        </li>
     </ul>
 </li>
 @endif

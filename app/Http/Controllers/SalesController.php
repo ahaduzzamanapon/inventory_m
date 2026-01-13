@@ -147,7 +147,11 @@ class SalesController extends Controller
             $last_transaction = LedgerTransaction::where('customer_id', $validated['customer_id'])->latest()->first();
 
 
-            $new_balance = $last_transaction->balance + $validated['grand_total_input'];
+            if(!empty($last_transaction)){
+                $new_balance = $last_transaction->balance + $validated['grand_total_input'];
+            }else{
+                $new_balance = Customer::find($validated['customer_id'])->opening_balance + $validated['grand_total_input'];
+            }
 
 
             $ledger_data=[

@@ -11,3 +11,7 @@ Route::post('purchase_report', 'ReportController@purchase_report')->name('report
 //account_report_page
 Route::get('account_report_page', 'ReportController@account_report_page')->name('reports.account_report_page');
 Route::post('account_report', 'ReportController@account_report')->name('reports.account_report');
+
+//hrm
+Route::get('hrm/attendance_report_page', 'ReportController@attendance_report_page')->name('reports.attendance_report_page');
+Route::post('hrm/attendance_report', 'ReportController@attendance_report')->name('reports.attendance_report');
