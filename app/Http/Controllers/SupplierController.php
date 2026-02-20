@@ -6,6 +6,7 @@ use App\Http\Requests\CreateSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Supplier;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
@@ -35,7 +36,8 @@ class SupplierController extends AppBaseController
      */
     public function create()
     {
-        return view('suppliers.create');
+        $organizations = Organization::pluck('name', 'id');
+        return view('suppliers.create', compact('organizations'));
     }
 
     /**
@@ -96,7 +98,8 @@ class SupplierController extends AppBaseController
             return redirect(route('suppliers.index'));
         }
 
-        return view('suppliers.edit')->with('supplier', $supplier);
+        $organizations = Organization::pluck('name', 'id');
+        return view('suppliers.edit')->with('supplier', $supplier)->with('organizations', $organizations);
     }
 
     /**

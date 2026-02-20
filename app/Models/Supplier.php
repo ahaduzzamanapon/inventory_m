@@ -18,7 +18,8 @@ class Supplier extends Model
 {
 
     public $table = 'suppliers';
-    
+
+
 
 
 
@@ -26,7 +27,8 @@ class Supplier extends Model
         'supplier_name',
         'supplier_email',
         'supplier_phone',
-        'supplier_address'
+        'supplier_address',
+        'organization_id'
     ];
 
     /**
@@ -53,5 +55,9 @@ class Supplier extends Model
         'supplier_address' => 'required'
     ];
 
-    
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
 }

@@ -60,17 +60,19 @@ Route::group(['middleware' => 'auth'], function () {
     include 'report.php';
     include 'ledger.php';
 
+    Route::resource('organizations', 'App\Http\Controllers\OrganizationController');
 
 
 
 
 
 
-Route::get('/item_dashboard', [HomeController::class, 'items_dashboard'])->name('item.dashboard');
-Route::get('/getOwnAttendence', [AttendenceController::class, 'getOwnAttendence'])->name('attendences.getOwnAttendence');
-Route::get('/approve_payment/{id}', [SalesController::class, 'approve_payment']);
-Route::get('/cheque_return/{id}', [SalesController::class, 'cheque_return']);
-Route::post('/check_item_serial', [SalesController::class, 'check_item_serial'])->name('check_item_serial');
+
+    Route::get('/item_dashboard', [HomeController::class, 'items_dashboard'])->name('item.dashboard');
+    Route::get('/getOwnAttendence', [AttendenceController::class, 'getOwnAttendence'])->name('attendences.getOwnAttendence');
+    Route::get('/approve_payment/{id}', [SalesController::class, 'approve_payment']);
+    Route::get('/cheque_return/{id}', [SalesController::class, 'cheque_return']);
+    Route::post('/check_item_serial', [SalesController::class, 'check_item_serial'])->name('check_item_serial');
 
 
 

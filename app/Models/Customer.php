@@ -32,7 +32,13 @@ class Customer extends Model
         'customer_address',
         'owner_name',
         'opening_balance',
+        'organization_id',
     ];
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
 
     /**
      * The attributes that should be casted to native types.

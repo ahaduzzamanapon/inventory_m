@@ -30,7 +30,7 @@ class SalesController extends Controller
         $customers_list = [];
         $customers_list[''] = 'Select Customer';
         foreach ($customers as $key => $customer) {
-            $customers_list[$customer->id] = $customer->customer_name.' ('.$customer->customer_phone.')';
+            $customers_list[$customer->id] = $customer->customer_name . ' (' . $customer->customer_phone . ')';
         }
         $customers = $customers_list;
 
@@ -38,12 +38,12 @@ class SalesController extends Controller
         $items_list = [];
         $items_list['select'] = 'Select Item';
         foreach ($items as $key => $item) {
-            $items_list[$item->id] = $item->item_id.' -> '.$item->item_name.' ('.$item->item_model.')->'.$item->item_sale_price.'->'.$item->item_qty;
+            $items_list[$item->id] = $item->item_id . ' -> ' . $item->item_name . ' (' . $item->item_model . ')->' . $item->item_sale_price . '->' . $item->item_qty;
         }
         $items_list2 = [];
         $items_list2['select'] = 'Select Item';
         foreach ($items as $key => $item) {
-            $items_list2[$item->id] = $item->item_id.' -> '.$item->item_name.' ('.$item->item_model.')';
+            $items_list2[$item->id] = $item->item_id . ' -> ' . $item->item_name . ' (' . $item->item_model . ')';
         }
         $items = $items_list;
         $items2 = $items_list2;
@@ -51,7 +51,7 @@ class SalesController extends Controller
         $paymentMethods = \App\Models\PaymentMethod::all();
         $categories = \App\Models\Category::all();
         $subCategories = \App\Models\SubCategory::all();
-        return view('sales.new_sales', compact('customers', 'items','items2', 'paymentMethods', 'categories', 'subCategories'));
+        return view('sales.new_sales', compact('customers', 'items', 'items2', 'paymentMethods', 'categories', 'subCategories'));
     }
     public function store(Request $request)
     {
@@ -101,14 +101,14 @@ class SalesController extends Controller
                 'tax_amount' => $validated['tax_input'] ?? 0,
                 'grand_total' => $validated['grand_total_input'],
                 'payment_status' => 'Pending',
-                'payment_amount' =>0,
+                'payment_amount' => 0,
                 'due_amount' => $validated['grand_total_input'],
-                'sale_note' =>$request->input('sale_note'),
+                'sale_note' => $request->input('sale_note'),
             ]);
 
             // Insert into SalesItemModel
             foreach ($validated['item_id'] as $index => $itemId) {
-                $item_validate=Item::where('id', $itemId)->first();
+                $item_validate = Item::where('id', $itemId)->first();
                 if ($item_validate->item_qty < $validated['quantity'][$index]) {
                     return redirect()->route('sales.new_sales')->with('error', 'Item Quantity is not enough');
                 }
@@ -147,20 +147,21 @@ class SalesController extends Controller
             $last_transaction = LedgerTransaction::where('customer_id', $validated['customer_id'])->latest()->first();
 
 
-            if(!empty($last_transaction)){
+            if (!empty($last_transaction)) {
                 $new_balance = $last_transaction->balance + $validated['grand_total_input'];
-            }else{
+            } else {
                 $new_balance = Customer::find($validated['customer_id'])->opening_balance + $validated['grand_total_input'];
             }
 
 
-            $ledger_data=[
-                'customer_id'=>$validated['customer_id'],
-                'date'=>date('Y-m-d', strtotime($validated['sale_date'])),
-                'amount'=>$validated['grand_total_input'],
-                'description'=>$validated['sales_id'],
-                'transaction_type'=>'sales',
-                'balance'=>$new_balance,
+            $ledger_data = [
+                'customer_id' => $validated['customer_id'],
+                'sale_id' => $sales->id,
+                'date' => date('Y-m-d', strtotime($validated['sale_date'])),
+                'amount' => $validated['grand_total_input'],
+                'description' => $validated['sales_id'],
+                'transaction_type' => 'sales',
+                'balance' => $new_balance,
             ];
 
             LedgerTransaction::create($ledger_data);
@@ -183,7 +184,8 @@ class SalesController extends Controller
         return view('sales.sales_list', compact('sales'));
     }
 
-    static function show($id){
+    static function show($id)
+    {
 
         $sales = SalesModel::find($id);
         if (empty($sales)) {
@@ -202,10 +204,11 @@ class SalesController extends Controller
 
 
 
-        return view('sales.show', compact('sales', 'SalesItem', 'SalesPayment','customer','sales_return'));
+        return view('sales.show', compact('sales', 'SalesItem', 'SalesPayment', 'customer', 'sales_return'));
     }
 
-    static function delete($id){
+    static function delete($id)
+    {
         DB::beginTransaction();
         $sales = SalesModel::find($id);
         if (empty($sales)) {
@@ -226,7 +229,8 @@ class SalesController extends Controller
         return redirect(route('sales.sales_list'));
     }
 
-    public function make_payment($id){
+    public function make_payment($id)
+    {
         $sales = SalesModel::find($id);
         if (empty($sales)) {
             Flash::error('Sales not found');
@@ -236,14 +240,15 @@ class SalesController extends Controller
         $SalesItem = SalesItemModel::where('sale_id', $id)->get();
         $SalesPayment = SalesPaymentModel::where('sale_id', $id)->get();
         $paymentMethods = \App\Models\PaymentMethod::all();
-        return view('sales.make_payment', compact('sales', 'SalesItem', 'SalesPayment','customer','paymentMethods'));
+        return view('sales.make_payment', compact('sales', 'SalesItem', 'SalesPayment', 'customer', 'paymentMethods'));
     }
-    public function make_payment_store(Request $request){
+    public function make_payment_store(Request $request)
+    {
         //dd($request->all());
         DB::beginTransaction();
 
         try {
-             $sales = SalesModel::find($request->sales_id);
+            $sales = SalesModel::find($request->sales_id);
             // $sales->payment_amount += $request->total_payment;
             // $sales->due_amount = $request->due;
             // $sales->payment_status = $request->due == 0 ? 'Paid' : 'Partial';
@@ -270,7 +275,8 @@ class SalesController extends Controller
         }
     }
 
-    public function invoice($id){
+    public function invoice($id)
+    {
         $sales = SalesModel::find($id);
         if (empty($sales)) {
             Flash::error('Sales not found');
@@ -280,9 +286,10 @@ class SalesController extends Controller
         $SalesItem = SalesItemModel::where('sale_id', $id)->get();
         $SalesPayment = SalesPaymentModel::where('sale_id', $id)->get();
         $siteSettings = \App\Models\SiteSetting::first();
-        return view('sales.invoice', compact('sales', 'SalesItem', 'SalesPayment','customer','siteSettings'));
+        return view('sales.invoice', compact('sales', 'SalesItem', 'SalesPayment', 'customer', 'siteSettings'));
     }
-    public function approve_payment($id){
+    public function approve_payment($id)
+    {
         $SalesPayment = SalesPaymentModel::find($id);
         $sales = SalesModel::find($SalesPayment->sale_id);
         $sales->payment_amount += $SalesPayment->payment_amount;
@@ -294,7 +301,8 @@ class SalesController extends Controller
         Flash::success('Payment approved successfully.');
         return redirect()->back();
     }
-    public function cheque_return($id){
+    public function cheque_return($id)
+    {
         $SalesPayment = SalesPaymentModel::find($id);
         // $sales = SalesModel::find($SalesPayment->sale_id);
 
@@ -309,42 +317,46 @@ class SalesController extends Controller
         return redirect()->back();
     }
 
-    public function check_item_serial(Request $request){
+    public function check_item_serial(Request $request)
+    {
         $item = Item::where('id', $request->item_id)->first();
 
-        if($item->item_variant_status ==2){
+        if ($item->item_variant_status == 2) {
             $item_serial = DB::table('item_serials')->where('item_id', $item->id)->where('sale_status', 1)->get();
             $item_serials = '';
             foreach ($item_serial as $key => $value) {
-                $item_serials .= "<input type='checkbox' onchange='checkItemSerial(".$item->id.")' class='item_serial".$item->id."' name='item_serial[".$item->id."][]' value='".$value->id."'>".$value->item_serial_number."<br>";
+                $item_serials .= "<input type='checkbox' onchange='checkItemSerial(" . $item->id . ")' class='item_serial" . $item->id . "' name='item_serial[" . $item->id . "][]' value='" . $value->id . "'>" . $value->item_serial_number . "<br>";
             }
-           $div_data= $item_serials;
-           $serial_status = 2;
-        }else{
+            $div_data = $item_serials;
+            $serial_status = 2;
+        } else {
             $div_data = "";
             $serial_status = 1;
         }
         return response()->json(['div_data' => $div_data, 'serial_status' => $serial_status]);
     }
 
-    public function sales_return(){
+    public function sales_return()
+    {
         $sales = SalesModel::all()->pluck('sales_id', 'sales_id')->prepend('Select Sales ID', '');
         return view('sales.sales_return', compact('sales'));
     }
 
-    public function get_return_sale_data(Request $request){
+    public function get_return_sale_data(Request $request)
+    {
         $sales = SalesModel::where('sales_id', $request->sales_id)->first();
         $customer = Customer::find($sales->customer_id);
         $SalesItem = SalesItemModel::where('sale_id', $sales->id)->get();
         $SalesPayment = SalesPaymentModel::where('sale_id', $sales->id)->get();
         return view('sales.sales_item_data', compact('sales', 'SalesItem'));
     }
-    public function return_store(Request $request){
+    public function return_store(Request $request)
+    {
         //dd($request->all());
         DB::beginTransaction();
         try {
             foreach ($request->sales_details_id as $key => $value) {
-                if ( $request->return_qty[$key] == 0 || $request->return_qty[$key] == '' ) {
+                if ($request->return_qty[$key] == 0 || $request->return_qty[$key] == '') {
                     continue;
                 }
                 $SalesItem = SalesItemModel::where('id', $value)->first();
@@ -365,7 +377,7 @@ class SalesController extends Controller
                 $item->item_qty += $return_qty;
                 $item->save();
 
-                $sales = SalesModel::where('sales_id',$request->sales_id)->first();
+                $sales = SalesModel::where('sales_id', $request->sales_id)->first();
                 $sales->grand_total -= $return_amount;
                 $sales->due_amount -= $return_amount;
                 $sales->save();
@@ -388,12 +400,13 @@ class SalesController extends Controller
         }
 
     }
-    public function sales_return_payment($id){
+    public function sales_return_payment($id)
+    {
         $sales = ReturnSale::find($id);
         if (empty($sales)) {
             Flash::error('Return not found');
             return redirect(route('sales.sales_list'));
-        }else{
+        } else {
             $sales->payment_status = 'Completed';
             $sales->save();
             Flash::success('Payment approved successfully.');
@@ -415,7 +428,7 @@ class SalesController extends Controller
         $customer = Customer::find($sales->customer_id);
         $SalesItem = SalesItemModel::where('sale_id', $id)->get();
         $SalesPayment = SalesPaymentModel::where('sale_id', $id)->get();
-        return view('sales.edit', compact('sales', 'SalesItem', 'SalesPayment','customer', 'customers'));
+        return view('sales.edit', compact('sales', 'SalesItem', 'SalesPayment', 'customer', 'customers'));
     }
     public function update(Request $request, $id)
     {
@@ -450,8 +463,8 @@ class SalesController extends Controller
             $sales->tax_status = $request->tax_type;
             $sales->tax_per = $request->tax_per;
             $sales->tax_amount = $request->tax_amount;
-            $sales->grand_total = (float)$request->sub_total - (float)$request->discount_amount + (float)$request->tax_amount;
-            $sales->due_amount = (float)$sales->grand_total - (float)$sales->payment_amount;
+            $sales->grand_total = (float) $request->sub_total - (float) $request->discount_amount + (float) $request->tax_amount;
+            $sales->due_amount = (float) $sales->grand_total - (float) $sales->payment_amount;
             $sales->customer_id = $request->customer_id;
             $sales->save();
             foreach ($request->item_id as $key => $value) {
@@ -460,7 +473,7 @@ class SalesController extends Controller
                     $salesItem->item_per_price = $request->item_per_price[$key];
                     $salesItem->total_price = $request->total_price[$key];
                     $salesItem->save();
-                }else{
+                } else {
                     DB::rollBack();
                     Flash::error('Something went wrong while updating sales');
                     return redirect(route('sales.sales_list'));

@@ -27,11 +27,11 @@ class PurchasController extends Controller
     public function newPurchas()
     {
         $suppliers = \App\Models\Supplier::all();
-       //dd($suppliers);
+        //dd($suppliers);
         $suppliers_list = [];
         $suppliers_list[''] = 'Select Supplier';
         foreach ($suppliers as $key => $supplier) {
-            $suppliers_list[$supplier->id] = $supplier->supplier_name.' ('.$supplier->supplier_phone.')';
+            $suppliers_list[$supplier->id] = $supplier->supplier_name . ' (' . $supplier->supplier_phone . ')';
         }
         $suppliers = $suppliers_list;
 
@@ -39,14 +39,14 @@ class PurchasController extends Controller
         $items_list = [];
         $items_list['select'] = 'Select Item';
         foreach ($items as $key => $item) {
-            $items_list[$item->id] = $item->item_id.' -> '.$item->item_name.' ('.$item->item_model.')->'.$item->item_purchase_price;
+            $items_list[$item->id] = $item->item_id . ' -> ' . $item->item_name . ' (' . $item->item_model . ')->' . $item->item_purchase_price;
         }
 
 
         $items_list2 = [];
         $items_list2['select'] = 'Select Item';
         foreach ($items as $key => $item) {
-            $items_list2[$item->id] = $item->item_id.' - '.$item->item_name.' ('.$item->item_model.')';
+            $items_list2[$item->id] = $item->item_id . ' - ' . $item->item_name . ' (' . $item->item_model . ')';
         }
         $items2 = $items_list2;
         $items = $items_list;
@@ -56,7 +56,7 @@ class PurchasController extends Controller
         $paymentMethods = \App\Models\PaymentMethod::all();
         $categories = \App\Models\Category::all();
         $subCategories = \App\Models\SubCategory::all();
-        return view('purchas.new_purchas', compact('suppliers', 'items','items2', 'paymentMethods', 'categories', 'subCategories'));
+        return view('purchas.new_purchas', compact('suppliers', 'items', 'items2', 'paymentMethods', 'categories', 'subCategories'));
     }
     public function store(Request $request)
     {
@@ -124,7 +124,7 @@ class PurchasController extends Controller
                 ]);
                 Item::where('id', $itemId)->increment('item_qty', $validated['quantity'][$index]);
 
-                if(isset($validated['serial_number'][$itemId])){
+                if (isset($validated['serial_number'][$itemId])) {
                     foreach ($validated['serial_number'][$itemId] as $serial) {
                         if (empty($serial)) {
                             continue;
@@ -138,7 +138,6 @@ class PurchasController extends Controller
                 }
             }
 
-            // Insert into PurchasPaymentModel
             if (!empty($validated['payment_id'])) {
                 foreach ($validated['payment_id'] as $index => $paymentId) {
                     PurchasPaymentModel::create([
@@ -153,6 +152,26 @@ class PurchasController extends Controller
                     ]);
                 }
             }
+
+
+            // Ledger Transaction
+            $last_transaction = \App\Models\LedgerTransaction::where('supplier_id', $validated['supplier_id'])->latest()->first();
+            $last_balance = $last_transaction ? $last_transaction->balance : 0; // Or Supplier opening balance if added
+
+            // Purchase reduces the balance (Liability increases, or assuming typical ledger logic)
+            // User requirement: Balance Amount = Opening Balance + Sales - Purchases + Receivables - Payables
+            // So Purchase subtracts from Balance.
+            $new_balance = $last_balance - $validated['grand_total_input'];
+
+            \App\Models\LedgerTransaction::create([
+                'supplier_id' => $validated['supplier_id'],
+                'purchase_id' => $purchas->id,
+                'date' => date('Y-m-d', strtotime($validated['purchas_date'])),
+                'amount' => $validated['grand_total_input'],
+                'description' => $validated['purchas_id'],
+                'transaction_type' => 'purchase',
+                'balance' => $new_balance,
+            ]);
 
             DB::commit();
             session()->flash('success', 'Purchas created successfully.');
@@ -172,7 +191,8 @@ class PurchasController extends Controller
         return view('purchas.purchas_list', compact('purchas'));
     }
 
-    static function show($id){
+    static function show($id)
+    {
 
         $purchas = PurchasModel::find($id);
         if (empty($purchas)) {
@@ -188,10 +208,11 @@ class PurchasController extends Controller
 
 
 
-        return view('purchas.show', compact('purchas', 'PurchasItem', 'PurchasPayment','supplier'));
+        return view('purchas.show', compact('purchas', 'PurchasItem', 'PurchasPayment', 'supplier'));
     }
 
-    static function delete($id){
+    static function delete($id)
+    {
         DB::beginTransaction();
         $purchas = PurchasModel::find($id);
         if (empty($purchas)) {
@@ -212,7 +233,8 @@ class PurchasController extends Controller
         return redirect(route('purchas.purchas_list'));
     }
 
-    public function make_payment($id){
+    public function make_payment($id)
+    {
         $purchas = PurchasModel::find($id);
         if (empty($purchas)) {
             Flash::error('Purchas not found');
@@ -222,9 +244,10 @@ class PurchasController extends Controller
         $PurchasItem = PurchasItemModel::where('purchas_id', $id)->get();
         $PurchasPayment = PurchasPaymentModel::where('purchas_id', $id)->get();
         $paymentMethods = \App\Models\PaymentMethod::all();
-        return view('purchas.make_payment', compact('purchas', 'PurchasItem', 'PurchasPayment','supplier','paymentMethods'));
+        return view('purchas.make_payment', compact('purchas', 'PurchasItem', 'PurchasPayment', 'supplier', 'paymentMethods'));
     }
-    public function make_payment_store(Request $request){
+    public function make_payment_store(Request $request)
+    {
         DB::beginTransaction();
         try {
             $purchas = PurchasModel::find($request->purchas_id);
@@ -256,7 +279,8 @@ class PurchasController extends Controller
         }
     }
 
-    public function invoice($id){
+    public function invoice($id)
+    {
         $purchas = PurchasModel::find($id);
         if (empty($purchas)) {
             Flash::error('Purchas not found');
@@ -283,7 +307,7 @@ class PurchasController extends Controller
 
 
 
-        return view('purchas.invoice', compact('purchas', 'PurchasItem', 'PurchasPayment','supplier','siteSettings'));
+        return view('purchas.invoice', compact('purchas', 'PurchasItem', 'PurchasPayment', 'supplier', 'siteSettings'));
     }
 
     public function edit($id)
@@ -296,7 +320,7 @@ class PurchasController extends Controller
         $supplier = Supplier::find($purchas->supplier_id);
         $PurchasItem = PurchasItemModel::where('purchas_id', $id)->get();
         $PurchasPayment = PurchasPaymentModel::where('purchas_id', $id)->get();
-        return view('purchas.edit', compact('purchas', 'PurchasItem', 'PurchasPayment','supplier'));
+        return view('purchas.edit', compact('purchas', 'PurchasItem', 'PurchasPayment', 'supplier'));
     }
     public function update(Request $request, $id)
     {
@@ -308,8 +332,8 @@ class PurchasController extends Controller
                 Flash::error('Purchas not found');
                 return redirect(route('purchas.purchas_list'));
             }
-            $purchases->sub_total = (float)$request->sub_total;
-            $purchases->grand_total = (float)$request->grand_total;
+            $purchases->sub_total = (float) $request->sub_total;
+            $purchases->grand_total = (float) $request->grand_total;
             $purchases->due_amount = (float) $request->grand_total - (float) $purchases->payment_amount;
             $purchases->save();
             foreach ($request->item_id as $key => $value) {
@@ -318,7 +342,7 @@ class PurchasController extends Controller
                     $purchasesItem->item_per_price = $request->item_per_price[$key];
                     $purchasesItem->total_price = $request->total_price[$key];
                     $purchasesItem->save();
-                }else{
+                } else {
                     DB::rollBack();
                     Flash::error('Something went wrong while updating Purchas');
                     return redirect(route('purchas.purchas_list'));
@@ -333,9 +357,10 @@ class PurchasController extends Controller
             Flash::error('Something went wrong while updating Purchas');
             return redirect(route('purchas.purchas_list'));
         }
-          
+
     }
-    public function approve_payment_p($id){
+    public function approve_payment_p($id)
+    {
         PurchasPaymentModel::where('id', $id)->update(['payment_status' => 'Approved']);
         Flash::success('Payment approved successfully.');
         return redirect()->back();
@@ -362,7 +387,7 @@ class PurchasController extends Controller
         try {
             $purchas = PurchasModel::where('purchas_id', $request->purchas_id)->first();
             foreach ($request->purchas_details_id as $key => $value) {
-                if ( $request->return_qty[$key] == 0 || $request->return_qty[$key] == '' ) {
+                if ($request->return_qty[$key] == 0 || $request->return_qty[$key] == '') {
                     continue;
                 }
                 $PurchasItem = PurchasItemModel::where('id', $value)->first();
@@ -383,7 +408,7 @@ class PurchasController extends Controller
                 $item->item_qty -= $return_qty;
                 $item->save();
 
-               
+
             }
             foreach ($request->purchas_details_id as $key => $value) {
                 if (isset($request->return_serial[$value])) {
@@ -410,7 +435,7 @@ class PurchasController extends Controller
         if (empty($purchas)) {
             Flash::error('Return not found');
             return redirect(route('purchas.purchas_list'));
-        }else{
+        } else {
             $purchas->payment_status = 'Completed';
             $purchas->save();
             Flash::success('Payment approved successfully.');

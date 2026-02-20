@@ -14,247 +14,169 @@
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    <label for="customer_id">Select Customer</label>
-                    <select id="customer_id" class="form-control chosen-select">
-                        <option value="">Select Customer</option>
-                        @foreach ($customers as $customer)
-                            <option value="{{ $customer->id }}" data-opening-balance="{{ $customer->opening_balance }}">
-                                {{ $customer->customer_name }}</option>
+                    <label for="organization_id">Select Organization</label>
+                    <select id="organization_id" class="form-control chosen-select">
+                        <option value="">Select Organization</option>
+                        @foreach ($organizations ?? [] as $organization)
+                            <option value="{{ $organization->id }}">
+                                {{ $organization->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
 
-                <div id="ledger-content"></div>
-
-                <div class="mt-4">
+                <div class="mb-3">
+                    <button id="add_transaction_btn" class="btn btn-success" style="display: none;" data-toggle="modal"
+                        data-target="#transactionModal">Add Transaction</button>
                     <button id="print_report" class="btn btn-primary" style="display: none;">Print Report</button>
                 </div>
+
+                <div id="ledger-content"></div>
             </div>
         </div>
     </div>
 
-    <!-- Add Transaction Modal -->
-    <div class="modal fade" id="addTransactionModal" tabindex="-1" role="dialog"
-        aria-labelledby="addTransactionModalLabel" aria-hidden="true">
+    <!-- Transaction Modal -->
+    <div class="modal fade" id="transactionModal" tabindex="-1" role="dialog" aria-labelledby="transactionModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addTransactionModalLabel">Add Transaction</h5>
+                    <h5 class="modal-title" id="transactionModalLabel">Add Ledger Transaction</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form id="addTransactionForm">
-                        @csrf
-                        <input type="hidden" name="customer_id" id="modal_customer_id">
+                <form id="transaction_form">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="transaction_type">Type</label>
+                            <select name="transaction_type" id="modal_transaction_type" class="form-control" required>
+                                <option value="receivable">Receivable</option>
+                                <option value="payable">Payable</option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="organization_id" id="modal_organization_id">
+                        <div class="form-group">
+                            <label for="amount">Amount</label>
+                            <input type="number" name="amount" class="form-control" step="0.01" required>
+                        </div>
                         <div class="form-group">
                             <label for="date">Date</label>
-                            <input type="date" name="date" class="form-control" required>
+                            <input type="date" name="date" class="form-control" value="{{ date('Y-m-d') }}" required>
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea name="description" class="form-control"></textarea>
+                            <textarea name="description" class="form-control" rows="2"></textarea>
                         </div>
-                     
-                        <div class="form-group">
-                            <label for="paid_amount"> Amount</label>
-                            <input type="number" name="amount" class="form-control" step="0.01" value="0.00">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="saveTransaction">Save Transaction</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Transaction</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
-@section('footer_scripts')
-    <script>
-        $(document).ready(function() {
-            var customerId;
-            $('#customer_id').on('change', function() {
-                customerId = $(this).val();
-                if (customerId) {
-                    $('#modal_customer_id').val(customerId);
-                    loadTransactions(customerId);
-                }
-            });
+    @section('footer_scripts')
+        <script>
+            $(document).ready(function () {
+                var organizationId;
 
-            $('#addTransactionModal').on('show.bs.modal', function(event) {
-                var button = $(event.relatedTarget)
-                var customerId = $('#customer_id').val();
-                var modal = $(this)
-                modal.find('.modal-body #modal_customer_id').val(customerId)
-            })
-
-            $('#saveTransaction').on('click', function() {
-                $.ajax({
-                    url: "{{ route('ledger.transaction.store') }}",
-                    type: 'POST',
-                    data: $('#addTransactionForm').serialize(),
-                    success: function(data) {
-                        $('#addTransactionModal').modal('hide');
-                        loadTransactions(customerId);
+                $('#organization_id').on('change', function () {
+                    organizationId = $(this).val();
+                    if (organizationId) {
+                        $('#add_transaction_btn').show();
+                        loadTransactions({ organization_id: organizationId });
+                        // Set organization ID in modal
+                        $('#modal_organization_id').val(organizationId);
+                    } else {
+                        $('#ledger-content').html('');
+                        $('#print_report').hide();
+                        $('#add_transaction_btn').hide();
                     }
                 });
-            });
 
-            $('#get_report').on('click', function() {
-                var customerId = $('#customer_id').val();
-                var from_date = $('#from_date').val();
-                var to_date = $('#to_date').val();
-                if (customerId) {
-                    var url = '/ledger/report/' + customerId + '?from_date=' + from_date + '&to_date=' +
-                        to_date;
-                    window.open(url, '_blank');
-                }
-            });
+                // Removed member loading logic as per user request
 
-            function loadTransactions(customerId) {
+                $('#transaction_form').on('submit', function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: '/ledger/transaction/store',
+                        type: 'POST',
+                        data: $(this).serialize(),
+                        success: function (data) {
+                            if (data.success) {
+                                $('#transactionModal').modal('hide');
+                                $('#transaction_form')[0].reset();
+                                // Reset the hidden organization id as reset() clears it? No, hidden inputs are not cleared by standard reset usually if not part of form?
+                                // Actually reset() clears all form fields including hidden ones IF they have a value attribute?
+                                // Better re-set it just in case:
+                                $('#modal_organization_id').val(organizationId);
 
-                $.ajax({
-
-                    url: '/ledger/transactions/' + customerId,
-
-                    type: 'GET',
-
-                    success: function(data) {
-
-                        var opening_balance = parseFloat(data.opening_balance);
-
-                        var transactions = data.transactions;
-
-                        var html =
-                            `
-
-                            <button type="button" class="btn btn-primary mb-2 mt-2" data-toggle="modal" data-target="#addTransactionModal">
-                                Add Transaction
-                            </button>
-                            
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Date</th>
-                                        <th>Description</th>
-                                        <th>Bill Amount</th>
-                                        <th>Paid Amount</th>
-                                        <th>Balance</th>
-                                    </tr>
-                                </thead>
-                                <tbody>`;
-
-                        if (transactions.length == 0) {
-
-                            html +=
-                                '<tr><td colspan="4" class="text-right"><strong>Opening Balance</strong></td><td><input type="number" id="opening_balance_input" value="' +
-                                opening_balance.toFixed(2) + '" class="form-control"></td></tr>';
-
-                        } else {
-
-                            html +=
-                                '<tr><td colspan="4" class="text-right"><strong>Opening Balance</strong></td><td><strong>' +
-                                opening_balance.toFixed(2) + '</strong></td></tr>';
-
-                        }
-
-                        $.each(transactions, function(index, transaction) {
-
-
-                            if (transaction.transaction_type == 'sales') {
-
-                                   html += '<tr><td>' + transaction.date + '</td><td>' + transaction
-                                    .description + '</td><td>' + transaction.amount + '</td><td>0</td><td>' +
-                                    transaction.balance + '</td></tr>';
-
-                               
-                            }else{
-                              html += '<tr><td>' + transaction.date + '</td><td>' + transaction
-                                    .description + '</td><td>0</td><td>' + transaction.amount + '</td><td>' +
-                                    transaction.balance + '</td></tr>';
+                                loadTransactions({ organization_id: organizationId });
+                                alert('Transaction saved successfully!');
                             }
-
-                        });
-
-
-                        html += '</tbody></table>';
-
-                        if (transactions.length == 0) {
-
-                            html +=
-                                '<button id="update_opening_balance" class="btn btn-primary">Update Opening Balance</button>';
-
                         }
-
-                        $('#ledger-content').html(html);
-
-                        $('#print_report').show();
-
-                    }
-
+                    });
                 });
 
-            }
+                function loadTransactions(params) {
+                    $.ajax({
+                        url: '/ledger/transactions',
+                        type: 'GET',
+                        data: params,
+                        success: function (data) {
+                            var opening_balance = parseFloat(data.opening_balance);
+                            var transactions = data.transactions;
+                            var html = `
+                                                                        <table class="table table-bordered table-striped">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Date</th>
+                                                                                    <th>Description</th>
+                                                                                    <th>Sales</th>
+                                                                                    <th>Purchase</th>
+                                                                                    <th>Receivable</th>
+                                                                                    <th>Payable</th>
+                                                                                    <th>Balance Amount</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>`;
 
+                            html += '<tr><td colspan="6" class="text-right"><strong>Opening Balance</strong></td><td><strong>' +
+                                opening_balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '</strong></td></tr>';
 
+                            $.each(transactions, function (index, transaction) {
+                                html += '<tr>' +
+                                    '<td>' + transaction.date + '</td>' +
+                                    '<td>' + transaction.description + '</td>' +
+                                    '<td>' + (transaction.sales ? transaction.sales : '') + '</td>' +
+                                    '<td>' + (transaction.purchase ? transaction.purchase : '') + '</td>' +
+                                    '<td>' + (transaction.receivable ? transaction.receivable : '') + '</td>' +
+                                    '<td>' + (transaction.payable ? transaction.payable : '') + '</td>' +
+                                    '<td>' + transaction.balance + '</td>' +
+                                    '</tr>';
+                            });
 
-            $(document).on('click', '#update_opening_balance', function() {
-
-                var customerId = $('#customer_id').val();
-
-                var opening_balance = $('#opening_balance_input').val();
-
-                $.ajax({
-
-                    url: '/ledger/opening-balance/' + customerId,
-
-                    type: 'POST',
-
-                    data: {
-
-                        _token: "{{ csrf_token() }}",
-
-                        opening_balance: opening_balance
-
-                    },
-
-                    success: function(data) {
-
-                        if (data.success) {
-
-                            loadTransactions(customerId);
-
-                        } else {
-
-                            alert(data.message);
-
+                            html += '</tbody></table>';
+                            $('#ledger-content').html(html);
+                            $('#print_report').show();
                         }
+                    });
+                }
 
-                    }
-
+                $('#print_report').on('click', function () {
+                    var printContents = document.getElementById('ledger-content').innerHTML;
+                    var originalContents = document.body.innerHTML;
+                    document.body.innerHTML = printContents;
+                    window.print();
+                    document.body.innerHTML = originalContents;
+                    window.location.reload();
                 });
-
             });
-
-
-
-            $('#print_report').on('click', function() {
-
-                var printContents = document.getElementById('ledger-content').innerHTML;
-
-                var originalContents = document.body.innerHTML;
-
-                document.body.innerHTML = printContents;
-
-                window.print();
-
-                document.body.innerHTML = originalContents;
-
-            });
-
-        });
-    </script>
-@endsection
+        </script>
+    @endsection
 @endsection

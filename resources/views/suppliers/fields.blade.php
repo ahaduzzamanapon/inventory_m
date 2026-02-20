@@ -1,7 +1,7 @@
 <!-- Supplier Name Field -->
 <div class="col-md-3">
     <div class="form-group">
-        {!! Form::label('supplier_name', 'Supplier Name:',['class'=>'control-label']) !!}
+        {!! Form::label('supplier_name', 'Supplier Name:', ['class' => 'control-label']) !!}
         {!! Form::text('supplier_name', null, ['class' => 'form-control']) !!}
     </div>
 </div>
@@ -10,7 +10,7 @@
 <!-- Supplier Email Field -->
 <div class="col-md-3">
     <div class="form-group">
-        {!! Form::label('supplier_email', 'Supplier Email:',['class'=>'control-label']) !!}
+        {!! Form::label('supplier_email', 'Supplier Email:', ['class' => 'control-label']) !!}
         {!! Form::email('supplier_email', null, ['class' => 'form-control']) !!}
     </div>
 </div>
@@ -19,7 +19,7 @@
 <!-- Supplier Phone Field -->
 <div class="col-md-3">
     <div class="form-group">
-        {!! Form::label('supplier_phone', 'Supplier Phone:',['class'=>'control-label']) !!}
+        {!! Form::label('supplier_phone', 'Supplier Phone:', ['class' => 'control-label']) !!}
         {!! Form::text('supplier_phone', null, ['class' => 'form-control']) !!}
     </div>
 </div>
@@ -27,9 +27,15 @@
 
 <!-- Supplier Address Field -->
 <div class="col-md-3">
+    {!! Form::text('supplier_address', null, ['class' => 'form-control']) !!}
+</div>
+</div>
+
+<!-- Organization Field -->
+<div class="col-md-3">
     <div class="form-group">
-        {!! Form::label('supplier_address', 'Supplier Address:',['class'=>'control-label']) !!}
-        {!! Form::text('supplier_address', null, ['class' => 'form-control']) !!}
+        {!! Form::label('organization_id', 'Organization:', ['class' => 'control-label']) !!}
+        {!! Form::select('organization_id', $organizations ?? [], null, ['class' => 'form-control chosen-select', 'placeholder' => 'Select Organization']) !!}
     </div>
 </div>
 

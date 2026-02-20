@@ -6,6 +6,7 @@ use App\Http\Requests\CreateCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Models\Customer;
+use App\Models\Organization;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
@@ -35,7 +36,8 @@ class CustomerController extends AppBaseController
      */
     public function create()
     {
-        return view('customers.create');
+        $organizations = Organization::pluck('name', 'id');
+        return view('customers.create', compact('organizations'));
     }
 
     /**
@@ -96,7 +98,9 @@ class CustomerController extends AppBaseController
             return redirect(route('customers.index'));
         }
 
-        return view('customers.edit')->with('customer', $customer);
+        $organizations = Organization::pluck('name', 'id');
+
+        return view('customers.edit')->with('customer', $customer)->with('organizations', $organizations);
     }
 
     /**
